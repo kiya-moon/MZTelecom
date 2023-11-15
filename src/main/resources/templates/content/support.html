@@ -1,22 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default_layout}">
 
-<%
-	String activeFaq = (request.getParameter("tab") == null || request.getParameter("tab").equals("faq")) ? "active" : "";
-	String activeInquiry = (request.getParameter("tab") != null && request.getParameter("tab").equals("inquiry")) ? "active" : "";
-%>
+<th:block layout:fragment="content">
 <section class="common">
 	<article>
 		<div class="support-container">
 			<h1>고객지원</h1>
 			<div class="tab-content">
-				<a href="?tab=faq" class="tab <%= activeFaq %>">자주하는 질문</a>
-        		<a href="?tab=inquiry" class="tab <%= activeInquiry %>">문의하기</a>
+				<a th:href="@{/support?tab=faq}" th:class="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'faq') ? 'tab active' : 'tab'}">회원관리</a>
+				<a th:href="@{/support?tab=inquiry}" th:class="${#strings.equals(param.tab, 'inquiry') ? 'tab active' : 'tab'}">문의하기</a>
 			</div>
 			
 			<div class="content-container">
-				<div class="content <%= activeFaq %>">
+				<div class="content" th:if="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'faq')}">
 					<h2>자주하는 질문</h2>
 					<ul class="qna">
 				        <li>
@@ -42,7 +39,7 @@
 				    </ul>
 				</div>
 				
-				<div class="content <%= activeInquiry %>">
+				<div class="content" th:if="${#strings.equals(param.tab, 'inquiry')}">
 					<div class="ask-title">
 						<h2>문의하기</h2>
 						<p><span class="dot"></span>표시는 필수 입력 사항입니다.</p>					
@@ -96,3 +93,4 @@
 
 	</article>
 </section>
+</th:block>

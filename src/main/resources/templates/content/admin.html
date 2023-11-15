@@ -1,26 +1,23 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/default_layout}">
 
 <th:block layout:fragment="content">
-	<c:set var="currentTab" value="${param.tab}" />
 
 	<section class="common">
 		<article>
 			<div class="myPage-container">
 				<div class="sidebar">
 					<h2>관리자페이지</h2>
-					<a th:href="@{/admin?tab=member}"
-						th:classappend="${currentTab == 'member'} ? 'activeTab' : ''">회원관리</a>
-					<a th:href="@{/admin?tab=product}"
-						th:classappend="${currentTab == 'product'} ? 'activeTab' : ''">상품관리</a>
-					<a th:href="@{/admin?tab=qna}" th:classappend="${currentTab == 'qna'} ? 'activeTab' : ''">QnA</a>
-					<a th:href="@{/admin?tab=order}"
-						th:classappend="${currentTab == 'order'} ? 'activeTab' : ''">주문현황</a>
+					<a th:href="@{/admin?tab=member}" th:class="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member') ? 'activeTab' : ''}">회원관리</a>
+					<a th:href="@{/admin?tab=product}" th:class="${#strings.equals(param.tab, 'product') ? 'activeTab' : ''}">상품관리</a>
+					<a th:href="@{/admin?tab=qna}" th:class="${#strings.equals(param.tab, 'qna') ? 'activeTab' : ''}">QnA</a>
+					<a th:href="@{/admin?tab=order}" th:class="${#strings.equals(param.tab, 'order') ? 'activeTab' : ''}">주문현황</a>
 					<hr>
 				</div>
 
 				<div class="content" id="content">
-					<div class="admin-container member-list" th:if="${param.tab == null or param.tab == 'member'}">
+					<div class="admin-container member-list" th:if="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member')}">
 						<table>
 							<thead>
 								<tr>
@@ -43,19 +40,11 @@
 									<td>123456-7890123</td>
 									<td>010-1234-5678</td>
 								</tr>
-								<!--<c:forEach var="member" items="${memberList}">
-			                        <tr>
-			                            <td>${member.email}</td>
-			                            <td>${member.name}</td>
-			                            <td>${member.number}</td>
-			                            <td>${member.phoneNumber}</td>
-			                        </tr>
-			                    </c:forEach>-->
 							</tbody>
 						</table>
 						<button class="delete-btn">삭제</button>
 					</div>
-					<div class="admin-container" th:if="${param.tab == 'product'}">
+					<div class="admin-container" th:if="${#strings.equals(param.tab, 'product')}">
 						<table>
 							<thead>
 								<tr>
@@ -70,22 +59,18 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="product" items="${productList}">
-									<tr onclick="selectRow(this)">
-										<td>${product.id}</td>
-										<td>${product.name}</td>
-										<td>${product.image}</td>
-										<td>
-											<c:forEach var="capacity" items="${product.capacities}">
-												${capacity}
-											</c:forEach>
-										</td>
-										<td>${product.dscCapacity}</td>
-										<td>${product.dscPrice}</td>
-										<td>${product.fee}</td>
-										<td>${product.finalPrice}</td>
-									</tr>
-								</c:forEach>
+								<tr th:each="product : ${productList}" th:onclick="selectRow(this)">
+									<td th:text="${product.id}"></td>
+									<td th:text="${product.name}"></td>
+									<td th:text="${product.image}"></td>
+									<td>
+										<span th:each="capacity : ${product.capacities}" th:text="${capacity}"></span>
+									</td>
+									<td th:text="${product.dscCapacity}"></td>
+									<td th:text="${product.dscPrice}"></td>
+									<td th:text="${product.fee}"></td>
+									<td th:text="${product.finalPrice}"></td>
+								</tr>
 							</tbody>
 						</table>
 						<div class="admin-btnList">
@@ -146,7 +131,7 @@
 						</div>
 					</div>
 
-					<div class="admin-container" th:if="${param.tab == 'qna'}">
+					<div class="admin-container" th:if="${#strings.equals(param.tab, 'qna')}">
 						<table>
 							<thead>
 								<tr>
@@ -155,34 +140,32 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="qna" items="${qnaList}">
-									<tr class="clickQna" data-target="answer${qna.id}">
-										<td>${qna.category}</td>
-										<td>${qna.email}</td>
-									</tr>
-								</c:forEach>
+								<tr th:each="qna : ${qnaList}" class="clickQna" th:data-target="'answer' + ${qna.id}">
+									<td th:text="${qna.category}"></td>
+									<td th:text="${qna.email}"></td>
+								</tr>
+
 							</tbody>
 						</table>
 
-						<c:forEach var="qna" items="${qnaList}">
-							<div class="admin-answer" id="answer${qna.id}">
-								<div class="answer-title">
-									<p>분류 : ${qna.category}</p>
-									<p>작성자: ${qna.name}</p>
-									<p>문의 일시: 2023-09-17</p>
-									<p class="answer-text">${qna.message}</p>
-								</div>
-
-								<div class="answer-body">
-									<form action="" method="post">
-										<textarea name="answer" rows="4" cols="50" placeholder="답변을 입력하세요"></textarea>
-										<input type="submit" value="답변 제출">
-									</form>
-								</div>
+						<div th:each="qna : ${qnaList}" class="admin-answer" th:id="'answer' + ${qna.id}">
+							<div class="answer-title">
+								<p th:text="'분류 : ' + ${qna.category}"></p>
+								<p th:text="'작성자: ' + ${qna.name}"></p>
+								<p>문의 일시: 2023-09-17</p>
+								<p class="answer-text" th:text="${qna.message}"></p>
 							</div>
-						</c:forEach>
+
+							<div class="answer-body">
+								<form action="" method="post">
+									<textarea name="answer" rows="4" cols="50" placeholder="답변을 입력하세요"></textarea>
+									<input type="submit" value="답변 제출">
+								</form>
+							</div>
+						</div>
+
 					</div>
-					<div class="admin-container" th:if="${param.tab == 'order'}">
+					<div class="admin-container" th:if="${#strings.equals(param.tab, 'order')}">
 						<table>
 							<thead>
 								<tr>

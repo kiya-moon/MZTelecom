@@ -123,8 +123,8 @@ public class HomeController {
 	
 	@GetMapping(value = "/admin")
 	public String admin(Locale locale, Model model) {
-  
-		return "admin";
+		
+		return "content/admin";
 	}
 	
 }

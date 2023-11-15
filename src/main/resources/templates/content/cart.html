@@ -1,26 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="java.util.*"%>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default_layout}">
 
-<section class="common">
-	<article>
-		<div class="cart-container">
-			<h1>장바구니</h1>
-			<c:choose>
-			    <c:when test="${not empty item}">
-			    </c:when>
-			    
-			    <c:otherwise>
-			    	<div class="cart-null">
-				    	<i data-feather="shopping-cart"></i>
-				        <h2>장바구니에 담은 상품이 없습니다.</h2>
-				        
-				       	<a href="${pageContext.request.contextPath}/">
-				       		메인 페이지로 이동
-				       	</a>
-			    	</div>
-			    </c:otherwise>
-			</c:choose>
-		</div>
-	</article>
-</section>
+<th:block layout:fragment="content">
+	
+	<section class="common">
+	    <article>
+	        <div class="cart-container">
+	            <h1>장바구니</h1>
+	            <div th:if="${not #lists.isEmpty(item)}">
+	                <!-- 이 부분에 장바구니에 담긴 상품을 나타내는 HTML 추가 -->
+	            </div>
+	            <div th:if="${#lists.isEmpty(item)}" class="cart-null">
+	                <i data-feather="shopping-cart"></i>
+	                <h2>장바구니에 담은 상품이 없습니다.</h2>
+	                <a th:href="@{/}">메인 페이지로 이동</a>
+	            </div>
+	        </div>
+	    </article>
+	</section>
+</th:block>

@@ -1,143 +1,135 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<section class="common">
-	<article>
-		<div class="login-container">
-			<div>
-				<div class="tabs">
-					<div class="tab active-tab" data-tab-target="#tab1">
-						<span class="spanTabs">아이디찾기</span>
-					</div>
-					<div class="tab" data-tab-target="#tab2">
-						<span class="spanTabs">비밀번호찾기</span>
-					</div>
-				</div>
-			</div>
-			<div class="content">
-				<!-- 아이디 찾기 부분 Start -->
-				<div id="tab1" data-tab-content class="items active">
-					<div class="tab-content" id="content1">
-					<!-- 	<form action="find.do" method="post"> -->
-							<div class="input-container">
-								<label for="custNm">이름</label> 
-								<input type="text" id="custNm" name="custNm" required>
-							</div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default_layout}">
 
-							<!-- 생년월일 선택 Start-->
-							<div class="input-container">
-								<label for="custBirth">생년월일</label>
-
-								<div class="input-content">
-									<select class="birth-box" name="year">
-										<c:forEach begin="1900" end="2023" var="year">
-											<option value="${year}">${year}년</option>
-										</c:forEach>
-									</select> <select class="birth-box" name="month">
-										<c:forEach begin="1" end="12" var="month">
-											<option value="${month}">${month}월</option>
-										</c:forEach>
-									</select> <select class="birth-box" name="day">
-										<c:forEach begin="1" end="31" var="day">
-											<option value="${day}">${day}일</option>
-										</c:forEach>
-									</select>
-								</div>
-							</div>
-							<!-- 생년월일 선택 End-->
-
-							<!-- 이메일 선택 Start -->
-							<div class="input-container">
-								<label for="custEmail">이메일</label>
-
-								<div class="input-content" id="pw_email" >
-									<input type="text" class="email-box" id="id-email-box">&nbsp;@&nbsp; 
-									<select class="email-box" id="id-domain-list">
-										<option value="naver.com">naver.com</option>
-										<option value="google.com">google.com</option>
-										<option value="hanmail.net">hanmail.net</option>
-										<option value="nate.com">nate.com</option>
-										<option value="kakao.com">kakao.com</option>
-									</select>
-								</div>
-							</div> 
-							<%-- <jsp:include page="emailInput.jsp" /> --%>
-							<!-- 이메일 선택 End -->
-							<button type="submit" class="login-button" id="findIdBtn">아이디찾기</button>
-					<!-- 	</form> -->
+<th:block layout:fragment="content">
+	<section class="common">
+		<article>
+			<div class="login-container">
+				<div>
+					<div class="tabs">
+						<div class="tab active-tab" data-tab-target="#tab1">
+							<span class="spanTabs">아이디찾기</span>
+						</div>
+						<div class="tab" data-tab-target="#tab2">
+							<span class="spanTabs">비밀번호찾기</span>
+						</div>
 					</div>
 				</div>
-				<!-- 아이디 찾기 부분 End -->
-
-				<!-- 비밀번호 찾기 부분 Strat -->
-				<div id="tab2" data-tab-content class="items">
-					<div class="tab-content" id="content1">
-					<!-- 	<form action = "find.do" method="post"> -->
-							<div class="input-container">
-								<label for="custId">아이디</label> 
-								<input type="text" id="custId" name="custId" required>
-							</div>
-							<!-- 생년월일 선택 Start-->
-							<div class="input-container">
-								<label for="custBirth">생년월일</label>
-
-								<div class="input-content">
-
-									<select class="birth-box" name="year">
-										<c:forEach begin="1900" end="2023" var="year">
-											<option value="${year}">${year}년</option>
-										</c:forEach>
-									</select> <select class="birth-box" name="month">
-										<c:forEach begin="1" end="12" var="month">
-											<option value="${month}">${month}월</option>
-										</c:forEach>
-									</select> <select class="birth-box" name="day">
-										<c:forEach begin="1" end="31" var="day">
-											<option value="${day}">${day}일</option>
-										</c:forEach>
-									</select>
+				<div class="content">
+					<!-- 아이디 찾기 부분 Start -->
+					<div id="tab1" data-tab-content class="items active">
+						<div class="tab-content" id="content1">
+						<!-- 	<form action="find.do" method="post"> -->
+								<div class="input-container">
+									<label for="custNm">이름</label> 
+									<input type="text" id="custNm" name="custNm" required>
 								</div>
-							</div>
-							<!-- 생년월일 선택 End-->
-
-							<!-- 이메일 선택 Start -->
-							<div class="input-container">
-								<label for="custEmail">이메일</label>
-								<div class="input-content" id="pw_email" >
-									<input type="text" class="email-box" id="pw-email-box">&nbsp;@&nbsp; 
-									<select class="email-box" id="pw-domain-list">
-										<option value="naver.com">naver.com</option>
-										<option value="google.com">google.com</option>
-										<option value="hanmail.net">hanmail.net</option>
-										<option value="nate.com">nate.com</option>
-										<option value="kakao.com">kakao.com</option>
-									</select>
-								</div>
-							</div>
-							 <%-- <jsp:include page="emailInput.jsp" /> --%>
-							<!-- 이메일 선택 End -->
-							<button type="submit" class="login-button" id="resetPwModalBtn">비밀번호 찾기</button>
-						<!-- </form> -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</article>
-	<!-- 비밀번호 제설정 modal -->
-	<div  class="modal" id="findPwModal" style="display:none">
-		<div class="modal-content">
-			<span class="close" id="closeModalBtn">&times;</span>
-<!-- 			<p> 임시 비밀번호를 "syoo91@naver.com" 로 발송 했습니다. </p> -->
-			<p class="pw_email_msg"></p>
-		</div>
-	</div>
-	<!-- 아이디 안내 modal -->
-	<div class="modal" id="findIdModal" style="display:none">
-		<div class="modal-content">
-			<span class="close" id="closeModalBtn">&times;</span>
-			 <p class="id_msg"></p>
-		</div>
-	</div>
 	
-</section>
-
+								<!-- 생년월일 선택 Start-->
+								<div class="input-container">
+									<label for="custBirth">생년월일</label>
+	
+									<div class="input-content">
+									    <select class="birth-box" name="year">
+									        <option th:each="year : ${#numbers.sequence(1900, 2023)}" th:value="${year}" th:text="${year + '년'}"></option>
+									    </select>
+									    <select class="birth-box" name="month">
+									        <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}" th:text="${month + '월'}"></option>
+									    </select>
+									    <select class="birth-box" name="day">
+									        <option th:each="day : ${#numbers.sequence(1, 31)}" th:value="${day}" th:text="${day + '일'}"></option>
+									    </select>
+									</div>
+								</div>
+								<!-- 생년월일 선택 End-->
+	
+								<!-- 이메일 선택 Start -->
+								<div class="input-container">
+									<label for="custEmail">이메일</label>
+	
+									<div class="input-content" id="pw_email" >
+										<input type="text" class="email-box" id="id-email-box">&nbsp;@&nbsp; 
+										<select class="email-box" id="id-domain-list">
+											<option value="naver.com">naver.com</option>
+											<option value="google.com">google.com</option>
+											<option value="hanmail.net">hanmail.net</option>
+											<option value="nate.com">nate.com</option>
+											<option value="kakao.com">kakao.com</option>
+										</select>
+									</div>
+								</div> 
+								<!-- 이메일 선택 End -->
+								<button type="submit" class="login-button" id="findIdBtn">아이디찾기</button>
+						<!-- 	</form> -->
+						</div>
+					</div>
+					<!-- 아이디 찾기 부분 End -->
+	
+					<!-- 비밀번호 찾기 부분 Strat -->
+					<div id="tab2" data-tab-content class="items">
+						<div class="tab-content" id="content1">
+						<!-- 	<form action = "find.do" method="post"> -->
+								<div class="input-container">
+									<label for="custId">아이디</label> 
+									<input type="text" id="custId" name="custId" required>
+								</div>
+								<!-- 생년월일 선택 Start-->
+								<div class="input-container">
+									<label for="custBirth">생년월일</label>
+	
+									<div class="input-content">
+									    <select class="birth-box" name="year">
+									        <option th:each="year : ${#numbers.sequence(1900, 2023)}" th:value="${year}" th:text="${year + '년'}"></option>
+									    </select>
+									    <select class="birth-box" name="month">
+									        <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}" th:text="${month + '월'}"></option>
+									    </select>
+									    <select class="birth-box" name="day">
+									        <option th:each="day : ${#numbers.sequence(1, 31)}" th:value="${day}" th:text="${day + '일'}"></option>
+									    </select>
+									</div>
+	
+								</div>
+								<!-- 생년월일 선택 End-->
+	
+								<!-- 이메일 선택 Start -->
+								<div class="input-container">
+									<label for="custEmail">이메일</label>
+									<div class="input-content" id="pw_email" >
+										<input type="text" class="email-box" id="pw-email-box">&nbsp;@&nbsp; 
+										<select class="email-box" id="pw-domain-list">
+											<option value="naver.com">naver.com</option>
+											<option value="google.com">google.com</option>
+											<option value="hanmail.net">hanmail.net</option>
+											<option value="nate.com">nate.com</option>
+											<option value="kakao.com">kakao.com</option>
+										</select>
+									</div>
+								</div>
+								<!-- 이메일 선택 End -->
+								<button type="submit" class="login-button" id="resetPwModalBtn">비밀번호 찾기</button>
+							<!-- </form> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+		<!-- 비밀번호 제설정 modal -->
+		<div  class="modal" id="findPwModal" style="display:none">
+			<div class="modal-content">
+				<span class="close" id="closeModalBtn">&times;</span>
+	<!-- 			<p> 임시 비밀번호를 "syoo91@naver.com" 로 발송 했습니다. </p> -->
+				<p class="pw_email_msg"></p>
+			</div>
+		</div>
+		<!-- 아이디 안내 modal -->
+		<div class="modal" id="findIdModal" style="display:none">
+			<div class="modal-content">
+				<span class="close" id="closeModalBtn">&times;</span>
+				 <p class="id_msg"></p>
+			</div>
+		</div>
+		
+	</section>
+</th:block>

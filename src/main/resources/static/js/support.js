@@ -10,11 +10,11 @@ function qnaToggleMenu(itemId) {
 	}
 }
 
-var customSelect = document.querySelector(".custom-select");
-var selectItems = document.querySelector(".select-items");
+const customSelect = document.querySelector(".custom-select");
+const selectItems = document.querySelector(".select-items");
 
 customSelect.addEventListener("click", function() {
-	selectItems.classList.toggle("select-items-active");
+	selectItems.classList.toggle("active");
 });
 
 var options = selectItems.querySelectorAll("div");
