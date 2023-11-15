@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%
+	String activeFaq = (request.getParameter("tab") == null || request.getParameter("tab").equals("faq")) ? "active" : "";
+	String activeInquiry = (request.getParameter("tab") != null && request.getParameter("tab").equals("inquiry")) ? "active" : "";
+%>
+<section class="common">
+	<article>
+		<div class="support-container">
+			<h1>고객지원</h1>
+			<div class="tab-content">
+				<a href="?tab=faq" class="tab <%= activeFaq %>">자주하는 질문</a>
+        		<a href="?tab=inquiry" class="tab <%= activeInquiry %>">문의하기</a>
+			</div>
+			
+			<div class="content-container">
+				<div class="content <%= activeFaq %>">
+					<h2>자주하는 질문</h2>
+					<ul class="qna">
+				        <li>
+				        	<div class="qna-title" onclick="qnaToggleMenu('item1')">
+					            <p><strong>Q</strong>&nbsp; Toggle Item 1</p>
+				        		<i data-feather="plus"></i>
+				        	</div>
+				        	
+				            <div class="qna-item hidden" id="item1">
+				            	<p>text1</p>
+				            </div>
+				        </li>
+				        <li>
+				        	<div class="qna-title" onclick="qnaToggleMenu('item2')">
+					            <p><strong>Q</strong>&nbsp; Toggle Item 2</p>
+				        		<i data-feather="plus"></i>
+				        	</div>
+				        	
+				            <div class="qna-item hidden" id="item2">
+				            	<p>text2</p>
+				            </div>
+				        </li>
+				    </ul>
+				</div>
+				
+				<div class="content <%= activeInquiry %>">
+					<div class="ask-title">
+						<h2>문의하기</h2>
+						<p><span class="dot"></span>표시는 필수 입력 사항입니다.</p>					
+					</div>
+					<form action="" method="post">
+				        <div class="form-group custom-select">
+						    <label for="category"><span class="dot"></span>문의분류</label>
+						    <div class="custom-select-wrapper">
+						        <select id="category" name="category" required>
+						            <option value="">카테고리 선택</option>
+						            <option value="option1">모바일기기 유형</option>
+						            <option value="option2">요금제 유형</option>
+						            <option value="option3">회원정보 유형</option>
+						        </select>
+						        <div class="select-selected">카테고리 선택</div>
+						        <div class="select-items">
+						            <div>모바일기기 유형</div>
+						            <div>요금제 유형</div>
+						            <div>회원정보 유형</div>
+						        </div>
+						    </div>
+						</div>
+
+				        <div class="form-group">
+				            <label for="email"><span class="dot"></span>답변 받을 이메일 주소</label>
+				            <div class="email-content">
+					            <input type="email" id="email" name="email" required>&nbsp;@&nbsp; 
+					            <select>
+									<option value="naver.com">naver.com</option>
+									<option value="google.com">google.com</option>
+									<option value="hanmail.net">hanmail.net</option>
+									<option value="nate.com">nate.com</option>
+									<option value="kakao.com">kakao.com</option>
+								</select>
+				            </div>
+				        </div>
+				        <div class="form-group">
+				            <label for="message"><span class="dot"></span>문의내용</label>
+				            <textarea maxlength="2000" placeholder="  문의 내용을 입력해 주세요."></textarea>
+				        </div>
+				        <div class="form-checkbox">
+				            <input type="checkbox" id="agree" name="agree" required>
+				            <label for="agree">[필수] 1:1문의 서비스를 위한 개인정보 수집 내용에 동의합니다.</label>
+				        </div>
+				        <button type="submit" class="btn-submit">문의 접수</button>
+				    </form>
+				</div>
+				
+			</div>
+		</div>
+
+	</article>
+</section>

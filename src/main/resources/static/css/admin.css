@@ -1,0 +1,128 @@
+.sidebar a.activeTab {
+    background-color: #000;
+    color: #fff;
+}
+
+.admin-container table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.admin-container thead tr th {
+	background-color: #33A188;
+	color: #fff;
+}
+
+.admin-container  th, .admin-container td {
+	border: 1px solid black;
+	padding: 8px;
+	text-align: center;
+}
+
+
+.admin-container tr.selected {
+    background-color: #000;
+    color:#fff;
+}
+
+.admin-container.member-list .delete-btn {
+	float: right;
+	background-color: #fff;
+	border: 1px solid #FFA200;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 10px 30px;
+    font-weight:bold;
+    transition: 0.3s;
+}
+
+.admin-container button:hover {
+    background-color: #FFA200 !important;
+    color: #fff;
+}
+
+.admin-container .admin-btnList {
+	display: flex;
+	gap: 10px;
+	justify-content: end;
+}
+
+.admin-container .admin-btnList button, .admin-container .admin-save {
+    background-color: #fff;
+    border: 1px solid #FFA200;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.admin-container .clickQna:hover {
+	background-color: #eee;
+}
+
+.admin-container .admin-answer {
+	display: none;
+}
+
+.admin-container .admin-answer .answer-title {
+	font-size: 18px;
+}
+
+.admin-container .admin-answer .answer-title .answer-text {
+	margin-top: 28px;
+    padding: 20px;
+	border: 1px solid #888;
+}
+
+.admin-container .answer-body {
+    margin-top: 20px;
+}
+
+.admin-container .answer-body textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: 10vh;
+    resize: none;
+}
+
+.admin-container .answer-body input[type="submit"] {
+    background-color: #FFA200;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+}
+
+.admin-container .modal-title {
+	display: flex;
+	align-items: center;
+}
+
+.admin-container .modal-title h2 {
+	margin: 0 auto;
+}
+
+.admin-container .admin-modal {
+	background-color: #fff;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    min-width: 450px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 10px;
+}
+
+.admin-container .admin-save {
+	display: flex;
+	margin-left: auto;
+}
+

@@ -1,0 +1,214 @@
+.myPage-container {
+	display: flex;
+	justify-content: space-between;
+	
+}
+.sidebar {
+	flex: 1;
+	padding-right: 40px;
+}
+
+.sidebar h2 {
+	padding:0 0 15px 15px; 
+}	
+
+.sidebar a {
+    display: block; 
+    padding: 15px;
+    font-size: 18px;
+    color: black;
+    border-bottom: 1px solid #444; /* 선을 그립니다. */
+}
+
+.sidebar a.activeTab {
+    background-color: #000;
+    color: #fff;
+}
+
+.content {
+	flex: 4;
+}
+
+.rounded_rectangle {
+   background-color: #FFA200;
+   padding-bottom: 20px;
+   border-radius: 20px;
+   height: 385px;
+}
+
+.rounded_rectangle h1 {
+	color: black;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-top: 25px;
+	text-align: center;
+	padding-top: 15px;
+    margin-bottom: 15px;	
+	
+}
+
+.rounded_rectangle_2 {
+    margin: 0 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    height: 300px;
+}
+
+.container {
+	padding: 5px 15px 0px 15px;
+	display: flex;
+}
+
+.image-part {
+    
+    max-width: 120px;
+    padding: 10px; /* 내부 여백 설정 */
+    margin: 10px;
+}
+
+.text-part {
+    padding: 30px 10px 10px 0px; /* 내부 여백 설정 */
+}
+
+.mobile_btn {
+	text-decoration: underline;
+	text-decoration-color: #549f89;
+	text-decoration-thickness: 2px; 
+	font-size: 20px;
+}
+
+.rounded_rectangle_2 hr {
+	max-width: 95%;
+	text-align: center;
+	margin: auto;
+	border-width: 1px;
+	border-color: #FFA200;
+}
+
+.plan_btn {
+	text-decoration: underline;
+	text-decoration-color: #549f89;
+	text-decoration-thickness: 2px; 
+	font-size: 20px;
+}
+
+.filter-box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    display: flex; /* 필터 박스 안의 요소를 가로로 나열 */
+    flex-wrap: wrap; /* 필요한 경우 요소가 여러 행으로 나뉘도록 허용 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 15px; /* 버튼과 필터 간격 설정 */
+    justify-content: center;
+    }
+
+.filter {
+    /* margin-top: 10px; */
+    flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}
+
+.date_btn {
+	float: right;
+	background-color: #fff;
+	border: 1px solid #FFA200;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 20px;
+    font-weight:bold;
+    transition: 0.3s;
+}
+
+.myPage-container button:hover {
+    background-color: #FFA200 ;
+    color: #fff;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.myPage-container table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.myPage-container thead tr th {
+	background-color: #33A188;
+	color: #fff;
+}
+
+.myPage-container  th, td {
+	border: 1px solid black;
+	padding: 8px;
+	text-align: center;
+}
+
+
+.myPage-container tr.selected {
+    background-color: #000;
+    color:#fff;
+}
+
+/* 회원정보수정 css */
+.phone-container {
+	display: flex;
+	align-items: center;
+}
+
+.pw-container > input, .phone-container input {
+	flex: 1;
+}
+
+.modify_btn {
+	background-color: #fff;
+	border: 1px solid #FFA200;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8.5px 20px;
+    margin-left: 12px;
+    font-weight:bold;
+    transition: 0.3s;
+}
+
+.modify {
+	display: none;
+}
+
+.pw-container {
+	display: flex;
+	align-items: center;
+}
+
+.myPage-btn {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	gap: 10px;
+}
+
+.myPage-btn button {
+	color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.myPage-btn .selete-modify {
+	background-color: #33A188;
+}
+
+.myPage-btn .delete-user {
+	background-color: #FFA200;
+}
+
+.myPage-btn .delete-user:hover {
+	background-color: red;
+}
+
+.content_2 {
+	display: block;
+	text-align: center;
+	justify-content: center;
+}

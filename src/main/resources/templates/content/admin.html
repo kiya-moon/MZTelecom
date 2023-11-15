@@ -1,0 +1,217 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default_layout}">
+
+<th:block layout:fragment="content">
+	<c:set var="currentTab" value="${param.tab}" />
+
+	<section class="common">
+		<article>
+			<div class="myPage-container">
+				<div class="sidebar">
+					<h2>관리자페이지</h2>
+					<a th:href="@{/admin?tab=member}"
+						th:classappend="${currentTab == 'member'} ? 'activeTab' : ''">회원관리</a>
+					<a th:href="@{/admin?tab=product}"
+						th:classappend="${currentTab == 'product'} ? 'activeTab' : ''">상품관리</a>
+					<a th:href="@{/admin?tab=qna}" th:classappend="${currentTab == 'qna'} ? 'activeTab' : ''">QnA</a>
+					<a th:href="@{/admin?tab=order}"
+						th:classappend="${currentTab == 'order'} ? 'activeTab' : ''">주문현황</a>
+					<hr>
+				</div>
+
+				<div class="content" id="content">
+					<div class="admin-container member-list" th:if="${param.tab == null or param.tab == 'member'}">
+						<table>
+							<thead>
+								<tr>
+									<th>Email</th>
+									<th>이름</th>
+									<th>주민등록번호</th>
+									<th>핸드폰번호</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr onclick="selectRow(this)">
+									<td>test@naver.com</td>
+									<td>오둥이</td>
+									<td>123456-7890123</td>
+									<td>010-1234-5678</td>
+								</tr>
+								<tr onclick="selectRow(this)">
+									<td>test@gmail.com</td>
+									<td>거북이</td>
+									<td>123456-7890123</td>
+									<td>010-1234-5678</td>
+								</tr>
+								<!--<c:forEach var="member" items="${memberList}">
+			                        <tr>
+			                            <td>${member.email}</td>
+			                            <td>${member.name}</td>
+			                            <td>${member.number}</td>
+			                            <td>${member.phoneNumber}</td>
+			                        </tr>
+			                    </c:forEach>-->
+							</tbody>
+						</table>
+						<button class="delete-btn">삭제</button>
+					</div>
+					<div class="admin-container" th:if="${param.tab == 'product'}">
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>상품명</th>
+									<th>이미지</th>
+									<th>기가</th>
+									<th>기가 종류</th>
+									<th>기기값</th>
+									<th>요금제</th>
+									<th>월가격</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="product" items="${productList}">
+									<tr onclick="selectRow(this)">
+										<td>${product.id}</td>
+										<td>${product.name}</td>
+										<td>${product.image}</td>
+										<td>
+											<c:forEach var="capacity" items="${product.capacities}">
+												${capacity}
+											</c:forEach>
+										</td>
+										<td>${product.dscCapacity}</td>
+										<td>${product.dscPrice}</td>
+										<td>${product.fee}</td>
+										<td>${product.finalPrice}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+						<div class="admin-btnList">
+							<button class="update-btn" onclick="showModal(this)">수정</button>
+							<button class="delete-btn">삭제</button>
+							<button class="add-btn">추가</button>
+						</div>
+						<div id="adminModal" class="modal">
+							<div class="admin-modal">
+								<div class="modal-title">
+									<h2>상품 수정</h2>
+									<span class="close" onclick="closeModal()">&times;</span>
+								</div>
+								<form>
+									<div class="input-container">
+										<label for="update-id">ID:</label>
+										<input type="text" id="update-id" readonly>
+									</div>
+
+									<div class="input-container">
+										<label for="update-name">상품명:</label>
+										<input type="text" id="update-name">
+									</div>
+
+									<div class="input-container">
+										<label for="update-image">이미지:</label>
+										<input type="file" id="update-image">
+									</div>
+
+									<div class="input-container">
+										<label for="update-capacity">기가:</label>
+										<input type="text" id="update-capacity">
+									</div>
+
+									<div class="input-container">
+										<label for="update-dscCapacity">기가 종류:</label>
+										<input type="text" id="update-dscCapacity">
+									</div>
+
+									<div class="input-container">
+										<label for="update-dscPrice">기기값:</label>
+										<input type="text" id="update-dscPrice">
+									</div>
+
+									<div class="input-container">
+										<label for="update-fee">요금제:</label>
+										<input type="text" id="update-fee">
+									</div>
+
+									<div class="input-container">
+										<label for="update-finalPrice">월가격:</label>
+										<input type="text" id="update-finalPrice">
+									</div>
+
+									<button class="admin-save" onclick="closeModal()">저장</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="admin-container" th:if="${param.tab == 'qna'}">
+						<table>
+							<thead>
+								<tr>
+									<th>문의분류</th>
+									<th>답변 받을 이메일 주소</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="qna" items="${qnaList}">
+									<tr class="clickQna" data-target="answer${qna.id}">
+										<td>${qna.category}</td>
+										<td>${qna.email}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+
+						<c:forEach var="qna" items="${qnaList}">
+							<div class="admin-answer" id="answer${qna.id}">
+								<div class="answer-title">
+									<p>분류 : ${qna.category}</p>
+									<p>작성자: ${qna.name}</p>
+									<p>문의 일시: 2023-09-17</p>
+									<p class="answer-text">${qna.message}</p>
+								</div>
+
+								<div class="answer-body">
+									<form action="" method="post">
+										<textarea name="answer" rows="4" cols="50" placeholder="답변을 입력하세요"></textarea>
+										<input type="submit" value="답변 제출">
+									</form>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+					<div class="admin-container" th:if="${param.tab == 'order'}">
+						<table>
+							<thead>
+								<tr>
+									<th>이름</th>
+									<th>상품명</th>
+									<th>주소</th>
+									<th>상태</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr onclick="selectRow(this)">
+									<td>오둥이</td>
+									<td>갤럭시</td>
+									<td>서울특별시 ~</td>
+									<td>상품 준비 중</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="admin-btnList">
+							<button class="ing-btn">배송 중</button>
+							<button class="completed-btn">배송 완료</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</article>
+	</section>
+
+</th:block>
+
+</html>

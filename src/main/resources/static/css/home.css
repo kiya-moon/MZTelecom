@@ -1,0 +1,270 @@
+
+/* main-slide */
+
+.main-slide {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.main-slide .swiper-text {
+	position: absolute;
+	top: calc(50% - 120px);
+	left: 20%;
+}
+
+
+.main-slide .slide-title {
+	font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 50px;
+    color: #fff;
+    
+}
+
+.main-slide .slide-desc {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #33A188;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.main-slide .slide-desc:hover {
+	background-color: #FFA200;
+}
+
+.main-slide .swiper-button-prev {
+	color: #fff;
+    left: 10%; 
+}
+
+.main-slide .swiper-button-next {
+	color: #fff;
+    right: 10%; 
+}
+
+/* main-slide: end */
+
+
+/* phone-slide */
+
+article h1 {
+	text-align: center;
+	font-size: 2.5rem;
+}
+
+.tab-container {
+	width: 100%;
+	overflow: hidden;
+	padding: 70px 0;
+	position: relative;
+    text-align: center;
+}
+
+.tab-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+.tab-title {
+	font-size:24px;
+    display: flex;
+    margin: 0 3rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: #888;
+}
+
+.tab-title.active {
+    color: #000; 
+}
+
+
+.phone-slide-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.sub-slide .phone-left {
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    text-align: left;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.sub-slide .phone-items {
+    border: 1px solid #888;
+    border-radius: 20px; 
+    padding: 20px;
+    width: calc(50% - 20px);
+    box-sizing: border-box;
+}
+
+.phone-content {
+    margin-bottom: 10px;
+}
+
+.sub-slide .swiper-button-prev {
+    color: #000;
+    top: 5.5rem;
+    left: 20%;
+}
+
+.sub-slide .swiper-button-next {
+    color: #000;
+    top: 5.5rem;
+    right: 20%;
+}
+
+.sub-slide .phone-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: 100%;
+    border: 1px solid #888;
+    border-radius: 20px; 
+	padding: 20px;
+    text-align: left;
+}
+
+/* phone-slide: end */
+
+/* help */
+
+.help-section {
+	background-color:#eee;
+	padding-bottom: 5rem;
+}
+
+.help-content {
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+    padding:4rem 0;
+}
+
+.help-items {
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+}
+
+.help-items .help-items-text {
+	padding-left:40px;
+}
+
+
+.help-items a {
+	font-size: 1.8rem;
+	font-weight: bold;
+	color:#000;
+}
+
+.help-items p {
+	font-size: 1.2rem;
+	color:#888;
+}
+
+/* help: end */
+
+@media (max-width: 1200px) {
+	.sub-slide .swiper-button-prev {
+    	left: 0;
+	}
+
+	.sub-slide .swiper-button-next {
+	    right: 0;
+	}
+	
+	.phone-slide-container {
+		display: block;
+	}
+	
+	.sub-slide .phone-left {
+		margin-top:20px; 
+		justify-content: space-between;
+	}
+	
+	.help-content {
+		align-items: flex-start;
+	}
+	.help-items {
+		display:block;
+		flex: 0 0 30%;
+	}	
+	
+	.help-items .help-items-text {
+		padding: 0;
+		text-align: center;
+	}
+}
+
+@media (max-width: 768px) {
+	.main-slide .slide-title {
+		font-size: 1.4rem;
+		margin-bottom: 30px;
+	}
+
+	.swiper-button-next, .swiper-button-prev {
+		display: none;
+	}
+	
+	.main-slide .swiper-text {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	
+	article h1 {
+		font-size: 1.5rem;
+	}
+	
+	.tab-menu {
+		justify-content: space-between;
+	}
+	
+	.tab-title {
+		font-size: 20px;
+	}
+	
+	.help-items {
+		flex: 0 0 40%;
+	}
+	
+	.help-items a {
+		font-size: 1.2rem;
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+	}
+	
+	.help-items p {
+		font-size: 1rem;
+	}
+	
+	.main-slide .swiper-text {
+		left: 10%;
+	}
+}
+
+@media (max-width: 540px) {
+	.tab-title { margin: 0; }
+	
+	.sub-slide .phone-left { display: block; margin: 0; }
+	
+	.sub-slide .phone-items { width: 100%; margin-top: 20px; }
+}
+
+@media (max-width: 450px) {
+	.help-content { display: block; }
+	.help-items { text-align: center; }
+	.help-items:nth-child(2) { padding-top: 20px; }
+	.help-items img { width: 70%; }
+}

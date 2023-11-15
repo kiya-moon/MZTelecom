@@ -1,0 +1,204 @@
+/* QnA */
+.support-container > h1 {
+	text-align: center;
+}
+
+.support-container .tab-content {
+	display: flex;
+	margin-top: 20px;
+}
+
+.support-container .tab {
+	flex: 1;
+	padding: 20px 0;
+	border: 1px solid #ddd;
+	margin-left: -1px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.support-container .tab.active {
+	background-color: #33A188;
+	font-weight: bold;
+	color: #fff;
+}
+
+.support-container .content {
+	display: none;
+}
+
+.support-container .content.active {
+	display: block;
+}
+
+.support-container h2 {
+	margin: 30px 0 20px 0;
+}
+
+.support-container .qna li {
+	background-color: #fff;
+	border: 1px solid #888;
+	border-radius: 4px;
+	padding: 1rem 1.3rem;
+	margin-bottom: 0.5rem;
+}
+
+.support-container .qna li:hover .qna-title p {
+	color: #FFA200;
+	font-weight: bold;
+}
+
+.support-container .qna-title {
+	display: flex;
+	cursor: pointer;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.support-container .hidden {
+	display: none; 
+}
+
+.support-container .qna-item {
+	border-top: 1px solid #e4e4e4;
+	margin-top: 20px;
+	padding-top: 20px; 
+	
+}
+
+/* QnA end */
+
+/* ask */
+.support-container .ask-title {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	border-bottom: 1px solid #888;
+}
+
+.support-container .ask-title p {
+	font-size: 14px;
+}
+  
+.support-container .dot {
+    display: inline-block;
+	width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #ff3c3c;
+    vertical-align: top;
+    margin: 10px 10px 10px 0;
+}
+
+.support-container .form-group:first-child {
+	border-top: none;
+}
+
+.support-container .form-group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    padding: 50px 0;
+    border-top: 1px solid #e3e8ec;
+}
+
+.support-container label {
+    flex: 1.5;
+    font-weight: bold;
+}
+
+.support-container input[type="text"],
+.support-container textarea,
+.custom-select-wrapper  {
+	flex: 2;
+    padding: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.support-container .email-content {
+	display: flex;
+    flex: 2;
+    align-items: center;
+}
+
+.support-container .email-content input, 
+.support-container .email-content select {
+	flex: 1;
+	padding: 15px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+} 
+
+.support-container textarea {
+    height: 20vh;
+    resize: none;
+}
+
+.support-container .form-checkbox {
+	padding-bottom: 20px; 
+	border-bottom: 1px solid #888;
+}
+
+.support-container .btn-submit {
+	display: flex;
+    background-color: #33A188;
+    color: #fff;
+    margin: 50px auto; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 15px 50px;
+    transition: 0.3s;
+}
+
+.support-container .btn-submit:hover {
+	background-color: #FFA200;
+}
+
+.support-container .custom-select {
+    position: relative;
+    font-size: 16px;
+}
+
+.support-container .custom-select select {
+    display: none;
+}
+
+.support-container .select-selected {
+    padding: 0 16px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.support-container .select-selected:after {
+    content: "\25BC";
+    position: absolute;
+    right: 10px;
+}
+
+.support-container .select-items {
+    display: none;
+}
+
+.support-container .select-items div {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.support-container .select-items div:hover {
+    background-color: #f5f5f5;
+}
+
+.support-container .select-items-active {
+    display: block;
+    margin-top: 8px;
+}
+
+
+

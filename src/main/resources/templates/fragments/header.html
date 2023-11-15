@@ -1,11 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="headerFragment">
-  <head>
-    <title>Board List</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <h1>헤더야야야야야야야야</h1>
-  </head>
+	<header class="header">
+		<div class="header-content">
+			<div class="logo">
+				<a th:href="@{/}">
+					<img th:src="@{/images/MZ_logo.png}" alt="Logo">
+				</a>
+			</div>
+
+			<div class="menu">
+				<ul class="menu-list">
+					<li><a th:href="@{/product}">모바일기기</a></li>
+					<li><a th:href="@{/phoneplan}">모바일 요금제</a></li>
+					<li><a th:href="@{/support}">고객지원</a></li>
+					<li><a th:href="@{/purRevBoard}">구매후기</a></li>
+				</ul>
+			</div>
+
+			<div class="icons">
+				<a href="javascript:void(0);" class="search">
+					<input type="text" />
+					<i data-feather="search"></i>
+				</a>
+				<a th:href="@{/cart}">
+					<i data-feather="shopping-cart"></i>
+				</a>
+				<a th:href="@{/login}">
+					<i data-feather="user"></i>
+				</a>
+				<div class="hamburger-menu">
+					<a href="javascript:void(0);" onclick="toggleMenu()">
+						<i data-feather="menu"></i>
+					</a>
+				</div>
+			</div>
+
+			<!-- 모바일용 메뉴 -->
+			<div class="mobile-menu">
+				<div class="mobile-icons">
+					<div class="mobile-user">
+						<a th:href="@{/cart}">
+							<i data-feather="shopping-cart"></i>
+						</a>
+						<a th:href="@{/login}">
+							<i data-feather="user"></i>
+						</a>
+					</div>
+					<div class="mobile-menu-close" onclick="closeMenu()">
+						<i data-feather="x"></i>
+					</div>
+				</div>
+				<ul class="menu-list">
+					<li><a th:href="@{/product}">모바일기기</a></li>
+					<li><a th:href="@{/phoneplan}">모바일 요금제</a></li>
+					<li><a th:href="@{/support}">고객지원</a></li>
+					<li><a th:href="@{/purRevBoard}">구매후기</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+	<script>
+		const searchEl = document.querySelector('.search');
+		const searchInputEl = searchEl.querySelector('input');
+		
+		document.addEventListener('click', function (e) {
+		    if (searchEl.contains(e.target)) {
+		        searchEl.classList.add('focused');
+		        searchInputEl.setAttribute('placeholder', '통합검색');
+		    } else {
+		        searchEl.classList.remove('focused');
+		        searchInputEl.setAttribute('placeholder', '');
+		    }
+		});
+	</script>
 </th:block>
+
 </html>

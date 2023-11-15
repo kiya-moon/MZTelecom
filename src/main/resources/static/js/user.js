@@ -1,0 +1,63 @@
+// findIdOrPw 탭버튼
+var tabs = document.querySelectorAll("[data-tab-target]");
+var tabcon = document.querySelectorAll("[data-tab-content]");
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+	
+    var target = document.querySelector(tab.dataset.tabTarget);
+    tabcon.forEach((tabc_all) => {
+      tabc_all.classList.remove("active");
+    });
+
+    target.classList.add("active");
+
+	tabs.forEach((t) => {
+      t.classList.remove("active-tab");
+    });
+    
+    tab.classList.add("active-tab");
+
+  });
+});
+
+
+/* signup checkbox */
+const signupForm = document.getElementById('signup-form');
+const agreeAllCheckbox = document.getElementById('agreeAll');
+const otherCheckboxes = document.querySelectorAll('.signup-checkbox input[type="checkbox"]');
+
+// 다른 체크박스들의 클릭 이벤트 모니터링
+otherCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('click', function() {
+        // 모든 체크박스가 선택되었는지 확인
+        const allChecked = Array.from(otherCheckboxes).every(checkbox => checkbox.checked);
+
+        // 전체 동의 체크박스 상태 업데이트
+        agreeAllCheckbox.checked = allChecked;
+    });
+});
+
+// 전체 동의 체크박스의 클릭 이벤트 처리
+agreeAllCheckbox.addEventListener('click', function() {
+    const isChecked = agreeAllCheckbox.checked;
+    otherCheckboxes.forEach(checkbox => checkbox.checked = isChecked);
+});
+
+
+signupForm.addEventListener('submit', function(e) {
+	if (!agreeAllCheckbox.checked) {
+		e.preventDefault();
+		alert('체크 박스를 모두 체크해주세요.');
+	}
+});
+
+// login
+function clearInput(inputId) {
+    document.getElementById(inputId).value = '';
+}
+
+function togglePassword() {
+    var passwordField = document.getElementById('password');
+    passwordField.type = (passwordField.type === "password") ? "text" : "password";
+}

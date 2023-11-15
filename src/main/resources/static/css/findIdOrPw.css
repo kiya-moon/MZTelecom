@@ -1,0 +1,54 @@
+.tabs {
+	display: flex;
+	justify-content: space-around;
+	border-bottom: 1px solid #888;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.tabs .tab {
+	font-size: 1rem;
+	text-align: center;
+	line-height: 30px;
+	width: 90px;
+	height: 30px;
+	color: rgb(20, 19, 19);
+	position: relative;
+}
+
+.tabs .tab.active-tab {
+	font-weight: bold;
+	color: #33A188;
+}
+
+.spanTabs:hover {
+	cursor: pointer; 
+}
+
+.items {
+	width: 100%;
+	display: none;
+	position: relative;
+}
+
+.items.active {
+	display: inline-block;
+}
+
+.birth-box, .email-box {
+	flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.birth-box:nth-child(2) {
+	margin:0 10px;
+}
+
+.input-content {
+	display: flex;
+	justify-content: space-between;	
+	align-items: center;
+}
+

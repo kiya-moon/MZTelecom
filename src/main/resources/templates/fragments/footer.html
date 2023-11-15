@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="footerFragment">
-  <footer>
-    <div class="mt-5">
-      <div class="text-center">
-        <p>
-          <small class="text-muted">Copyright © Hnev.log Tistory Corp. All Rights Reserved.</small>
-        </p>
-      </div>
-    </div>
-  </footer>
+	<footer class="footer">
+		<div class="footer-content">
+			<div>
+				<div class="footer-links">
+					<ul class="footer-menu">
+						<li><a href="javascript:void(0)">회사소개</a></li>
+						<li><a href="javascript:void(0)">이용약관</a></li>
+						<li><a href="javascript:void(0)">위치정보이용약관</a></li>
+						<li><a href="javascript:void(0)">개인정보처리방침</a></li>
+						<li><a href="javascript:void(0)">통신자료제공</a></li>
+						<li><a href="javascript:void(0)">사실열람</a></li>
+						<li><a href="javascript:void(0)">청소년보호정책</a></li>
+						<li><a href="javascript:void(0)">이용자피해예방가이드</a></li>
+						<li><a href="javascript:void(0)">미환급금조회</a></li>
+						<li><a href="javascript:void(0)">명의도용방지서비스</a></li>
+						<li><a href="javascript:void(0)">장애현황</a></li>
+					</ul>
+				</div>
+				<div class="company-info">
+					<p>㈜MZT 서울특별시 용산구 한강대로 대표이사 김시우 사업자등록번호 110-12-33333 통신판매신고 제 2023-서울용산-12345호</p>
+					<p>고객센터 휴대폰 114(무료) 1234-5678(유료) 인터넷/IPTV/전화 111(무료) 1234-7777(유료)</p>
+					<p>가입문의 휴대폰 1234-7891(유료) 스마트홈 1234-1177(유료) 소상공인 인터넷/IPTV/전화 1888-8888(유료)</p>
+					<br />
+					<p>Copyright ⓒ MZT. All Rights Reserved.</p>
+				</div>
+			</div>
+			<div>
+				<div class="footer-logo">
+					<img th:src="@{/images/MZ_logo_footer.png}" alt="Logo">
+				</div>
+			</div>
+		</div>
+	</footer>
 </th:block>
+
 </html>

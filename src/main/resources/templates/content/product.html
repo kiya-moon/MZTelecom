@@ -1,0 +1,143 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.*" %>
+<%
+    // 가상의 제품 목록을 Java 코드로 생성
+    List<Map<String, Object>> productList = new ArrayList<>();
+    
+    // 제품 1
+    Map<String, Object> product1 = new HashMap<>();
+    product1.put("id", 1); 
+    product1.put("name", "갤럭시 Z 플립5 5G");
+    product1.put("image", "ZFlip5.jpg");
+    product1.put("capacities", new String[]{"256G", "512G"});
+    product1.put("dscCapacity", "512G");
+    product1.put("dscPrice", "67,308");
+    product1.put("fee", "69,000");
+    product1.put("finalPrice", "136,308");
+    productList.add(product1);
+
+    // 제품 2
+    Map<String, Object> product2 = new HashMap<>();
+    product2.put("id", 2); 
+    product2.put("name", "iphone14 Pro");
+    product2.put("image", "iphone14_Pro.jpg");
+    product2.put("capacities", "256G");
+    product2.put("dscCapacity", "256G");
+    product2.put("dscPrice", "50,000");
+    product2.put("fee", "55,000");
+    product2.put("finalPrice", "105,000");
+    productList.add(product2);
+    
+ 	// 제품 3
+    Map<String, Object> product3 = new HashMap<>();
+    product3.put("id", 3); 
+    product3.put("name", "갤럭시 Z 플립5 5G");
+    product3.put("image", "ZFlip5.jpg");
+    product3.put("capacities", new String[]{"256G", "512G"});
+    product3.put("dscCapacity", "512G");
+    product3.put("dscPrice", "67,308");
+    product3.put("fee", "69,000");
+    product3.put("finalPrice", "136,308");
+    productList.add(product3);
+
+    // 제품 4
+    Map<String, Object> product4 = new HashMap<>();
+    product4.put("id", 4); 
+    product4.put("name", "iphone14 Pro");
+    product4.put("image", "iphone14_Pro.jpg");
+    product4.put("capacities", "256G");
+    product4.put("dscCapacity", "256G");
+    product4.put("dscPrice", "50,000");
+    product4.put("fee", "55,000");
+    product4.put("finalPrice", "105,000");
+    productList.add(product4);
+    
+ 	// 제품 5
+    Map<String, Object> product5 = new HashMap<>();
+    product5.put("id", 5); 
+    product5.put("name", "갤럭시 Z 플립5 5G");
+    product5.put("image", "ZFlip5.jpg");
+    product5.put("capacities", new String[]{"256G", "512G"});
+    product5.put("dscCapacity", "512G");
+    product5.put("dscPrice", "67,308");
+    product5.put("fee", "69,000");
+    product5.put("finalPrice", "136,308");
+    productList.add(product5);
+
+    HttpSession productdata = request.getSession();
+    productdata.setAttribute("productList", productList);
+%>
+
+<section class="common">
+	<article>
+		<div class="product-container">
+			<div class="product-context">
+				<h2>모바일 기기</h2>
+				<div>
+					<ul class="category-list">
+	                    <li><a href="#" class="category-link">판매순</a></li>
+	                    <li><a href="#" class="category-link">최신순</a></li>
+	                    <li><a href="#" class="category-link">낮은 가격순</a></li>
+	                    <li><a href="#" class="category-link">높은 가격순</a></li>
+	                </ul>
+				</div>
+			</div>
+			
+			<div class="product-item-list">
+				<ul>
+					<c:forEach items="${productList}" var="product">
+                        <li class="product-item">
+                            <a href="${pageContext.request.contextPath}/productDetail?productId=${product.id}">
+                                <div class="thumb">
+                                	<img src="${pageContext.request.contextPath}/resources/images/${product.image}" alt="${product.name}">
+                                </div>
+                                <div class="cont">
+                                	<div class="title">
+	                                    <h3>${product.name}</h3>
+	                                    <button type="button" class="btnLike" onclick="handleLikeClick(event)">
+	                                    	<i class="heart" data-feather="heart"></i>
+	                                    </button>
+                                	</div>
+                                    <div class="cont-info">
+                                        <p class="item-capacity">
+                                            <c:forEach items="${product.capacities}" var="capacity">
+                                                <span class="capacity-con">${capacity}</span>
+                                            </c:forEach>
+                                        </p>
+                                        <p class="dsc-item">
+                                            <span class="dsc-title">휴대폰(${product.dscCapacity})</span>
+                                            <span class="dsc-cont">${product.dscPrice}원/월</span>
+                                        </p>
+                                        <p class="dsc-item">
+                                            <span class="dsc-title">요금</span>
+                                            <span class="dsc-cont">${product.fee}원/월</span>
+                                        </p>
+                                    </div>
+	                                <div class="final-price">
+        	                            <span class="price-cont"><em class="num">${product.finalPrice}</em><em class="unit"> 원/월</em></span>
+    	                            </div>
+                                </div>
+                            </a>
+                        </li>
+                    </c:forEach>
+				</ul>
+			</div>
+		</div>
+	</article>
+</section>
+
+<script>
+
+    function toggleHeartColor(button) {
+        button.classList.toggle('red');
+    }
+
+    function handleLikeClick(event) {
+        // 페이지 이동을 막기 위해 기본 동작을 취소
+        event.preventDefault();
+        
+        var button = event.currentTarget;
+        toggleHeartColor(button);
+    }
+</script>

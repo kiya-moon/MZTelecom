@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.*"%>
+
+<section class="common">
+	<article>
+		<div class="cart-container">
+			<h1>장바구니</h1>
+			<c:choose>
+			    <c:when test="${not empty item}">
+			    </c:when>
+			    
+			    <c:otherwise>
+			    	<div class="cart-null">
+				    	<i data-feather="shopping-cart"></i>
+				        <h2>장바구니에 담은 상품이 없습니다.</h2>
+				        
+				       	<a href="${pageContext.request.contextPath}/">
+				       		메인 페이지로 이동
+				       	</a>
+			    	</div>
+			    </c:otherwise>
+			</c:choose>
+		</div>
+	</article>
+</section>

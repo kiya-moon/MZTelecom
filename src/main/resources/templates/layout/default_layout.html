@@ -1,8 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:replace="fragments/header :: headerFragment"></th:block>
-  <body>
-    <th:block layout:fragment="content"></th:block>
-  </body>
-<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+
+<head>
+	<meta charset="UTF-8">
+	<title>MZT</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+	<!-- Feather Icons -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css">
+
+	<!-- slide -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/signup.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/findIdOrPw.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/cart.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/product.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/support.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/modal.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/myPage.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/purRevBoard.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/admin.css}" rel="stylesheet" type="text/css">
+
+	
+</head>
+
+<body>
+	<th:block th:replace="~{fragments/header :: headerFragment}"></th:block>
+	<th:block layout:fragment="content"></th:block>
+	<th:block th:replace="~{fragments/footer :: footerFragment}"></th:block>
+</body>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+	<script th:inline="javascript">
+		feather.replace();
+	</script>
+
+	<script th:src="@{/js/swiper.js}" ></script>
+	<script th:src="@{/js/header.js}" ></script>
+	<script th:src="@{/js/user.js}" ></script>
+	<script th:src="@{/js/modal.js}" ></script>
+	<script th:src="@{/js/support.js}" ></script>
+	<script th:src="@{/js/common.js}" ></script>
+	<script th:src="@{/js/myPage.js}" ></script>
+	<script th:src="@{/js/purRevBoard.js}" ></script>
+	<script th:src="@{/js/admin.js}" ></script>
 </html>
