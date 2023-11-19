@@ -1,5 +1,5 @@
 // id, pw 찾기 관련 modal 변수
-var pwOpnModalBtn = document.getElementById("resetPwModalBtn");	// 비밀번호찾기 버튼
+var pwOpnModalBtn = document.getElementById("resetPwModalBtn");		// 비밀번호찾기 버튼
 var idOpnModalBtn = document.getElementById("findIdBtn");			// 아이디찾기 버튼
 var findPwModal= document.getElementById("findPwModal");			// 비밀번호찾기 모달창
 var findIdModal= document.getElementById("findIdModal");			// 아이디찾기 모달창
@@ -142,6 +142,9 @@ function findId(){
 	
 	var custNm = document.getElementById("custNm");
 	var custNmValue = custNm.value;
+	
+	console.log(custNm.value);
+	console.log("findId 들어오냐");
 	
 	if (isNull(custNmValue)) 
 	{
