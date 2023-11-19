@@ -1,9 +1,10 @@
 package com.team.mztelecom.dto;
 
+import com.team.mztelecom.domain.CustBas;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * 
@@ -13,7 +14,6 @@ import lombok.Setter;
  *
  */
 
-@Setter
 @Getter
 @NoArgsConstructor
 public class CustBasSaveDTO {
@@ -24,8 +24,8 @@ public class CustBasSaveDTO {
 	String custIdfyNo;			// 고객식별번호
 	String custBirth;			// 생년월일(yyyy.mm.dd)
 	String custNo;				// 고객번호(전화번호)
-	String custSex;			// 고객성별
-	String custAddress;		// 고객주소
+	String custSex;				// 고객성별
+	String custAddress;			// 고객주소
 	String custEmail;			// 고객이메일
 	
 	@Builder

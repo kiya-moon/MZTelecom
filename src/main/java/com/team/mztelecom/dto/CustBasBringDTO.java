@@ -1,5 +1,7 @@
 package com.team.mztelecom.dto;
 
+import com.team.mztelecom.domain.CustBas;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,14 +26,14 @@ public class CustBasBringDTO {
 	String intmPurStusYn; // 기기구매여부
 	
 	// entity -> dto
-	public CustBasBringDto(CustBas entity) {
-		this.custId = custId;
-		this.custNm = custNm;
-		this.custPassword = custPassword;
-		this.custNo = custNo;
-		this.custAddress = custAddress;
-		this.custEmail = custEmail;
-		this.intmPurStusYn = intmPurStusYn;
+	public CustBasBringDTO(CustBas entity) {
+		this.custId = entity.getCustId();
+		this.custNm = entity.getCustNm();
+		this.custPassword = entity.getCustPassword();
+		this.custNo = entity.getCustNo();
+		this.custAddress = entity.getCustAddress();
+		this.custEmail = entity.getCustEmail();
+		this.intmPurStusYn = entity.getIntmPurStusYn();
 	}
 
 }

@@ -5,12 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CustBas {
 
@@ -48,7 +49,7 @@ public class CustBas {
 	
 	// DTO <-> Entity
 	@Builder
-	public CustBas(String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail) {
+	public CustBas(String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, String custBirth, String custAddress, String custSex, String intmPurStusYn) {
 		
 		this.custId = custId;
 		this.custNm = custNm;
@@ -56,6 +57,9 @@ public class CustBas {
 		this.custIdfyNo = custIdfyNo;
 		this.custNo = custNo;
 		this.custEmail = custEmail;
+		this.custBirth = custBirth;
+		this.custAddress = custAddress;
+		this.custSex = custSex;
+		this.intmPurStusYn = intmPurStusYn;
 	}
-	
 }
