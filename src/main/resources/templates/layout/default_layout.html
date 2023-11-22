@@ -42,6 +42,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 	<script th:inline="javascript">
 		feather.replace();
+		
+		var birth = /*[[${birth}]]*/ '';
+        var email = /*[[${email}]]*/ '';
+        
+
 	</script>
 
 	<script th:src="@{/js/swiper.js}" ></script>

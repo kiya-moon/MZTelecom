@@ -20,7 +20,8 @@
 					<!-- 아이디 찾기 부분 Start -->
 					<div id="tab1" data-tab-content class="items active">
 						<div class="tab-content" id="content1">
-						<!-- 	<form action="find.do" method="post"> -->
+							<!--<form action="get/findId" method="post">-->
+							<form th:action="@{findId}" th:method="post" id="find-id-form">
 								<div class="input-container">
 									<label for="custNm">이름</label> 
 									<input type="text" id="custNm" name="custNm" required>
@@ -30,16 +31,16 @@
 								<div class="input-container">
 									<label for="custBirth">생년월일</label>
 	
-									<div class="input-content">
-									    <select class="birth-box" name="year">
+									<div class="input-content" id="birth" name="birth">
+									    <select class="birth-box" id="year" name="year">
 									        <option th:each="year : ${#numbers.sequence(1900, 2023)}" th:value="${year}" th:text="${year + '년'}"></option>
 									    </select>
-									    <select class="birth-box" name="month">
-									        <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}" th:text="${month + '월'}"></option>
-									    </select>
-									    <select class="birth-box" name="day">
-									        <option th:each="day : ${#numbers.sequence(1, 31)}" th:value="${day}" th:text="${day + '일'}"></option>
-									    </select>
+										<select class="birth-box" id="month" name="month">
+										    <option th:each="month : ${#numbers.sequence(1, 12)}" th:value="${month}" th:text="${(month < 10 ? '0' + month : month) + '월'}"></option>
+										</select>
+										<select class="birth-box" id="day" name="day">
+										    <option th:each="day : ${#numbers.sequence(1, 31)}" th:value="${day}" th:text="${(day < 10 ? '0' + day : day) + '일'}"></option>
+										</select>
 									</div>
 								</div>
 								<!-- 생년월일 선택 End-->
@@ -48,9 +49,9 @@
 								<div class="input-container">
 									<label for="custEmail">이메일</label>
 	
-									<div class="input-content" id="pw_email" >
-										<input type="text" class="email-box" id="id-email-box">&nbsp;@&nbsp; 
-										<select class="email-box" id="id-domain-list">
+									<div class="input-content" id="pw_email" name="pw_email">
+										<input type="text" class="email-box" id="id-email-box" name="id-email-box">&nbsp;@&nbsp; 
+										<select class="email-box" id="id-domain-list" name="id-domain-list">
 											<option value="naver.com">naver.com</option>
 											<option value="google.com">google.com</option>
 											<option value="hanmail.net">hanmail.net</option>
@@ -61,7 +62,8 @@
 								</div> 
 								<!-- 이메일 선택 End -->
 								<button type="submit" class="login-button" id="findIdBtn">아이디찾기</button>
-						<!-- 	</form> -->
+							<!--</form>-->
+							</form>
 						</div>
 					</div>
 					<!-- 아이디 찾기 부분 End -->
@@ -127,7 +129,7 @@
 		<div class="modal" id="findIdModal" style="display:none">
 			<div class="modal-content">
 				<span class="close" id="closeModalBtn">&times;</span>
-				 <p class="id_msg"></p>
+				 <p th:text="${msg}"></p>
 			</div>
 		</div>
 		

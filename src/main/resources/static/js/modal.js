@@ -30,7 +30,9 @@ pwOpnModalBtn.addEventListener("click", () => {
 	
 });
 
-idOpnModalBtn.addEventListener("click", () => {
+idOpnModalBtn.addEventListener("click", (e) => {
+	
+	e.preventDefault();
 	
 	openModalBtn = idOpnModalBtn;
 	opnModalPg = "ID";
@@ -169,14 +171,54 @@ function findId(){
 			alert("다시 확인 해주세요.");
 		}
     }
+    
 }
 /*아이디 찾기 End*/
 
 /*이메일 발송 메시지 Start*/
 // 이메일 텍스트 업데이트 함수 정의
 function updateEmailText() {
+	
+	console.log("controller 통신 시작");
+    var httpRequest;
+    
+    httpRequest = new XMLHttpRequest();
+    
+    console.log(httpRequest);
+    
+    httpRequest.onreadystatechange = () => {
+		if (httpRequest.readyState === XMLHttpRequest.DONE){
+			if(httpRequest.status === 200) {
+				console.log("성공");
+				
+				var response = JSON.parse(httpRequest.responseText);
+
+				var birth = response.birth;
+				var email = response.email;
+
+                console.log("Birth: " + birth);
+                console.log("Email: " + email);
+				
+			}
+			else {
+				alert("시스템 오류");
+			}
+		}
+	};
+	
+	// 넘겨줄 데이터
+	var formData = new FormData(document.getElementById('find-id-form'));
+    
+    // 서버로 데이터를 전송
+    httpRequest.open('POST', 'findId');
+    httpRequest.send(formData);
+	
+	let msg = document.getElementById("findIdModal");
+	msg.style.display ='block';
+}
+	
     // input 요소와 select 요소에서 값을 가져와서 이메일 주소를 구성합니다.
-	if(opnModalPg == "PW")
+/*	if(opnModalPg == "PW")
 	{
 		email = pwEmailInput.value + '@' + pwDomainSelect.value;
 		console.log("비밀번호찾기 ::: " + email);
@@ -189,13 +231,12 @@ function updateEmailText() {
 		console.log("id찾기 ::: " + email);
    	 	// 아이디를 id_msg 요소에 설정합니다.
     	idSendElement.textContent = '"아무개"님의 아이디는 ' + "admin" + ' 입니다.' ;
-	}
+	}*/
     
-}
 /*이메일 발송 메시지 End*/
 
 
-/* damin */
+/* admin */
 
 const UpdateBtn = document.querySelector('.update-btn');
 
