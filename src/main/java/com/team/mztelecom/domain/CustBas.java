@@ -1,5 +1,6 @@
 package com.team.mztelecom.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,16 +21,17 @@ public class CustBas {
 	private long id;
 	
 	@NotNull
+	@Column(unique = true)
 	private String custId;				// 고객아이디
 	
 	@NotNull
 	private String custNm;				// 고객명
 	
-	@NotNull
 	private String custPassword;		// 고객패스워드
 	
 	@NotNull
-	private String custIdfyNo;			// 고객식별번호
+	@Column(unique = true)
+	private String custIdfyNo;			// 고객식별번호(주민번호)
 	
 	
 	private String custBirth;			// 생년월일(yyyy.mm.dd)
@@ -42,6 +44,7 @@ public class CustBas {
 	private String custAddress;			// 고객주소
 	
 	@NotNull
+	@Column(unique = true)
 	private String custEmail;			// 고객이메일
 	
 	private String intmPurStusYn;		// 기기구매여부

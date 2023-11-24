@@ -11,38 +11,40 @@ var idEmailInput = document.querySelector('#id-email-box');			// 아이디찾기
 var pwDomainSelect = document.querySelector('#pw-domain-list');		// 비밀번호찾기 이메일 도메인
 var idDomainSelect = document.querySelector('#id-domain-list');		// 아이디찾기 이메일 도메인
 var emailChk = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*$/;					// 이메일 정규식
-var modal;			
 var openModalBtn;	// 모달창 오픈버튼
 var opnModalPg; 	// 모달창 오픈페이지(PW: 비밀번호 찾기 , ID: 아이디 찾기)
 var modalOpnYN;		// 모달 오픈 여부
 var emailChkYn;		// 이메일 형식 체크여부
-var email;			// 이메일 값
-
-/*이메일 발송 메시지 Start*/
 
 /*modal 열기 Start*/
-pwOpnModalBtn.addEventListener("click", () => {
+pwOpnModalBtn.addEventListener("click", (e) => {
+	
+	console.log('modal 열기');
+	
+	e.preventDefault();
 	
 	openModalBtn = 	pwOpnModalBtn;
 	opnModalPg = "PW";
 	
-	openModal();
+	openModalChk();
 	
 });
 
 idOpnModalBtn.addEventListener("click", (e) => {
+	
+	console.log('modal 열기');
 	
 	e.preventDefault();
 	
 	openModalBtn = idOpnModalBtn;
 	opnModalPg = "ID";
 	
-	openModal();
+	openModalChk();
 	
 });
-/*modal 닫기 Start*/
+/*modal 열기 End*/
 
-/*modal 닫기 공통*/
+/*modal 닫기 Start*/
 // 모달 닫기 버튼 클릭 시
 var closeButtons = document.getElementsByClassName("close");
 for (var i = 0; i < closeButtons.length; i++) {
@@ -58,26 +60,28 @@ window.addEventListener("click", function(event) {
         event.target.style.display = "none";
     }
 });
+/*modal 닫기 End*/
 
 
 // input 요소 또는 select 요소의 값이 변경될 때마다 이벤트를 처리합니다.
 if(opnModalPg == "PW")
 {
-	pwEmailInput.addEventListener('input', updateEmailText);
-	pwDomainSelect.addEventListener('change', updateEmailText);
+	pwEmailInput.addEventListener('input', findPwModalOpn);
+	pwDomainSelect.addEventListener('change', findPwModalOpn);
 }
 else if(opnModalPg == "ID")
 {
-	idEmailInput.addEventListener('input', updateEmailText);
-	idDomainSelect.addEventListener('change', updateEmailText);
+	idEmailInput.addEventListener('input', findIdModalOpn);
+	idDomainSelect.addEventListener('change', findIdModalOpn);
 }
 
-// modal open 공통 함수
-function openModal(){
+/* id찾기/pw찾기 처리 구분 Start*/
+function openModalChk(){
 	
 	if(opnModalPg == "PW")
 	{
-		resetPw();
+		console.log('비밀번호 찾기');
+		findPwInpChk();
 
 		modal = findPwModal;
 		
@@ -85,27 +89,31 @@ function openModal(){
 		{
 			modal.style.display = "block";
 		}
+		
+		findPwModalOpn();
 	}
 	else if(opnModalPg == "ID")
 	{
-		findId();
+		console.log('아이디 찾기');
+		findIdInpChk();
+		
 		modal = findIdModal;
 	
 		if(modalOpnYN == "Y" && emailChkYn =="Y")  
 		{
 			modal.style.display = "block";
 		}
+		
+		findIdModalOpn();
 	}
 	
-	updateEmailText();
 }
-/* modal 공통 End*/		
+/*id찾기 / pw찾기 처리 구분 End*/
 
-/*비밀번호 재설정 Start*/
-// 비밀번호 재설정 함수
-function resetPw(){
+/*비밀번호 찾기 입력값 체크 Start*/
+function findPwInpChk(){
 	
-	console.log("resetPw 들어오냐");
+	console.log('비밀번호 찾기 입력값 체크');
 	
 	var custId = document.getElementById("custId");
 	var custIdValue = custId.value;
@@ -123,30 +131,25 @@ function resetPw(){
 		if(emailChk.test(pwEmailInput.value) && !isNull(pwEmailInput))
 		{
 			emailChkYn = "Y";
-			console.log("true");
 		}
 		else
 		{
 			emailChkYn = "N";
-			console.log("false");
 			alert("다시 확인 해주세요.");
 		}
     }
-
-	console.log("modalOpnYN ::" + modalOpnYN);
-	console.log("emailChkYn ::" + emailChkYn);
-	
 }
-/*비밀번호 재설정 End*/
+/*비밀번호 찾기 입력값 체크 End*/
 
-/*아이디 찾기 Start*/
-function findId(){
+/*아이디 찾기 입력값 체크 Start*/
+function findIdInpChk(){
+	
+	console.log('아이디 찾기 입력값 체크');
 	
 	var custNm = document.getElementById("custNm");
 	var custNmValue = custNm.value;
 	
 	console.log(custNm.value);
-	console.log("findId 들어오냐");
 	
 	if (isNull(custNmValue)) 
 	{
@@ -158,28 +161,28 @@ function findId(){
 		modalOpnYN = "Y";
 		
 		// 이메일 정규식 체크
-		
 		if(emailChk.test(idEmailInput.value) && !isNull(idEmailInput))
 		{
 			emailChkYn = "Y";
-			console.log("true");
 		}
 		else
 		{
 			emailChkYn = "N";
-			console.log("false");
 			alert("다시 확인 해주세요.");
 		}
     }
-    
 }
-/*아이디 찾기 End*/
+/*아이디 찾기 입력값 체크 End*/
 
-/*이메일 발송 메시지 Start*/
-// 이메일 텍스트 업데이트 함수 정의
-function updateEmailText() {
+/*아이디 찾기 ajax*/
+function findIdModalOpn() {
 	
-	console.log("controller 통신 시작");
+	console.log("아이디 찾기 controller 통신");
+
+	var listEmpYn;
+	var msg;
+	var custId;
+	var custNm;
     var httpRequest;
     
     httpRequest = new XMLHttpRequest();
@@ -192,16 +195,28 @@ function updateEmailText() {
 				console.log("성공");
 				
 				var response = JSON.parse(httpRequest.responseText);
-
-				var birth = response.birth;
-				var email = response.email;
-
-                console.log("Birth: " + birth);
-                console.log("Email: " + email);
+				custId = response.custId;
+				custNm = response.custNm;
+				listEmpYn = response.listEmpYn;
+				console.log("custId: " + custId);
+				console.log("custNm: " + custNm);
+				console.log("listEmpYn: " + listEmpYn);
 				
+				if(!isNull(listEmpYn))
+				{
+					if(listEmpYn == 'Y')
+					{
+						msg = "찾는 고객 정보가 없습니다."
+						idSendElement.textContent = msg ;
+					}
+					else
+					{
+						idSendElement.textContent = custNm + '님의 아이디는 ' + custId + ' 입니다.' ;
+					}
+				}
 			}
 			else {
-				alert("시스템 오류");
+				alert("시스템 오류. 다시 시도 해주세요.");
 			}
 		}
 	};
@@ -212,36 +227,65 @@ function updateEmailText() {
     // 서버로 데이터를 전송
     httpRequest.open('POST', 'findId');
     httpRequest.send(formData);
-	
-	let msg = document.getElementById("findIdModal");
-	msg.style.display ='block';
 }
+
+/*비밀번호 찾기 ajax*/
+function findPwModalOpn(){
 	
-    // input 요소와 select 요소에서 값을 가져와서 이메일 주소를 구성합니다.
-/*	if(opnModalPg == "PW")
-	{
-		email = pwEmailInput.value + '@' + pwDomainSelect.value;
-		console.log("비밀번호찾기 ::: " + email);
-   	 	// 이메일 주소를 pw_email_send 요소에 설정합니다.
-    	pwEmailSendElement.textContent = '임시 비밀번호를 ' + email + ' 로 발송 했습니다.' ;
-	}
-	else if(opnModalPg == "ID")
-	{
-		email = idEmailInput.value + '@' + idDomainSelect.value;
-		console.log("id찾기 ::: " + email);
-   	 	// 아이디를 id_msg 요소에 설정합니다.
-    	idSendElement.textContent = '"아무개"님의 아이디는 ' + "admin" + ' 입니다.' ;
-	}*/
+	console.log("비밀번호 controller 통신 시작");
+	
+	var listEmpYn;
+	var msg;
+	var email;
+    var httpRequest;
+
+    httpRequest = new XMLHttpRequest();
+    console.log(httpRequest);
     
-/*이메일 발송 메시지 End*/
+    httpRequest.onreadystatechange = () => {
+		if (httpRequest.readyState === XMLHttpRequest.DONE){
+			if(httpRequest.status === 200) {
+				console.log("성공");
+				
+				var response = JSON.parse(httpRequest.responseText);
+				email = response.cust_email;
+				listEmpYn = response.listEmpYn;
+				console.log("email ::: " + email);
+				console.log("listEmpYn ::: " + listEmpYn);
+				
+				if(!isNull(listEmpYn))
+				{
+					if(listEmpYn == 'Y')
+					{
+						msg = "찾는 고객 정보가 없습니다."
+						pwEmailSendElement.textContent = msg ;
+					}
+					else
+					{
+						pwEmailSendElement.textContent = '임시 비밀번호를 ' + email + ' 로 발송 했습니다.' ;
+					}
+				}
+			}
+			else {
+				alert("시스템 오류. 다시 시도 해주세요.");
+			}
+		}
+	};
+	
+	// 넘겨줄 데이터
+	var formData = new FormData(document.getElementById('find-pw-form'));
+    
+    // 서버로 데이터를 전송
+    httpRequest.open('POST', 'findPw');
+    httpRequest.send(formData);
+}
 
 
 /* admin */
-
 const UpdateBtn = document.querySelector('.update-btn');
 
 UpdateBtn.addEventListener("click", () => {
 	
-	openModal();
+	openModalChk();
 	
 });
