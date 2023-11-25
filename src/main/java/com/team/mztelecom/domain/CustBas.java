@@ -33,7 +33,6 @@ public class CustBas {
 	@Column(unique = true)
 	private String custIdfyNo;			// 고객식별번호(주민번호)
 	
-	
 	private String custBirth;			// 생년월일(yyyy.mm.dd)
 	
 	@NotNull
@@ -48,6 +47,8 @@ public class CustBas {
 	private String custEmail;			// 고객이메일
 	
 	private String intmPurStusYn;		// 기기구매여부
+	
+	private String role;				// 권한
 	
 	
 	// DTO <-> Entity
