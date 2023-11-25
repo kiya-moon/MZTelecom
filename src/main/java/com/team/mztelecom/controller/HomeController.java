@@ -7,11 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class HomeController {
@@ -19,18 +14,6 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/*
-	 * @RequestMapping(value = "/", method=RequestMethod.GET) public String
-	 * goHome(HttpServletRequest request) {
-	 * 
-	 * logger.info("테스트해본다"); logger.debug("테스트해본다");
-	 * 
-	 * return "content/home"; }
-	 */
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -44,7 +27,7 @@ public class HomeController {
 		return "content/login";
 	}
 	
-	@GetMapping(value = "/signup")
+	@GetMapping(value = "/signup.do")
 	public String signup(Locale locale, Model model) {
 		return "content/signup";
 	}
@@ -61,20 +44,24 @@ public class HomeController {
 		return "content/cart";
 	}
 	
-	@GetMapping(value = "/product")
+	@GetMapping(value = "/product.do")
 	public String product(Locale locale, Model model) {
 		return "content/product";
 	}
 	
-	@GetMapping(value = "/productDetail")
-	public String productDetail(@RequestParam("productId") int productId, Model model) {
+	@GetMapping(value = "/phoneplan.do")
+	public String phoneplan(Locale locale, Model model) {
+		return "content/phoneplan";
+	}
+	
+	@GetMapping(value = "/productDetail.do")
+	public String productDetail(Locale locale, Model model) {
 		
-		model.addAttribute("productId", productId);
 
 	    return "content/productDetail";
 	}
  
-	@GetMapping(value = "/support")
+	@GetMapping(value = "/support.do")
 	public String support(Locale locale, Model model) {
   
 		return "content/support";
@@ -85,10 +72,10 @@ public class HomeController {
 		
 		logger.debug("마이페이지");
 		
-		return "content/myPage";
+		return "myPage";
 	}
 	
-	@GetMapping(value = "/inquiryDetail")
+	@GetMapping(value = "/inquiryDetail.do")
 	public String inquiryDetail(Locale locale, Model model) {
 		
 		logger.debug("마이페이지/문의내역/문의내용");
@@ -96,7 +83,7 @@ public class HomeController {
 		return "content/inquiryDetail";
 	}
 	
-	@GetMapping(value = "/purRevBoard")
+	@GetMapping(value = "/purRevBoard.do")
 	public String purRevBoard(Locale locale, Model model) {
 		
 		logger.debug("구매후기게시판 진입");
@@ -124,7 +111,7 @@ public class HomeController {
 	@GetMapping(value = "/admin")
 	public String admin(Locale locale, Model model) {
 		
-		return "content/admin";
+		return "admin";
 	}
 	
 }
