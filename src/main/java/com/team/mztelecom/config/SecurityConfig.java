@@ -21,7 +21,7 @@ public class SecurityConfig {
 		 	// 특정한 경로 허용, 거부 설정 (작성은 람다식)
 			.authorizeHttpRequests((auth) -> auth 
 					// permitAll() -> 를 사용하면 권한이 없는 모든 사람들이 들어갈 수 있음.
-					.requestMatchers("/", "/**.do", "/js/**", "/css/**","/images/**", "/login").permitAll()
+					.requestMatchers("/", "/**.do" , "/js/**", "/css/**","/images/**", "/login").permitAll()
 					
 					// ADMIN이라는 권한을 가진 사람만 접속 가능
 					.requestMatchers("/admin").hasRole("ADMIN")
