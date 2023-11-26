@@ -1,18 +1,28 @@
 package com.team.mztelecom.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.team.mztelecom.domain.IntmBas;
+import com.team.mztelecom.service.ProductService;
 
 @Controller
 public class HomeController {
 
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	ProductService productService;
+	
+
 	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
@@ -46,6 +56,12 @@ public class HomeController {
 	
 	@GetMapping(value = "/product.do")
 	public String product(Locale locale, Model model) {
+		
+		logger.debug("상품 시작");
+		
+		List<IntmBas> productList = productService.getAllProducts();
+        model.addAttribute("productList", productList);
+		
 		return "content/product";
 	}
 	

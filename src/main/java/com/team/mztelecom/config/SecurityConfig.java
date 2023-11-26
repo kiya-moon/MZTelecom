@@ -26,14 +26,15 @@ public class SecurityConfig {
 		http
 		 	// 특정한 경로 허용, 거부 설정 (작성은 람다식)
 			.authorizeHttpRequests((auth) -> auth 
-					// permitAll() -> 를 사용하면 권한이 없는 모든 사람들이 들어갈 수 있음.
-					.requestMatchers("/", "/**.do" , "/js/**", "/css/**","/images/**", "/login").permitAll()
-					
 					// ADMIN이라는 권한을 가진 사람만 접속 가능
 					.requestMatchers("/admin").hasRole("ADMIN")
 					
 					// ADMIN, USER 권한을 가진 사람만 접속 가능
 					.requestMatchers("/myPage/**", "/purRevBoard/purRevWrite").hasAnyRole("ADMIN","USER")
+
+					// permitAll() -> 를 사용하면 권한이 없는 모든 사람들이 들어갈 수 있음.
+					.requestMatchers("/**" , "/js/**", "/css/**","/images/**", "/login").permitAll()
+					
 					.anyRequest().authenticated()
 		    )
 			// 권한이 없는 사람이 접속하려고하면 로그인 페이지로 자동연결 되는데
@@ -56,7 +57,7 @@ public class SecurityConfig {
 		   UserDetailsService userDetailsService) throws Exception {
 		return http.getSharedObject(AuthenticationManagerBuilder.class)
        
-       		//사용자 정보를 가져올 서비스 설정: 반드시 custService를 상속받은 클래스여야 함
+				//사용자 정보를 가져올 서비스 설정: 반드시 custService를 상속받은 클래스여야 함
 				.userDetailsService(custService)
                
                //비밀번호 암호화를 위한 인코더 설정

@@ -5,9 +5,9 @@ import java.util.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.team.mztelecom.domain.Product;
+import com.team.mztelecom.domain.IntmBas;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByIntmNmContaining(String keyword);
+public interface ProductRepository extends JpaRepository<IntmBas, Long> {
+    List<IntmBas> findByIntmNmContaining(String IntmNm);
 }

@@ -47,9 +47,10 @@ public class IntmBas {
     private String intmBuyerId;		// 기기구매자아이디
     
     @Builder
-	public IntmBas(String repIntmModelId, String intmModelColor, String intmSeq,
+	public IntmBas(Long id, String repIntmModelId, String intmModelColor, String intmSeq,
 			String intmIdfyNo, String intmNm, String intmKorNm, String intmGB,
 			String intmPrice, String intmSalesStatus, String intmBuyerId) {
+    	this.id = id;
 		this.repIntmModelId = repIntmModelId;
 		this.intmModelColor = intmModelColor;
 		this.intmSeq = intmSeq;

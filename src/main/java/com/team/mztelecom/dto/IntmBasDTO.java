@@ -11,9 +11,9 @@ public class IntmBasDTO {
 	String intmSeq;				// 기기일련번호
 	String intmIdfyNo;			// 기기식별번호
 	String intmNm;				// 단말기 이름
-	String intmKorNm;		// 단말기 한글 이름
-	String intmGB;			// 기기 용량
-	String intmPrice;		// 기기 값
+	String intmKorNm;			// 단말기 한글 이름
+	String intmGB;				// 기기 용량
+	String intmPrice;			// 기기 값
 	String intmSalesStatus;		// 기기판매여부
 	String intmBuyerId;			// 기기구매자아이디
 }
