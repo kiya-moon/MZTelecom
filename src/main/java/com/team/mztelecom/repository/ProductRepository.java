@@ -10,4 +10,5 @@ import com.team.mztelecom.domain.IntmBas;
 @Repository
 public interface ProductRepository extends JpaRepository<IntmBas, Long> {
     List<IntmBas> findByIntmNmContaining(String IntmNm);
+
 }

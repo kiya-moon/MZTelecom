@@ -20,6 +20,7 @@ import com.team.mztelecom.dto.CustBasBringDTO;
 import com.team.mztelecom.dto.CustBasSaveDTO;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.util.StringUtil;
+import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +34,8 @@ public class CustService implements UserDetailsService {
 	CustRepository custRepository;
 	
 	@Autowired
+	CustChgPwService custChgPwService;
+	
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	/**
@@ -134,7 +137,18 @@ public class CustService implements UserDetailsService {
         	// entity -> DTO
         	CustBasBringDTO custBasBringDTO = new CustBasBringDTO(listRes.get(0));
         	
-        	mapReq.put("cust_email", custBasBringDTO.getCustEmail());
+        	mapReq.put("cust_email", custBasBringDTO.getCustEmail());	// 이메일 전송 및 화면에서 사용하기 위해
+        	mapReq.put("custId", custBasBringDTO.getCustId());
+        }
+        
+        
+        // 이메일 전송
+        if(!Utiles.isNullOrEmpty(listEmpYn) && listEmpYn == "N") {
+        	
+        	logger.debug("이메일 발송 시작");
+        	
+        	custChgPwService.createMailAndChangePassword(mapReq);
+        	
         }
         
         mapReq.put("listEmpYn", listEmpYn);
