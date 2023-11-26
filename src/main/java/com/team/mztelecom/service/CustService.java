@@ -8,17 +8,25 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.CustBas;
+import com.team.mztelecom.domain.PrincipalDetails;
 import com.team.mztelecom.dto.CustBasBringDTO;
 import com.team.mztelecom.dto.CustBasSaveDTO;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
-public class CustService {
+public class CustService implements UserDetailsService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustService.class);
 	
@@ -27,6 +35,8 @@ public class CustService {
 	
 	@Autowired
 	CustChgPwService custChgPwService;
+	
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	/**
 	 * 아이디 찾기 service - 김시우
@@ -145,5 +155,31 @@ public class CustService {
 		
         return mapReq;
 	}
+	
+	/**
+	 * 시큐리티 service - 문기연
+	 */
+	@Override
+	public UserDetails loadUserByUsername(String custId) throws UsernameNotFoundException {
+		CustBas custBas = custRepository.findById(custId)
+        
+				.orElseThrow(()-> {  //원하는 객체(id)를 얻지 못하면 예외 처리
+					return new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."); //예외처리 메시지
+				});
+                
+		return new PrincipalDetails(custBas);
+	}
+	
+	/**
+	 * 회원정보 저장 service - 문기연
+	 */
+	public Long save(CustBasSaveDTO saveDto) {
+		
+		return custRepository.save(CustBas.builder()
+				.custId(saveDto.getCustId())
+				.custPassword(bCryptPasswordEncoder.encode(saveDto.getCustPassword()))
+				.build()).getId();
+	}
+
 
 }

@@ -6,12 +6,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.team.mztelecom.dto.CustBasSaveDTO;
 import com.team.mztelecom.service.CustService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class CustController {
@@ -144,4 +149,34 @@ public class CustController {
     	
     	return findPwRes;
     }
+    
+    /**
+     * 회원가입 Controller - 문기연
+     */
+    @PostMapping("/signup/post")
+	public String signup(@Valid CustBasSaveDTO request, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			return "signup";
+		}
+		
+		if (!request.getCustPassword().equals(request.getCustPasswordCheck())) {
+			bindingResult.rejectValue
+            ("passwordCheck", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
+			return "signup";
+		}
+		try {
+			custService.save(request);
+		}catch (DataIntegrityViolationException e) {
+			e.printStackTrace();
+			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+			return "signup";
+		} catch(Exception e) {
+			e.printStackTrace();
+			bindingResult.reject("signupFailed", e.getMessage());
+			return "signup";
+		}
+		
+		return "redirect:/login";
+	}
 }
