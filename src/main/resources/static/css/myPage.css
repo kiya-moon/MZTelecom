@@ -137,7 +137,7 @@
 	color: #fff;
 }
 
-.myPage-container  th, td {
+.myPage-container  th, .myPage-container td {
 	border: 1px solid black;
 	padding: 8px;
 	text-align: center;

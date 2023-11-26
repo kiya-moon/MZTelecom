@@ -99,7 +99,7 @@ public class HomeController {
 		return "content/purRevWrite";
 	}
 	
-	@GetMapping(value = "/purRevBoard/purRevView")
+	@GetMapping(value = "/purRevView.do")
 	public String purRevView(Locale locale, Model model) {
 		
 		logger.debug("구매후기 열람 진입");

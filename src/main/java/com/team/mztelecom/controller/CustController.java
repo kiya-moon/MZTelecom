@@ -29,7 +29,7 @@ public class CustController {
 	/*
 	 * 아이디 찾기 controller - 김시우
 	 */
-    @PostMapping(value = "/findId")
+    @PostMapping(value = "/findId.do")
     @ResponseBody
     public Map<String, String> findId(@RequestParam("custNm") String custNm
 									,@RequestParam("id-year") String year
@@ -89,7 +89,7 @@ public class CustController {
     /**
      * 비밀번호 찾기 controller - 김시우
      */
-    @PostMapping(value = "/findPw")
+    @PostMapping(value = "/findPw.do")
     @ResponseBody
     public Map<String, String> findPw(@RequestParam("custId") String custId
 									,@RequestParam("pw-year") String year

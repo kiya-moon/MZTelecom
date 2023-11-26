@@ -225,7 +225,7 @@ function findIdModalOpn() {
 	var formData = new FormData(document.getElementById('find-id-form'));
     
     // 서버로 데이터를 전송
-    httpRequest.open('POST', 'findId');
+    httpRequest.open('POST', 'findId.do');
     httpRequest.send(formData);
 }
 
@@ -276,7 +276,7 @@ function findPwModalOpn(){
 	var formData = new FormData(document.getElementById('find-pw-form'));
     
     // 서버로 데이터를 전송
-    httpRequest.open('POST', 'findPw');
+    httpRequest.open('POST', 'findPw.do');
     httpRequest.send(formData);
 }
 
