@@ -1,18 +1,24 @@
 package com.team.mztelecom.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.team.mztelecom.service.CustService;
 
 @Configuration
 @EnableWebSecurity // 시큐리티 관리 설정
 public class SecurityConfig {
+	
+	@Autowired
+	CustService custService;
 	
 	@Bean // 빈으로 등록해주면 자동으로 필터에 시큐리티 설정을 커스텀으로 진행 할 수 있음
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -44,10 +50,20 @@ public class SecurityConfig {
 
 	}
 	
-	// 패스워드 암호화 시켜주는 거
 	@Bean
-	BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	AuthenticationManager authenticationManager
+   (HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder,
+		   UserDetailsService userDetailsService) throws Exception {
+		return http.getSharedObject(AuthenticationManagerBuilder.class)
+       
+       		//사용자 정보를 가져올 서비스 설정: 반드시 custService를 상속받은 클래스여야 함
+				.userDetailsService(custService)
+               
+               //비밀번호 암호화를 위한 인코더 설정
+				.passwordEncoder(bCryptPasswordEncoder)
+               
+				.and()
+				.build();
 	}
 	
 }

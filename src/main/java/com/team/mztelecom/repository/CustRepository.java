@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.team.mztelecom.domain.CustBas;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +34,13 @@ public interface CustRepository extends JpaRepository<CustBas, Long>  {
 	@Query(value = "select * from cust_bas where cust_id = :custId and cust_birth = :custBirth and cust_email = :custEmail", nativeQuery = true)
 	List<CustBas> findByPw(@Param("custId")String custId, @Param("custBirth")String custBirth, @Param("custEmail")String custEmail);
 	
+	/**
+	 * custId로 사용자 정보 조회 repository - 문기연
+	 * @param custId
+	 * @return
+	 */
+	@Query(value = "select * from cust_bas where cust_id = :custId", nativeQuery = true)
+	Optional<CustBas> findById(String custId);
+	// 아이디 존재여부 확인. @Query를 줘야 하나??
+	boolean existsById(String custId);
 }
