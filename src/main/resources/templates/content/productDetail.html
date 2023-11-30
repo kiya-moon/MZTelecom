@@ -7,21 +7,21 @@
 		<article>
 			<div class="productDetail-container">
 				<div class="image-content">
-				    <img th:src="@{/images/${item.image}" th:alt="${item.name}">
+				    <img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
 				</div>
 
 	            <div class="info-content">
-	                <h2 th:text="${item.name}"></h2>
+	                <h2 th:text="${product.IntmKorNm}"></h2>
 
 					<p>저장공간</p>
 					<div class="info-capacities">
-					    <p th:each="capacity : ${item.capacities}" th:text="${capacity}"></p>
+					    <p th:each="capacity : ${product.IntmGB}" th:text="${product.IntmGB}"></p>
 					</div>
 					
 					<p>사진은 약 51,200장, 영화는 약 320편 이상을 저장할 수 있어요.</p>
 					
 					<div class="info-plan">
-					    <h2 th:text="'월 ' + ${item.finalPrice} + '원'"></h2>
+					    <h2 th:text="'월 ' + ${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')} + '원'"></h2>
 					    <p>휴대폰 1,399,200원</p>
 					    <p>통신료 할인가 65,000원</p>
 					    <p>정상가 1,399,200원</p>

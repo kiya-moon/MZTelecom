@@ -21,9 +21,9 @@
 				<div class="product-item-list">
 					<ul>
 					    <li th:each="product : ${productList}" class="product-item">
-					        <a th:href="@{/productDetail?productId=${product.id}}">
+					        <a th:href="@{'/productDetail/' + ${product.id}}">
 					            <div class="thumb">
-					                <!--<img th:src="@{/images/${product.image}" th:alt="${product.name}">-->
+					                <img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
 					            </div>
 					            <div class="cont">
 					                <div class="title">
@@ -34,11 +34,11 @@
 					                </div>
 					                <div class="cont-info">
 					                    <p class="item-capacity">
-					                        <span th:each="capacity : ${product.IntmGB}" class="capacity-con" th:text="${capacity}"></span>
+					                        <span th:each="capacity : ${product.IntmGB}" class="capacity-con" th:text="${product.IntmGB}"></span>
 					                    </p>
 					                    <p class="dsc-item">
 					                        <span class="dsc-title">휴대폰</span>
-					                        <span class="dsc-cont" th:text="${product.IntmPrice} + '원'"></span>
+					                        <span class="dsc-cont" th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
 					                    </p>
 					                    <!--<p class="dsc-item">
 					                        <span class="dsc-title">요금</span>
@@ -46,7 +46,7 @@
 					                    </p>-->
 					                </div>
 					                <div class="final-price">
-					                    <span class="price-cont"><em class="num" th:text="${product.IntmPrice}"></em><em class="unit"> 원/월</em></span>
+					                    <span class="price-cont"><em class="num" th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')}"></em><em class="unit"> 원/월</em></span>
 					                </div>
 					            </div>
 					        </a>

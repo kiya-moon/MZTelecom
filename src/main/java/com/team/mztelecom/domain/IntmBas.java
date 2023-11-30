@@ -1,10 +1,15 @@
 package com.team.mztelecom.domain;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -46,10 +51,14 @@ public class IntmBas {
 
     private String intmBuyerId;		// 기기구매자아이디
     
+    @OneToMany(mappedBy = "intmBas")
+    private List<IntmImg> intmImgs;
+
     @Builder
 	public IntmBas(Long id, String repIntmModelId, String intmModelColor, String intmSeq,
 			String intmIdfyNo, String intmNm, String intmKorNm, String intmGB,
-			String intmPrice, String intmSalesStatus, String intmBuyerId) {
+			String intmPrice, String intmSalesStatus, String intmBuyerId, List<IntmImg> intmImgs) {
+		
     	this.id = id;
 		this.repIntmModelId = repIntmModelId;
 		this.intmModelColor = intmModelColor;
@@ -61,9 +70,7 @@ public class IntmBas {
 		this.intmPrice = intmPrice;
 		this.intmSalesStatus = intmSalesStatus;
 		this.intmBuyerId = intmBuyerId;
+		this.intmImgs = intmImgs;
 	}
-    
-    
-    
     
 }

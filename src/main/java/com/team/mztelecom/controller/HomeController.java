@@ -2,6 +2,7 @@ package com.team.mztelecom.controller;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.service.ProductService;
@@ -56,23 +58,27 @@ public class HomeController {
 	
 	@GetMapping(value = "/product")
 	public String product(Locale locale, Model model) {
-		
 		logger.debug("상품 시작");
 		
-		List<IntmBas> productList = productService.getAllProducts();
-        model.addAttribute("productList", productList);
+		List<IntmBas> productList = productService.getAllProductsWithImages();
 		
+        model.addAttribute("productList", productList);
+        
 		return "content/product";
 	}
+	
 	
 	@GetMapping(value = "/phoneplan")
 	public String phoneplan(Locale locale, Model model) {
 		return "content/phoneplan";
 	}
 	
-	@GetMapping(value = "/productDetail")
-	public String productDetail(Locale locale, Model model) {
+	@GetMapping(value = "/productDetail/{productId}")
+	public String productDetail(@PathVariable Long productId, Model model) {
 		
+		IntmBas product = productService.getProductById(productId);
+		
+		model.addAttribute("product", product);
 
 	    return "content/productDetail";
 	}
