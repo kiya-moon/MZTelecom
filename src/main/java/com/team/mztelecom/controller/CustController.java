@@ -151,32 +151,32 @@ public class CustController {
     }
     
     /**
-     * 회원가입 Controller - 문기연
-     */
-    @PostMapping("/signup/post")
-	public String signup(@Valid CustBasSaveDTO request, BindingResult bindingResult) {
-		
-		if(bindingResult.hasErrors()) {
-			return "signup";
-		}
-		
-		if (!request.getCustPassword().equals(request.getCustPasswordCheck())) {
-			bindingResult.rejectValue
-            ("passwordCheck", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
-			return "signup";
-		}
-		try {
-			custService.save(request);
-		}catch (DataIntegrityViolationException e) {
-			e.printStackTrace();
-			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-			return "signup";
-		} catch(Exception e) {
-			e.printStackTrace();
-			bindingResult.reject("signupFailed", e.getMessage());
-			return "signup";
-		}
-		
-		return "redirect:/login";
-	}
+//     * 회원가입 Controller - 문기연
+//     */
+//    @PostMapping("/signup/post")
+//	public String signup(@Valid CustBasSaveDTO request, BindingResult bindingResult) {
+//		
+//		if(bindingResult.hasErrors()) {
+//			return "signup";
+//		}
+//		
+//		if (!request.getCustPassword().equals(request.getCustPasswordCheck())) {
+//			bindingResult.rejectValue
+//            ("passwordCheck", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
+//			return "signup";
+//		}
+//		try {
+//			custService.save(request);
+//		}catch (DataIntegrityViolationException e) {
+//			e.printStackTrace();
+//			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+//			return "signup";
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//			bindingResult.reject("signupFailed", e.getMessage());
+//			return "signup";
+//		}
+//		
+//		return "redirect:/login";
+//	}
 }

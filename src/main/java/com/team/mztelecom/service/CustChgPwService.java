@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.repository.CustRepository;
@@ -60,8 +61,14 @@ public class CustChgPwService {
     //임시 비밀번호로 업데이트
     public void updatePassword(String tempPassWord, String custEmail, String custId)
     {
+    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     	
-    	custRepository.updatePw(tempPassWord, custId);
+    	logger.debug("암호화 전 임시비밀번호 :: " + tempPassWord);
+    	// 비밀번호 암호화 하기
+    	String encPw = encoder.encode(tempPassWord);
+    	logger.debug("암호화 후 임시비밀번호 :: " + encPw);
+    	
+    	custRepository.updatePw(encPw, custId);
     }
  
     

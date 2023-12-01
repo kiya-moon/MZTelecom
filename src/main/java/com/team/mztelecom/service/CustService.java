@@ -26,7 +26,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class CustService implements UserDetailsService {
+//public class CustService implements UserDetailsService {	// 아래 시큐리티 service, 회원정보 저장 service 주석 관련
+public class CustService {	
 
 	private static final Logger logger = LoggerFactory.getLogger(CustService.class);
 	
@@ -111,6 +112,7 @@ public class CustService implements UserDetailsService {
                 .custBirth(info.get("cust_birth"))
                 .custEmail(info.get("cust_email"))
                 .build();
+        logger.debug("확인"+StringUtil.toString(custBasSaveDTO));
 
         // DTO -> entity
         CustBas custBasEntity = custBasSaveDTO.toEntity();
@@ -159,27 +161,27 @@ public class CustService implements UserDetailsService {
 	/**
 	 * 시큐리티 service - 문기연
 	 */
-	@Override
-	public UserDetails loadUserByUsername(String custId) throws UsernameNotFoundException {
-		CustBas custBas = custRepository.findById(custId)
-        
-				.orElseThrow(()-> {  //원하는 객체(id)를 얻지 못하면 예외 처리
-					return new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."); //예외처리 메시지
-				});
-                
-		return new PrincipalDetails(custBas);
-	}
+//	@Override
+//	public UserDetails loadUserByUsername(String custId) throws UsernameNotFoundException {
+//		CustBas custBas = custRepository.findById(custId)
+//        
+//				.orElseThrow(()-> {  //원하는 객체(id)를 얻지 못하면 예외 처리
+//					return new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."); //예외처리 메시지
+//				});
+//                
+//		return new PrincipalDetails(custBas);
+//	}
 	
 	/**
 	 * 회원정보 저장 service - 문기연
 	 */
-	public Long save(CustBasSaveDTO saveDto) {
-		
-		return custRepository.save(CustBas.builder()
-				.custId(saveDto.getCustId())
-				.custPassword(bCryptPasswordEncoder.encode(saveDto.getCustPassword()))
-				.build()).getId();
-	}
+//	public Long save(CustBasSaveDTO saveDto) {
+//		
+//		return custRepository.save(CustBas.builder()
+//				.custId(saveDto.getCustId())
+//				.custPassword(bCryptPasswordEncoder.encode(saveDto.getCustPassword()))
+//				.build()).getId();
+//	}
 
 
 }
