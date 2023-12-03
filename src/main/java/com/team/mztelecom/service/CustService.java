@@ -1,9 +1,6 @@
 package com.team.mztelecom.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.CustBas;
+import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.PrincipalDetails;
 import com.team.mztelecom.dto.CustBasBringDTO;
+import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.CustBasSaveDTO;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.util.StringUtil;
@@ -27,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 //public class CustService implements UserDetailsService {	// 아래 시큐리티 service, 회원정보 저장 service 주석 관련
-public class CustService {	
+public class CustService implements UserDetailsService {	
 
 	private static final Logger logger = LoggerFactory.getLogger(CustService.class);
 	
@@ -36,6 +35,7 @@ public class CustService {
 	
 	@Autowired
 	CustChgPwService custChgPwService;
+	
 	
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -182,6 +182,20 @@ public class CustService {
 //				.custPassword(bCryptPasswordEncoder.encode(saveDto.getCustPassword()))
 //				.build()).getId();
 //	}
-
-
+	
+	
+	/* 로그인 - 박지윤 */
+	
+	@Override
+	public UserDetails loadUserByUsername(String custId) throws UsernameNotFoundException {
+		CustBas userData = custRepository.findByCustId(custId);
+		
+		if(userData != null) {
+			return new CustBasDTO(userData);
+		}
+		
+		return null;
+		
+	}
+	
 }

@@ -3,6 +3,7 @@
 <th:block th:fragment="headerFragment">
 	<header class="header">
 		<div class="header-content">
+			
 			<div class="logo">
 				<a th:href="@{/}">
 					<img th:src="@{/images/MZ_logo.png}" alt="Logo">
@@ -23,14 +24,24 @@
 					<i data-feather="shopping-cart"></i>
 				</a>
 				
-				<a th:href="@{/login}">
+				<a sec:authorize="isAnonymous()" th:href="@{/login}">
 					<i data-feather="user"></i>
 				</a>
+				
+				<a sec:authorize="isAuthenticated()" th:href="@{/myPage}">
+				    <i data-feather="user"></i>
+				</a>
+				
+				<a class="logout" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+					<i data-feather="log-out"></i>
+				</a>
+				
 				<div class="hamburger-menu">
 					<a th:attr="href=${null}" onclick="toggleMenu()">
 						<i data-feather="menu"></i>
 					</a>
 				</div>
+				
 			</div>
 			
 
@@ -41,8 +52,16 @@
 						<a th:href="@{/cart}">
 							<i data-feather="shopping-cart"></i>
 						</a>
-						<a th:href="@{/login}">
+						<a sec:authorize="isAnonymous()" th:href="@{/login}">
 							<i data-feather="user"></i>
+						</a>
+						
+						<a sec:authorize="isAuthenticated()" th:href="@{/myPage}">
+						    <i data-feather="user"></i>
+						</a>
+						
+						<a class="logout" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+							<i data-feather="log-out"></i>
 						</a>
 					</div>
 					<div class="mobile-menu-close" onclick="closeMenu()">

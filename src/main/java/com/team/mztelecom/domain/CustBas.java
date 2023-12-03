@@ -2,8 +2,6 @@ package com.team.mztelecom.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,18 +48,18 @@ public class CustBas {
 	
 	private String intmPurStusYn;		// 기기구매여부
 	
+	
 	private String role;				// 권한
 	
-	@Enumerated(EnumType.STRING)
-	private Authority authority;
-	
-	// 로그인용 권한
-	@Builder
-    public CustBas(String custId, String custPassword, Authority authority) {
-        this.custId = custId;
-        this.custPassword = custPassword;
-        this.authority = authority;
-    }
+	/*
+	 * @Enumerated(EnumType.STRING) private Authority authority;
+	 * 
+	 * // 로그인용 권한
+	 * 
+	 * @Builder public CustBas(String custId, String custPassword, Authority
+	 * authority) { this.custId = custId; this.custPassword = custPassword;
+	 * this.authority = authority; }
+	 */
 	
 	// DTO <-> Entity
 	@Builder
@@ -78,4 +76,5 @@ public class CustBas {
 		this.custSex = custSex;
 		this.intmPurStusYn = intmPurStusYn;
 	}
+
 }

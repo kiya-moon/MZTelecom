@@ -259,7 +259,7 @@ article{
 	}
 	
 	
-	.icons > a:nth-child(1), .icons > a:nth-child(2) {
+	.icons > a:nth-child(1), .icons > a:nth-child(2), .header-content .icons .logout {
 		display: none;
 	}
 	

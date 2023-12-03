@@ -1,18 +1,22 @@
 package com.team.mztelecom.controller;
 
-import java.util.List;
+import java.util.*;
 import java.util.Locale;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.team.mztelecom.domain.IntmBas;
+import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.ProductService;
 
 @Controller
@@ -24,12 +28,27 @@ public class HomeController {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired
+	CustService custServicev;
 
 	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		logger.debug("메인페이지 진입");
+		
+		String id = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+		GrantedAuthority auth = iter.next();
+		String role = auth.getAuthority();
+		
+		
+		model.addAttribute("id", id);
+		model.addAttribute("role", role);
 		
 		return "content/home";
 	}
