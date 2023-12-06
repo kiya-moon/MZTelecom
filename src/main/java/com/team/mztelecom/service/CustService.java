@@ -29,14 +29,11 @@ public class CustService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustService.class);
 	
-	@Autowired
-	CustRepository custRepository;
+	private final CustRepository custRepository;
 	
-	@Autowired
-	CustChgPwService custChgPwService;
+	private final CustChgPwService custChgPwService;
 	
-	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	/**
 	 * 아이디 찾기 service - 김시우
@@ -163,22 +160,55 @@ public class CustService {
 	public CustBas save(CustBasSaveDTO request) {
 		logger.debug("서비스 도착 확인");
 		logger.debug(request.getCustId());
-		return custRepository.save(CustBas.builder()
-				.custId(request.getCustId())
-				.custPassword(bCryptPasswordEncoder.encode(request.getCustPassword()))
-				.custNm(request.getCustNm())
-				.custIdfyNo(request.getCustIdfyNo())
-				.custBirth(request.getCustBirth())
-				.custEmail(request.getCustEmail())
-				.custNo(request.getCustNo())
-				.custSex(request.getCustSex())
-				.build());
+		
+		CustBas custBas = CustBas.builder()
+                .custId(request.getCustId())
+                .custPassword(bCryptPasswordEncoder.encode(request.getCustPassword()))
+                .custNm(request.getCustNm())
+                .custIdfyNo(request.getCustIdfyNo())
+                .custBirth(request.getCustBirth())
+                .custEmail(request.getCustEmail())
+                .custNo(request.getCustNo())
+                .custSex(request.getCustSex())
+                .build();
+
+        return custRepository.save(custBas);
 	}
+	
+	// id 중복확인
+	public boolean isIdDuplicate(String custId) {
+        Optional<CustBas> existingCustomer = custRepository.findByCustId(custId);
+        return existingCustomer.isPresent();
+    }
 	
 	
 	/* 로그인 - 박지윤 */
-	public Optional<CustBas> findByCustId(String custId) {
-        return custRepository.findByCustId(custId);
-    }
 	
+
+	public CustBas whenSocialLogin(String providerTypeCode, String custId, String custNm, String custEmail) {
+		Optional<CustBas> opCustBas = findByCustId(custId);
+		
+		if (opCustBas.isPresent()) {
+			return opCustBas.get();
+			
+		} else {
+			// 소셜 로그인를 통한 가입시 비번 X
+			CustBasSaveDTO request = new CustBasSaveDTO();
+			request.setCustId(custId);
+	        request.setCustPassword("");
+	        request.setCustNm(custNm);
+	        request.setCustEmail(custEmail);
+	        request.setCustNo("Unknown");
+	        
+	        String uniqueIdfyNo = UUID.randomUUID().toString();
+	        request.setCustIdfyNo(uniqueIdfyNo);
+	        
+	        return save(request);
+		}
+		
+	}
+	
+	public Optional<CustBas> findByCustId(String custId) {
+		return custRepository.findByCustId(custId);
+	}
 }
