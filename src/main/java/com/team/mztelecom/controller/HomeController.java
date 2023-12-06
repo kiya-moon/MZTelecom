@@ -45,19 +45,6 @@ public class HomeController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		logger.debug("메인페이지 진입");
 		
-		String id = SecurityContextHolder.getContext().getAuthentication().getName();
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-		GrantedAuthority auth = iter.next();
-		String role = auth.getAuthority();
-		
-		
-		model.addAttribute("id", id);
-		model.addAttribute("role", role);
-		
 		return "content/home";
 	}
 	

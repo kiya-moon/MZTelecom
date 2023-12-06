@@ -1,8 +1,8 @@
-const id = document.querySelector('#cust-id');
-const name = document.querySelector('#cust-nm');
-const email = document.querySelector('#cust-email');
-const password = document.querySelector('#cust-password');
-const passwordCheck = document.querySelector('password-check');
+const cust_id = document.querySelector('#cust-id');
+const cust_name = document.querySelector('#cust-nm');
+const cust_email = document.querySelector('#cust-email');
+const cust_password = document.querySelector('#cust-password');
+const cust_passwordCheck = document.querySelector('#password-check');
 
 const sign_email = document.querySelector('#sign_email');
 const sign_name = document.querySelector('#sign_name');
@@ -18,3 +18,55 @@ const error = document.querySelectorAll('.error_next_box');
 // 비밀번호 8 ~ 20자리 사이
 // 주민등록번호 숫자만 입력되게 만들기
 // 핸드폰번호 숫자만 입력되게 만들기
+
+
+// id 중복확인
+var isDuplicateChecked = false; // 중복 확인 여부 저장하는 변수
+
+document.addEventListener('DOMContentLoaded', function() {
+	var signupForm = document.getElementById('signup-form');
+	var signupBtn = signupForm.querySelector('[type="submit"]');
+	var duplicateCheckBtn = document.querySelector('.signup-button');
+
+	duplicateCheckBtn.addEventListener('click', function() {
+		// 중복 확인 버튼 클릭 시 중복 확인 실행
+		checkDuplicate();
+	});
+
+	signupForm.addEventListener('submit', function(event) {
+		if (!isDuplicateChecked) {
+			// 중복 확인을 거치지 않고 제출 시 알림
+			event.preventDefault();
+			alert('중복 확인을 해주세요.');
+		}
+	});
+
+	function checkDuplicate() {
+		var custId = document.getElementById('cust-id').value;
+
+		fetch('/checkDuplicate?custId=' + custId)
+			.then(function(response) {
+				return response.text();
+			})
+			.then(function(data) {
+				var statusElement = document.getElementById('id-status');
+				statusElement.innerText = data;
+
+				if (data.includes('사용 가능한')) {
+					alert(data);
+					statusElement.style.color = '#33A188';
+					isDuplicateChecked = true; // 중복 확인됨
+					signupBtn.disabled = false; // 가입 버튼 활성화
+				} else {
+					alert(data);
+					statusElement.style.color = 'red';
+					isDuplicateChecked = false; // 중복 확인되지 않음
+					signupBtn.disabled = true; // 가입 버튼 비활성화
+				}
+			})
+			.catch(function(error) {
+				console.log('에러 발생: ' + error);
+			});
+	}
+});
+

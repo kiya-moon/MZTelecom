@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,8 +23,11 @@ import jakarta.validation.Valid;
 @Controller
 public class CustController {
 	
-	@Autowired
-	CustService custService;
+	private final CustService custService;
+	
+	public CustController(CustService custService) {
+        this.custService = custService;
+    }
 	
 	private static final Logger logger = LoggerFactory.getLogger(CustController.class);
 	
@@ -155,7 +160,6 @@ public class CustController {
      * 회원가입 Controller - 문기연
      */
     @PostMapping(value= "/signup")
-    @ResponseBody
 	public String signup(@RequestParam("custId") String custId
 			, @RequestParam("custNm") String custNm
 			, @RequestParam("custPassword") String custPassword
@@ -187,6 +191,17 @@ public class CustController {
     	
 		custService.save(request);    		
 		
-		return "redirect:/content/login";
+		return "redirect:/login";
 	}
+    
+    // id 중복확인
+    @GetMapping(value = "/checkDuplicate")
+    public ResponseEntity<String> checkDuplicate(@RequestParam("custId") String custId) {
+        boolean isDuplicate = custService.isIdDuplicate(custId);
+        if (isDuplicate) {
+            return ResponseEntity.badRequest().body("사용 중인 아이디 입니다.");
+        } else {
+            return ResponseEntity.ok("사용 가능한 아이디입니다.");
+        }
+    }
 }

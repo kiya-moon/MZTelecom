@@ -196,6 +196,7 @@ article{
 		font-size: 20px;
 		margin-left: 15px;
 		color: #fff;
+		cursor: pointer;
 	}
 	
 	.mobile-user a {
