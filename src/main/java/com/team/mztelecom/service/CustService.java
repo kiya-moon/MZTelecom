@@ -25,8 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-//public class CustService implements UserDetailsService {	// 아래 시큐리티 service, 회원정보 저장 service 주석 관련
-public class CustService implements UserDetailsService {	
+public class CustService {	
 
 	private static final Logger logger = LoggerFactory.getLogger(CustService.class);
 	
@@ -158,44 +157,10 @@ public class CustService implements UserDetailsService {
         return mapReq;
 	}
 	
-	/**
-	 * 시큐리티 service - 문기연
-	 */
-//	@Override
-//	public UserDetails loadUserByUsername(String custId) throws UsernameNotFoundException {
-//		CustBas custBas = custRepository.findById(custId)
-//        
-//				.orElseThrow(()-> {  //원하는 객체(id)를 얻지 못하면 예외 처리
-//					return new UsernameNotFoundException("해당 유저를 찾을 수 없습니다."); //예외처리 메시지
-//				});
-//                
-//		return new PrincipalDetails(custBas);
-//	}
-	
-	/**
-	 * 회원정보 저장 service - 문기연
-	 */
-//	public Long save(CustBasSaveDTO saveDto) {
-//		
-//		return custRepository.save(CustBas.builder()
-//				.custId(saveDto.getCustId())
-//				.custPassword(bCryptPasswordEncoder.encode(saveDto.getCustPassword()))
-//				.build()).getId();
-//	}
-	
 	
 	/* 로그인 - 박지윤 */
-	
-	@Override
-	public UserDetails loadUserByUsername(String custId) throws UsernameNotFoundException {
-		CustBas userData = custRepository.findByCustId(custId);
-		
-		if(userData != null) {
-			return new CustBasDTO(userData);
-		}
-		
-		return null;
-		
-	}
+	public Optional<CustBas> findByCustId(String custId) {
+        return custRepository.findByCustId(custId);
+    }
 	
 }

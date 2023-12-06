@@ -2,12 +2,12 @@ package com.team.mztelecom.controller;
 
 import java.util.*;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,13 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.data.domain.Sort;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.ProductService;
-import com.team.mztelecom.service.PurRevBoardService;
-import com.team.util.Utiles;
 
 @Controller
 public class HomeController {
@@ -35,9 +32,6 @@ public class HomeController {
 	@Autowired
 	CustService custServicev;
 
-	
-	@Autowired
-	PurRevBoardService purRevBoardService;
 	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
@@ -61,6 +55,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/login")
+	@PreAuthorize("isAnonymous()")
 	public String login(Locale locale, Model model) {
 		return "content/login";
 	}
@@ -78,6 +73,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/cart")
+	@PreAuthorize("isAuthenticated()")
 	public String cart(Locale locale, Model model) {
 		return "content/cart";
 	}
@@ -116,6 +112,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/myPage")
+	@PreAuthorize("isAuthenticated()")
 	public String myPage(Locale locale, Model model) {
 		
 		logger.debug("마이페이지");
@@ -131,29 +128,16 @@ public class HomeController {
 		return "content/inquiryDetail";
 	}
 	
-	@GetMapping(value = "/purRevBoard/**")
-	public String purRevBoard(Model model,@PageableDefault(page = 0, size = 5, sort = "id"
-														,direction = Sort.Direction.DESC)Pageable pageable 
-														,String keyWord ,String catgo) {
+	@GetMapping(value = "/purRevBoard")
+	public String purRevBoard(Locale locale, Model model) {
+		
 		logger.debug("구매후기게시판 진입");
-		
-		if(Utiles.isNullOrEmpty(catgo))
-		{
-			logger.debug("기본 조회");
-			model.addAttribute("purRevBoardList", purRevBoardService.PurRevBoardList(pageable));
-		}
-		else
-		{
-			logger.debug("검색 조회");
-			model.addAttribute("purRevBoardList", purRevBoardService.searchingPurRevBoard(keyWord, pageable, catgo));
-		}
-		
-		logger.debug("controller 리턴 전");
 		
 		return "content/purRevBoard";
 	}
 	
-	@GetMapping(value = "/purRevWrite")
+	@GetMapping(value = "/purRevBoard/purRevWrite")
+	@PreAuthorize("isAuthenticated()")
 	public String purRevWrite(Locale locale, Model model) {
 		
 		logger.debug("구매후기 글쓰기 진입");
@@ -171,6 +155,7 @@ public class HomeController {
 	
 	
 	@GetMapping(value = "/admin")
+	@PreAuthorize("hesAuthority('ADMIN')")
 	public String admin(Locale locale, Model model) {
 		
 		return "admin";

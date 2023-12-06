@@ -60,5 +60,5 @@ public interface CustRepository extends JpaRepository<CustBas, Long>  {
 	
 	
 	/* 로그인 - 박지윤 */
-	CustBas findByCustId(String custId);
+	Optional<CustBas> findByCustId(String custId);
 }
