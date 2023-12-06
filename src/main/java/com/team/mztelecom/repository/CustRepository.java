@@ -52,10 +52,6 @@ public interface CustRepository extends JpaRepository<CustBas, Long>  {
 	 * @param custId
 	 * @return
 	 */
-	 @Query(value = "select * from cust_bas where cust_id = :custId", nativeQuery = true) 
-	 Optional<CustBas> findByCustId(@Param("custId") String custId);
-
-	
 	 
 	 // 아이디 존재여부 확인. @Query를 줘야 하나?? 
 //	 boolean existsById(String custId);
@@ -69,5 +65,5 @@ public interface CustRepository extends JpaRepository<CustBas, Long>  {
 	
 	
 	/* 로그인 - 박지윤 */
-//	CustBas findByCustId(String custId);
+	Optional<CustBas> findByCustId(String custId);
 }

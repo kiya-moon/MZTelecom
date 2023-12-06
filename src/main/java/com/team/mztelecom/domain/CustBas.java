@@ -79,7 +79,7 @@ public class CustBas implements UserDetails {
         // 모든 회원은 user 권한을 가짐
         collection.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        // Id가 admin인 회원은 admin 권한도 가짐
+        // Id가 ROLE_ADMIN인 회원은 admin 권한도 가짐
         if (isAdmin()) {
         	collection.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
@@ -88,7 +88,7 @@ public class CustBas implements UserDetails {
     }
 	
 	public boolean isAdmin() {
-        return "ROLE_ADMIN".equals(custId);
+        return "admin".equals(custId);
     }
 
 
