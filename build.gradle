@@ -38,13 +38,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	testImplementation 'org.springframework.security:spring-security-test'
-	
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson'
-	
-	
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.1.2'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	

@@ -167,6 +167,12 @@
 	text-align: center;
 }
 
+.pagination {
+	display :flex;
+	justify-content: center;
+	gap : 10px;
+}
+
 /* 게시판 목록 End*/
 
 /* 구매후기 작성 및 보기 Start */
@@ -357,6 +363,7 @@
 
 .rev-wirte-container .rev-select-items-active {
 	display: block;
+	margin-top: 8px;
 }
 
 .write-btn-div {
