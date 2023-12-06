@@ -2,6 +2,8 @@
 
 var revSelect = document.querySelector(".rev-select");
 var revItems = document.querySelector(".rev-select-items");
+var selectedCategoryInput = document.getElementById("selectedCategory");
+
 
 revSelect.addEventListener("click", function() {
 	revItems.classList.toggle("rev-select-items-active");
@@ -12,5 +14,7 @@ options.forEach(function(option) {
 	option.addEventListener("click", function() {
 		var selectedValue = option.textContent;
 		revSelect.querySelector(".rev-select-selected").textContent = selectedValue;
+	
+		selectedCategoryInput.value = selectedValue;
 	});
 });

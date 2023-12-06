@@ -157,7 +157,7 @@ public class HomeController {
 		return "content/purRevBoard";
 	}
 	
-	@GetMapping(value = "/purRevBoard/purRevWrite")
+	@GetMapping(value = "/purRevWrite")
 	@PreAuthorize("isAuthenticated()")
 	public String purRevWrite(Locale locale, Model model) {
 		

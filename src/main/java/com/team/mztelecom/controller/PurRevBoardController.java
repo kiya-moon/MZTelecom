@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team.mztelecom.service.PurRevBoardService;
 
@@ -48,11 +49,13 @@ public class PurRevBoardController {
 //		return revMap;
 //	}
 	@PostMapping(value = "/purRevWrite")
-	public String write(String category, String title, String contents, String fileName) {
+	public String write(@RequestParam("selectedCategory") String selectedCategory, String title, String contents, String fileName) {
 		
-		logger.debug("category :: " + category);
+		logger.debug("category :: " + selectedCategory);
 		logger.debug("contents :: " + contents);
 		logger.debug("fileName :: " + fileName);
+		
+		System.out.println("선택한 값: " + selectedCategory);
 		
 		
 		logger.debug("보내기 완료");

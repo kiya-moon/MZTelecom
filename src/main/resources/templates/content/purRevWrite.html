@@ -11,7 +11,7 @@
 					<div>
 						<div class="pur-rev-write">
 						</div>
-						<form action="" method="post">
+						<form th:action="@{/purRevWrite}" th:method="post" id="pur-rev-Write-form" enctype="multipart/form-data">
 					        <div class="rev-group">
 							    <label><span class="dot"></span>작성자</label>
 							    <div>
@@ -22,7 +22,7 @@
 							    <label for="category"><span class="dot"></span>상품명</label>
 							    <div class="rev-select-wrapper">
 							        <select id="category" name="category" required>
-							            <option value="">카테고리 선택</option>
+							            <option value="placeholder" disabled selected>카테고리 선택</option>
 							            <option value="option1">갤럭시 플립5</option>
 							            <option value="option2">갤럭시 폴드5</option>
 							            <option value="option3">아이폰15</option>
@@ -35,6 +35,9 @@
 							        </div>
 							   </div>
 							</div>
+							
+							<input type="hidden" id="selectedCategory" name="selectedCategory">
+					        
 					        <div class="rev-group">
 					            <label><span class="dot"></span>제목</label>
 					            <div class="rev-title-content">
@@ -45,12 +48,12 @@
 					            <label><span class="dot"></span>구매후기내용</label>
 					            <textarea maxlength="2000" placeholder="  구매 후기를 작성해 주세요."></textarea>
 					        </div>
-					        <div class="rev-group file-div">
+					        <!--<div class="rev-group file-div">
 					            <label><span class="dot"></span>첨부파일</label>
 					            <div class="rev-file-content">
 									<input type="file" name="fileName">
 								</div>
-					        </div>
+					        </div>-->
 					        <div class="write-btn-div">
 					        	<button type="submit" class="btn-submit">확인</button>
 					        	<button type="submit" class="btn-submit">취소</button>
