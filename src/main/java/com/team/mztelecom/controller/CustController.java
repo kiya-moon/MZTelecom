@@ -149,34 +149,44 @@ public class CustController {
     	
     	return findPwRes;
     }
+
     
     /**
-//     * 회원가입 Controller - 문기연
-//     */
-//    @PostMapping("/signup/post")
-//	public String signup(@Valid CustBasSaveDTO request, BindingResult bindingResult) {
-//		
-//		if(bindingResult.hasErrors()) {
-//			return "signup";
-//		}
-//		
-//		if (!request.getCustPassword().equals(request.getCustPasswordCheck())) {
-//			bindingResult.rejectValue
-//            ("passwordCheck", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
-//			return "signup";
-//		}
-//		try {
-//			custService.save(request);
-//		}catch (DataIntegrityViolationException e) {
-//			e.printStackTrace();
-//			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-//			return "signup";
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//			bindingResult.reject("signupFailed", e.getMessage());
-//			return "signup";
-//		}
-//		
-//		return "redirect:/login";
-//	}
+     * 회원가입 Controller - 문기연
+     */
+    @PostMapping(value= "/signup")
+    @ResponseBody
+	public String signup(@RequestParam("custId") String custId
+			, @RequestParam("custNm") String custNm
+			, @RequestParam("custPassword") String custPassword
+			, @RequestParam("custPasswordCheck") String custPasswordCheck
+			, @RequestParam("custIdfyNo") String custIdfyNo
+			, @RequestParam("custNo") String custNo
+			, @RequestParam("custEmail") String cusstEmail) {
+		
+    	logger.debug("컨트롤러 도착 확인");
+    	logger.debug(custIdfyNo);
+    	
+    	CustBasSaveDTO request = new CustBasSaveDTO();
+    	request.setCustId(custId);
+    	request.setCustNm(custNm);
+    	request.setCustPassword(custPassword);
+    	request.setCustPasswordCheck(custPasswordCheck);
+    	request.setCustIdfyNo(custIdfyNo);
+    	request.setCustBirth(custIdfyNo.substring(0,6));
+    	request.setCustNo(custNo);
+    	
+    	String sex = custIdfyNo.substring(7, 8);
+    	if (sex.equals("1") || sex.equals("3")) {
+    	    request.setCustSex("남성");
+    	} else if (sex.equals("2") || sex.equals("4")) {
+    		request.setCustSex("여성");
+    	}
+    	
+    	request.setCustEmail(cusstEmail);
+    	
+		custService.save(request);    		
+		
+		return "redirect:/content/login";
+	}
 }

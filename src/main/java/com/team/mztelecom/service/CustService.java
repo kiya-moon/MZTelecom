@@ -35,7 +35,7 @@ public class CustService {
 	@Autowired
 	CustChgPwService custChgPwService;
 	
-	
+	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	/**
@@ -155,6 +155,24 @@ public class CustService {
         mapReq.put("listEmpYn", listEmpYn);
 		
         return mapReq;
+	}
+	
+	/**
+	 * 회원정보 저장 service - 문기연
+	 */
+	public CustBas save(CustBasSaveDTO request) {
+		logger.debug("서비스 도착 확인");
+		logger.debug(request.getCustId());
+		return custRepository.save(CustBas.builder()
+				.custId(request.getCustId())
+				.custPassword(bCryptPasswordEncoder.encode(request.getCustPassword()))
+				.custNm(request.getCustNm())
+				.custIdfyNo(request.getCustIdfyNo())
+				.custBirth(request.getCustBirth())
+				.custEmail(request.getCustEmail())
+				.custNo(request.getCustNo())
+				.custSex(request.getCustSex())
+				.build());
 	}
 	
 	
