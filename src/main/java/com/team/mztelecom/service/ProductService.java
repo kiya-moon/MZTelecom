@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.IntmBas;
-import com.team.mztelecom.domain.IntmImg;
 import com.team.mztelecom.repository.ProductRepository;
-import com.team.mztelecom.repository.ImgRepository;
 
 @Service
 public class ProductService {

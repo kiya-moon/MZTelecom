@@ -1,5 +1,11 @@
 package com.team.mztelecom.domain;
 
+import java.util.*;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,14 +13,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class CustBas {
+public class CustBas implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,19 +56,6 @@ public class CustBas {
 	
 	private String intmPurStusYn;		// 기기구매여부
 	
-	
-	private String role;				// 권한
-	
-	/*
-	 * @Enumerated(EnumType.STRING) private Authority authority;
-	 * 
-	 * // 로그인용 권한
-	 * 
-	 * @Builder public CustBas(String custId, String custPassword, Authority
-	 * authority) { this.custId = custId; this.custPassword = custPassword;
-	 * this.authority = authority; }
-	 */
-	
 	// DTO <-> Entity
 	@Builder
 	public CustBas(String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, String custBirth, String custAddress, String custSex, String intmPurStusYn) {
@@ -75,6 +70,60 @@ public class CustBas {
 		this.custAddress = custAddress;
 		this.custSex = custSex;
 		this.intmPurStusYn = intmPurStusYn;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Collection<GrantedAuthority> collection = new ArrayList<>();
+
+        // 모든 회원은 user 권한을 가짐
+        collection.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        // Id가 admin인 회원은 admin 권한도 가짐
+        if (isAdmin()) {
+        	collection.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+
+        return collection;
+    }
+	
+	public boolean isAdmin() {
+        return "ROLE_ADMIN".equals(custId);
+    }
+
+
+	@Override
+	public String getPassword() {
+		return getCustPassword();
+	}
+
+	@Override
+	public String getUsername() {
+		return getCustId();
+	}
+
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 }

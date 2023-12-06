@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,6 +55,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/login")
+	@PreAuthorize("isAnonymous()")
 	public String login(Locale locale, Model model) {
 		return "content/login";
 	}
@@ -71,6 +73,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/cart")
+	@PreAuthorize("isAuthenticated()")
 	public String cart(Locale locale, Model model) {
 		return "content/cart";
 	}
@@ -109,6 +112,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/myPage")
+	@PreAuthorize("isAuthenticated()")
 	public String myPage(Locale locale, Model model) {
 		
 		logger.debug("마이페이지");
@@ -133,6 +137,7 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/purRevBoard/purRevWrite")
+	@PreAuthorize("isAuthenticated()")
 	public String purRevWrite(Locale locale, Model model) {
 		
 		logger.debug("구매후기 글쓰기 진입");
@@ -150,6 +155,7 @@ public class HomeController {
 	
 	
 	@GetMapping(value = "/admin")
+	@PreAuthorize("hesAuthority('ADMIN')")
 	public String admin(Locale locale, Model model) {
 		
 		return "admin";
