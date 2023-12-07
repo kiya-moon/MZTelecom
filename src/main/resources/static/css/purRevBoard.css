@@ -173,6 +173,10 @@
 	gap : 10px;
 }
 
+.page-item.active a {
+    color: #000 !important; /* 텍스트 색상을 검정색으로 설정 */
+    font-weight: bold; /* 텍스트 굵기 설정 */
+}
 /* 게시판 목록 End*/
 
 /* 구매후기 작성 및 보기 Start */

@@ -16,14 +16,14 @@
 						<div id="board-search">
 							<div>
 								<div class="rev-search">
-									<form th:action="@{/purRevBoard/**}" method="get">
+									<form method="get">
 										<div class="search-wrap">
 											<label for="search" class="rev-blind">구매후기 검색</label> 
 											<select id="catgo" name="catgo">
-												<option value="title">글제목</option>
-												<option value="name">작성자</option>
+											    <option value="title" th:selected="${selectedCatgo == 'title'}">글제목</option>
+											    <option value="name" th:selected="${selectedCatgo == 'name'}">작성자</option>
 											</select>
-											<input type=text size=45 placeholder="검색어를 입력해주세요." name="keyWord">
+											<input type="text" size="45" placeholder="검색어를 입력해주세요." id="keyWord" name="keyWord" th:value="${keyWord}" />
 											<button type="submit" class="rev-search-btn">검색</button>
 										</div>
 									</form>
@@ -58,35 +58,30 @@
 						    <div th:if="${!purRevBoardList.isEmpty()}" class="mov-page">
 						        <ul class="pagination"
 						            th:with="
-						                pageNumber = ${purRevBoardList.pageable.pageNumber},
-						                pageSize = ${purRevBoardList.pageable.pageSize},
-						                totalPages = ${purRevBoardList.totalPages},
-						                startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
-						                tempEndPage = ${startPage + pageSize - 1},
-						                endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})">
+									    pageNumber = ${purRevBoardList.pageable.pageNumber},
+									    pageSize = ${purRevBoardList.pageable.pageSize},
+									    totalPages = ${purRevBoardList.totalPages},
+									    startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},
+									    tempEndPage = ${startPage + pageSize - 1},
+									    endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})
+									">
 									<!-- 이전 버튼 -->
-						            <li th:classappend="${purRevBoardList.first} ? 'disabled'" class="page-item">
-						                <a class="page-link" th:if="${param.keyword == null}" th:href="${purRevBoardList.first} ? '#' : @{/purRevBoard/(page=${pageNumber - 1})}" aria-label="Previous">
-						                    <span aria-hidden="true">&lt;</span>
-						                </a>
-						                <a class="page-link" th:if="${param.keyword != null}" th:href="${purRevBoardList.first} ? '#' : @{/purRevBoard/(page=${pageNumber - 1}, keyword=${param.keyword})}" aria-label="Previous">
-						                    <span aria-hidden="true">&lt;</span>
-						                </a>
-						            </li>
+									<li th:classappend="${purRevBoardList.first} ? 'disabled'" class="page-item">
+									    <a class="page-link" th:if="${param.keyword == null and pageNumber - 1 >= 0}" th:onclick="'updatePage('+ ${pageNumber - 1} +')'" aria-label="Previous" href="#">&lt;</a>
+									    <a class="page-link" th:if="${param.keyword != null and pageNumber - 1 >= 0}" th:onclick="'updatePage('+ ${pageNumber - 1} +')'" aria-label="Previous" href="#">&lt;</a>
+									</li>
+									
 									<!-- 페이지 숫자 -->
-						            <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-						                <a th:text="${page}" th:if="${param.keyword == null}" class="page-link" th:href="@{/purRevBoard/(page=${page - 1})}"></a>
-						                <a th:text="${page}" th:if="${param.keyword != null}" class="page-link" th:href="@{/purRevBoard/(page=${page - 1}, keyword=${param.keyword})}"></a>
-						            </li>
+									<li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+									    <a th:text="${page}" th:if="${param.keyword == null}" class="page-link" th:onclick="'updatePage(' + ${page - 1} + ')'" href="#"></a>
+									    <a th:text="${page}" th:if="${param.keyword != null}" class="page-link" th:onclick="'updatePage(' + ${page - 1} + ')'" href="#"></a>
+									</li>
+									
 									<!-- 다음 버튼 -->
-						            <li th:classappend="${purRevBoardList.last} ? 'disabled'" class="page-item">
-						                <a class="page-link" th:if="${param.keyword == null}" th:href="${purRevBoardList.last} ? '#' : @{/purRevBoard/(page=${pageNumber + 1})}" aria-label="Next">
-						                    <span aria-hidden="true">&gt;</span>
-						                </a>
-						                <a class="page-link" th:if="${param.keyword != null}" th:href="${purRevBoardList.last} ? '#' : @{/purRevBoard/(page=${pageNumber + 1}, keyword=${param.keyword})}" aria-label="Next">
-						                    <span aria-hidden="true">&gt;</span>
-						                </a>
-						            </li>
+									<li th:classappend="${purRevBoardList.last} ? 'disabled'" class="page-item">
+									    <a class="page-link" th:if="${param.keyword == null and pageNumber+1 < totalPages}" th:onclick="'updatePage('+ ${pageNumber + 1} +')'" aria-label="Next" href="#" >&gt;</a>
+									    <a class="page-link" th:if="${param.keyword != null and pageNumber+1 < totalPages}" th:onclick="'updatePage('+ ${pageNumber + 1} +')'" aria-label="Next" href="#" >&gt;</a>
+									</li>
 						        </ul>
 						    </div>
 							<div class="write-btn-div">

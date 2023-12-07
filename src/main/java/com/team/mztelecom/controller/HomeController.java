@@ -1,11 +1,11 @@
 package com.team.mztelecom.controller;
 
 import java.util.*;
-import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,12 +16,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Sort;
 
 import com.team.mztelecom.domain.IntmBas;
+import com.team.mztelecom.domain.PurRevBoard;
+import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.PurRevBoardService;
+import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 @Controller
@@ -123,25 +127,40 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/purRevBoard/**")
-	public String purRevBoard(Model model,@PageableDefault(page = 0, size = 5, sort = "id"
-														,direction = Sort.Direction.DESC)Pageable pageable 
-														,String keyWord ,String catgo) {
-		logger.debug("구매후기게시판 진입");
-		
-		if(Utiles.isNullOrEmpty(catgo))
-		{
-			logger.debug("기본 조회");
-			model.addAttribute("purRevBoardList", purRevBoardService.PurRevBoardList(pageable));
-		}
-		else
-		{
-			logger.debug("검색 조회");
-			model.addAttribute("purRevBoardList", purRevBoardService.searchingPurRevBoard(keyWord, pageable, catgo));
-		}
-		
-		logger.debug("controller 리턴 전");
-		
-		return "content/purRevBoard";
+	public String purRevBoard(Model model,
+	                          @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+	                          @RequestParam(name = "keyWord", required = false) String keyWord,
+	                          @RequestParam(name = "catgo", required = false) String catgo) {
+	    logger.debug("구매후기게시판 진입");
+	    
+	    Page<PurRevBoardDTO> purRevBoardList;
+	    if (Utiles.isNullOrEmpty(keyWord)) 
+	    {
+	        logger.debug("기본 조회");
+	        purRevBoardList = purRevBoardService.PurRevBoardList(pageable);
+	    } 
+	    else 
+	    {
+	        logger.debug("검색 조회");
+	        purRevBoardList = purRevBoardService.searchingPurRevBoard(keyWord, pageable, catgo);
+	        // 검색 조건도 뷰로 전달
+	        model.addAttribute("keyWord", keyWord);
+	        model.addAttribute("catgo", catgo);
+	        model.addAttribute("selectedKeyWord", Utiles.isNullOrEmpty(keyWord) ? "" : keyWord);
+	        model.addAttribute("selectedCatgo", Utiles.isNullOrEmpty(catgo) ? "" : catgo);
+	    }
+	    
+	    logger.debug("getTotalPages ::: " + purRevBoardList.getTotalPages());
+	    logger.debug("getSort ::: " + purRevBoardList.getSort());
+	    logger.debug("getPageable ::: " + purRevBoardList.getPageable());
+	    logger.debug("getNumber ::: " + purRevBoardList.getNumber());
+	    logger.debug("getSize ::: " + purRevBoardList.getSize());
+
+	    model.addAttribute("purRevBoardList", purRevBoardList);
+
+	    logger.debug("controller 리턴 전");
+
+	    return "content/purRevBoard";
 	}
 	
 	@GetMapping(value = "/purRevWrite")

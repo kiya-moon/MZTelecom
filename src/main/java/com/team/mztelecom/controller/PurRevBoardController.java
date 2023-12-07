@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.team.mztelecom.service.PurRevBoardService;
+import com.team.util.StringUtil;
 
 @Controller
 public class PurRevBoardController {
@@ -17,50 +19,21 @@ public class PurRevBoardController {
 	@Autowired
 	PurRevBoardService purRevBoardService;
 	
-	// 글작성 페이지
-//	@PostMapping(value = "purRevBoard/purRevWrite.do")
-//    @ResponseBody
-//	public Map<String, String> purRevWrite(
-//			//@RequestParam("writer") String writer
-//							@RequestParam("intm-category") String intmCategory
-//							,@RequestParam("review-title") String reviewTitle
-//							,@RequestParam("review-contents") String reviewContents
-//							,@RequestParam("attachment") String attachment)
-//	{
-//		logger.debug("글작성 확인버튼");
-//		
-//		Map<String, String> revMap = new HashMap<>();
-//		
-////		logger.debug("전송 받은 writer :: " + writer);
-//		logger.debug("전송 받은 intmCategory :: " + intmCategory);
-//		logger.debug("전송 받은 reviewTitle :: " + reviewTitle);
-//		logger.debug("전송 받은 reviewContents :: " + reviewContents);
-//		logger.debug("전송 받은 attachment :: " + attachment);
-//		
-////		revMap.put("writer", writer);
-//		revMap.put("intmCategory", intmCategory);
-//		revMap.put("reviewTitle", reviewTitle);
-//		revMap.put("reviewContents", reviewContents);
-//		revMap.put("attachment", attachment);
-//		
-//		 
-//		
-//		
-//		return revMap;
-//	}
+	// 글 작성 페이지
 	@PostMapping(value = "/purRevWrite")
-	public String write(@RequestParam("selectedCategory") String selectedCategory, String title, String contents, String fileName) {
+	public String write(@RequestParam("selectedCategory")String selectedCategory
+						,@RequestParam("title")String title
+						,@RequestParam("contents")String contents
+						,@RequestParam("fileName") MultipartFile fileName) {
 		
 		logger.debug("category :: " + selectedCategory);
 		logger.debug("contents :: " + contents);
-		logger.debug("fileName :: " + fileName);
-		
-		System.out.println("선택한 값: " + selectedCategory);
+		logger.debug("fileName :: " + StringUtil.toString(fileName));
 		
 		
 		logger.debug("보내기 완료");
 		
-		return "redirect:/";
+		return "redirect:/purRevBoard/**";
 	}
 	
 	

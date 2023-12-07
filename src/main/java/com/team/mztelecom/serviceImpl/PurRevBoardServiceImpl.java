@@ -57,21 +57,25 @@ public class PurRevBoardServiceImpl implements PurRevBoardService{
 	 */
 	@Override
 	public Page<PurRevBoardDTO> searchingPurRevBoard(String keyword, Pageable pageable, String catgo) {
-		
-		logger.debug("하나로 통일한  서비스");
-		
-		Page<PurRevBoard> purRevBoards;
-		
-		if("title".equals(catgo)) {
-			
-			purRevBoards = purRevBoardRepository.findByBoardTitleContains(keyword, pageable);
-		}
-		else
-		{
-			purRevBoards = purRevBoardRepository.findByWriterContains(keyword, pageable);
-		}
-		
-		 return getPurRevBoardDTO(pageable, purRevBoards);
+	    logger.debug("하나로 통일한 서비스");
+
+	    Page<PurRevBoard> purRevBoards;
+
+	    if ("title".equals(catgo)) {
+	    	logger.debug("확인1");
+	        purRevBoards = purRevBoardRepository.findByBoardTitleContains(keyword, pageable);
+	    } else {
+	    	logger.debug("확인2");
+	        purRevBoards = purRevBoardRepository.findByWriterContains(keyword, pageable);
+	    }
+
+	    logger.debug("getTotalPages ::: " + purRevBoards.getTotalPages());
+	    logger.debug("getTotalElements ::: " + purRevBoards.getTotalElements());
+	    logger.debug("getNumber ::: " + purRevBoards.getNumber());
+	    logger.debug("getSize ::: " + purRevBoards.getSize());
+	    logger.debug("getContent ::: " + purRevBoards.getContent());
+
+	    return getPurRevBoardDTO(pageable, purRevBoards);
 	}
 	
 	/**
@@ -90,4 +94,6 @@ public class PurRevBoardServiceImpl implements PurRevBoardService{
         return new PageImpl<>(purRevBoardDTOs, pageable, purRevBoards.getTotalElements());
     }
 	
+    
+    
 }

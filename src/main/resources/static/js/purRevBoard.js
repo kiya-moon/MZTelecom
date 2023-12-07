@@ -18,3 +18,22 @@ options.forEach(function(option) {
 		selectedCategoryInput.value = selectedValue;
 	});
 });
+
+
+/*검색시*/
+function updatePage(page) {
+    var keyword = document.getElementById('keyWord').value;
+    var catgo = document.getElementById('catgo').value;
+    var url = '/purRevBoard/';
+    
+    if (keyword) {
+        url += '?page=' + page + '&catgo=' + catgo + '&keyWord=' + keyword;
+    } else {
+        url += '?page=' + page;
+    }
+
+    window.location.href = url;
+}
+
+
+
