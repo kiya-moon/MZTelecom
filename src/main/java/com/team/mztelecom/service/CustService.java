@@ -4,18 +4,12 @@ import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.domain.IntmBas;
-import com.team.mztelecom.domain.PrincipalDetails;
 import com.team.mztelecom.dto.CustBasBringDTO;
-import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.CustBasSaveDTO;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.util.StringUtil;
@@ -184,28 +178,24 @@ public class CustService {
 	
 	/* 로그인 - 박지윤 */
 	
-
+	@Transactional
 	public CustBas whenSocialLogin(String providerTypeCode, String custId, String custNm, String custEmail) {
 		Optional<CustBas> opCustBas = findByCustId(custId);
 		
-		if (opCustBas.isPresent()) {
-			return opCustBas.get();
+		if (opCustBas.isPresent()) { return opCustBas.get(); }
 			
-		} else {
-			// 소셜 로그인를 통한 가입시 비번 X
-			CustBasSaveDTO request = new CustBasSaveDTO();
-			request.setCustId(custId);
-	        request.setCustPassword("");
-	        request.setCustNm(custNm);
-	        request.setCustEmail(custEmail);
-	        request.setCustNo("Unknown");
+		// 소셜 로그인를 통한 가입시 비번 X
+		CustBasSaveDTO request = new CustBasSaveDTO();
+		request.setCustId(custId);
+	    request.setCustPassword("");
+	    request.setCustNm(custNm);
+	    request.setCustEmail(custEmail);
+	    request.setCustNo("Unknown");
+	    
+	    String uniqueIdfyNo = UUID.randomUUID().toString();
+	    request.setCustIdfyNo(uniqueIdfyNo);
 	        
-	        String uniqueIdfyNo = UUID.randomUUID().toString();
-	        request.setCustIdfyNo(uniqueIdfyNo);
-	        
-	        return save(request);
-		}
-		
+	    return save(request);
 	}
 	
 	public Optional<CustBas> findByCustId(String custId) {
