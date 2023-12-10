@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.dto.CustBasBringDTO;
-import com.team.mztelecom.dto.CustBasSaveDTO;
+import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
@@ -39,21 +38,21 @@ public class CustService {
 		logger.debug("info 확인 ::" + info.toString());
 		
 		// repository에 반환 값 받을 list
-		List<CustBas> listRes = new ArrayList<CustBas>();
 
 		// info의 값들을 사용하여 CustBasSaveDTO의 새로운 인스턴스 생성
-        CustBasSaveDTO custBasSaveDTO = CustBasSaveDTO.builder()
+        CustBasDTO custBasDTO = CustBasDTO.builder()
                 .custNm(info.get("custNm"))
                 .custBirth(info.get("cust_birth"))
                 .custEmail(info.get("cust_email"))
                 .build();
 
         // DTO -> entity
-        CustBas custBasEntity = custBasSaveDTO.toEntity();
+        CustBas custBasEntity = custBasDTO.toEntity();
         logger.debug(StringUtil.toString(custBasEntity));
         
+        List<CustBas> listRes = new ArrayList<CustBas>();
         // repository 전달
-        listRes = custRepository.findById(custBasEntity.getCustNm(), custBasEntity.getCustBirth(), custBasEntity.getCustEmail());
+        listRes = custRepository.findByDynamicQuery(custBasEntity.getCustId(), custBasEntity.getCustNm(), custBasEntity.getCustBirth(), custBasEntity.getCustEmail());
         
         Map<String, String> mapReq = new HashMap<>();
         String listEmpYn = "";	// 빈 list인지 체크
@@ -70,11 +69,15 @@ public class CustService {
         	listEmpYn = "N";
         	
         	// entity -> DTO
-        	CustBasBringDTO custBasBringDTO = new CustBasBringDTO(listRes.get(0));
+        	CustBasDTO outCustBas = new CustBasDTO();
         	
+        	for(int i =0; i < listRes.size(); i++) {
+        		outCustBas.setCustId(listRes.get(i).getCustId());
+        		outCustBas.setCustNm(listRes.get(i).getCustNm());
+        	}
         	
-        	mapReq.put("custId", custBasBringDTO.getCustId());
-        	mapReq.put("custNm", custBasBringDTO.getCustNm());
+        	mapReq.put("custId", outCustBas.getCustId());
+        	mapReq.put("custNm", outCustBas.getCustNm());
         }
         
         mapReq.put("listEmpYn", listEmpYn);
@@ -97,19 +100,19 @@ public class CustService {
 		List<CustBas> listRes = new ArrayList<CustBas>();
 
 		// info의 값들을 사용하여 CustBasSaveDTO의 새로운 인스턴스 생성
-        CustBasSaveDTO custBasSaveDTO = CustBasSaveDTO.builder()
+        CustBasDTO custBasDTO = CustBasDTO.builder()
                 .custId(info.get("custId"))
                 .custBirth(info.get("cust_birth"))
                 .custEmail(info.get("cust_email"))
                 .build();
-        logger.debug("확인"+StringUtil.toString(custBasSaveDTO));
+        logger.debug("확인"+StringUtil.toString(custBasDTO));
 
         // DTO -> entity
-        CustBas custBasEntity = custBasSaveDTO.toEntity();
+        CustBas custBasEntity = custBasDTO.toEntity();
         logger.debug(StringUtil.toString(custBasEntity));
         
         // repository 전달
-        listRes = custRepository.findByPw(custBasEntity.getCustId(), custBasEntity.getCustBirth(), custBasEntity.getCustEmail());
+        listRes = custRepository.findByDynamicQuery(custBasEntity.getCustId(), custBasEntity.getCustNm(), custBasEntity.getCustBirth(), custBasEntity.getCustEmail());
         
         Map<String, String> mapReq = new HashMap<>();
         String listEmpYn = "";	// 빈 list인지 체크
@@ -127,10 +130,15 @@ public class CustService {
         	listEmpYn = "N";
         	
         	// entity -> DTO
-        	CustBasBringDTO custBasBringDTO = new CustBasBringDTO(listRes.get(0));
+        	CustBasDTO outCustBas = new CustBasDTO();
         	
-        	mapReq.put("cust_email", custBasBringDTO.getCustEmail());	// 이메일 전송 및 화면에서 사용하기 위해
-        	mapReq.put("custId", custBasBringDTO.getCustId());
+        	for(int i =0; i < listRes.size(); i++) {
+        		outCustBas.setCustEmail(listRes.get(i).getCustEmail());
+        		outCustBas.setCustId(listRes.get(i).getCustId());
+        	}
+        	
+        	mapReq.put("cust_email", outCustBas.getCustEmail());	// 이메일 전송 및 화면에서 사용하기 위해
+        	mapReq.put("custId", outCustBas.getCustId());
         }
         
         
@@ -151,7 +159,7 @@ public class CustService {
 	/**
 	 * 회원정보 저장 service - 문기연
 	 */
-	public CustBas save(CustBasSaveDTO request) {
+	public CustBas save(CustBasDTO request) {
 		logger.debug("서비스 도착 확인");
 		
     	String[] custIdfyNoArr = request.getCustIdfyNo().split(",");
@@ -202,7 +210,7 @@ public class CustService {
 		if (opCustBas.isPresent()) { return opCustBas.get(); }
 			
 		// 소셜 로그인를 통한 가입시 비번 X
-		CustBasSaveDTO request = new CustBasSaveDTO();
+		CustBasDTO request = new CustBasDTO();
 		request.setCustId(custId);
 	    request.setCustPassword("");
 	    request.setCustNm(custNm);
@@ -217,5 +225,33 @@ public class CustService {
 	
 	public Optional<CustBas> findByCustId(String custId) {
 		return custRepository.findByCustId(custId);
+	}
+	
+	
+	/**
+	 * 구매후기 구매시 회원의 Long id 조회 - 김시우
+	 * 
+	 */
+	public Long getId(String inCustId) {
+		
+		// repository에 반환 값 받을 list
+		List<CustBas> outCustList = new ArrayList<CustBas>();
+
+		// info의 값들을 사용하여 CustBasSaveDTO의 새로운 인스턴스 생성
+		CustBasDTO custBasDTO = CustBasDTO.builder()
+		        .custId(inCustId)
+		        .build();
+		logger.debug("확인"+StringUtil.toString(custBasDTO));
+
+		// DTO -> entity
+		CustBas custBasEntity = custBasDTO.toEntity();
+		logger.debug(StringUtil.toString(custBasEntity));
+		
+		outCustList = custRepository.findByDynamicQuery(custBasEntity.getCustId(), custBasEntity.getCustNm(), custBasEntity.getCustBirth(), custBasEntity.getCustEmail());
+		logger.debug("outCustList :::" + StringUtil.toString(outCustList));
+		
+		Long outId = outCustList.get(0).getId();
+		
+		return outId;
 	}
 }

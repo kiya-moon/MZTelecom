@@ -5,22 +5,15 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.dto.CustBasSaveDTO;
+import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.service.CustService;
-
-import jakarta.validation.Valid;
 
 @Controller
 public class CustController {
@@ -36,7 +29,7 @@ public class CustController {
 	/*
 	 * 아이디 찾기 controller - 김시우
 	 */
-    @PostMapping(value = "/findId.do")
+    @PostMapping(value = "/findId")
     @ResponseBody
     public Map<String, String> findId(@RequestParam("custNm") String custNm
 									,@RequestParam("id-year") String year
@@ -96,7 +89,7 @@ public class CustController {
     /**
      * 비밀번호 찾기 controller - 김시우
      */
-    @PostMapping(value = "/findPw.do")
+    @PostMapping(value = "/findPw")
     @ResponseBody
     public Map<String, String> findPw(@RequestParam("custId") String custId
 									,@RequestParam("pw-year") String year
@@ -173,7 +166,7 @@ public class CustController {
 		
     	logger.debug("컨트롤러 도착 확인");    			
     	
-    	CustBasSaveDTO request = new CustBasSaveDTO();
+    	CustBasDTO request = new CustBasDTO();
     	request.setCustId(custId);
     	request.setCustNm(custNm);
     	request.setCustPassword(custPassword);
