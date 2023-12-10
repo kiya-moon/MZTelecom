@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.team.mztelecom.domain.CustBas;
 import com.team.mztelecom.dto.CustBasSaveDTO;
 import com.team.mztelecom.service.CustService;
 
@@ -166,10 +168,10 @@ public class CustController {
 			, @RequestParam("custPasswordCheck") String custPasswordCheck
 			, @RequestParam("custIdfyNo") String custIdfyNo
 			, @RequestParam("custNo") String custNo
-			, @RequestParam("custEmail") String cusstEmail) {
+			, @RequestParam("custEmail") String custEmail
+			, @RequestParam("emailDomain") String emailDomain) {
 		
-    	logger.debug("컨트롤러 도착 확인");
-    	logger.debug(custIdfyNo);
+    	logger.debug("컨트롤러 도착 확인");    			
     	
     	CustBasSaveDTO request = new CustBasSaveDTO();
     	request.setCustId(custId);
@@ -177,21 +179,13 @@ public class CustController {
     	request.setCustPassword(custPassword);
     	request.setCustPasswordCheck(custPasswordCheck);
     	request.setCustIdfyNo(custIdfyNo);
-    	request.setCustBirth(custIdfyNo.substring(0,6));
     	request.setCustNo(custNo);
+    	request.setCustEmail(custEmail);
+    	request.setEmailDomain(emailDomain);
     	
-    	String sex = custIdfyNo.substring(7, 8);
-    	if (sex.equals("1") || sex.equals("3")) {
-    	    request.setCustSex("남성");
-    	} else if (sex.equals("2") || sex.equals("4")) {
-    		request.setCustSex("여성");
-    	}
-    	
-    	request.setCustEmail(cusstEmail);
-    	
-		custService.save(request);    		
+    	custService.save(request);  		
 		
-		return "redirect:/login";
+    	return "redirect:/login";
 	}
     
     // id 중복확인
