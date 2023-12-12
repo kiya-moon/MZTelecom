@@ -21,16 +21,23 @@ const error = document.querySelectorAll('.error_next_box');
 
 
 // id 중복확인
-var isDuplicateChecked = false; // 중복 확인 여부 저장하는 변수
+const isDuplicateChecked = false; // 중복 확인 여부 저장하는 변수
+
 
 document.addEventListener('DOMContentLoaded', function() {
-	var signupForm = document.getElementById('signup-form');
-	var signupBtn = signupForm.querySelector('[type="submit"]');
-	var duplicateCheckBtn = document.querySelector('.signup-button');
-
+	const signupForm = document.getElementById('signup-form');
+	const signupBtn = signupForm.querySelector('[type="submit"]');
+	const duplicateCheckBtn = document.querySelector('.signup-button');
+	
 	duplicateCheckBtn.addEventListener('click', function() {
+		const custId = document.getElementById('cust-id').value.trim(); // 공백 제거
+		
 		// 중복 확인 버튼 클릭 시 중복 확인 실행
-		checkDuplicate();
+		if(custId !== '') {
+			checkDuplicate();
+		} else {
+			alert("아이디를 입력해주세요");
+		}
 	});
 
 	signupForm.addEventListener('submit', function(event) {
@@ -42,14 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 
 	function checkDuplicate() {
-		var custId = document.getElementById('cust-id').value;
+		const custId = document.getElementById('cust-id').value;
 
 		fetch('/checkDuplicate?custId=' + custId)
 			.then(function(response) {
 				return response.text();
 			})
 			.then(function(data) {
-				var statusElement = document.getElementById('id-status');
+				const statusElement = document.getElementById('id-status');
 				statusElement.innerText = data;
 
 				if (data.includes('사용 가능한')) {
