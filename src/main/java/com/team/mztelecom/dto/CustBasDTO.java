@@ -80,7 +80,6 @@ public class CustBasDTO {
 	// dto -> entity
 	public CustBas toEntity() {
 		return CustBas.builder()
-				.id(id)
 				.custId(custId)
 				.custNm(custNm)
 				.custPassword(custPassword)

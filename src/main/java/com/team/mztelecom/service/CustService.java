@@ -163,12 +163,12 @@ public class CustService {
 		logger.debug("서비스 도착 확인");
 		
     	String[] custIdfyNoArr = request.getCustIdfyNo().split(",");
-    	request.setCustIdfyNo(custIdfyNoArr[0] + '-' + custIdfyNoArr[1] );
+    	request.setCustIdfyNo(custIdfyNoArr[0] + "-" + custIdfyNoArr[1] );
     	
     	request.setCustBirth(request.getCustIdfyNo().substring(0,6));
     	
     	String[] custNoArr = request.getCustNo().split(",");
-    	request.setCustNo(custNoArr[0] + '-' + custNoArr[1] + '-' + custNoArr[2]);
+    	request.setCustNo(custNoArr[0] + "-" + custNoArr[1] + "-" + custNoArr[2]);
     	
     	String sex = request.getCustIdfyNo().substring(7, 8);
     	if (sex.equals("1") || sex.equals("3")) {
@@ -180,7 +180,7 @@ public class CustService {
     	String email = request.getCustEmail() + '@'+ request.getEmailDomain();
     	request.setCustEmail(email);
 		
-		CustBas custBas = CustBas.builder()
+		CustBasDTO custBasDTO = CustBasDTO.builder()
                 .custId(request.getCustId())
                 .custPassword(bCryptPasswordEncoder.encode(request.getCustPassword()))
                 .custNm(request.getCustNm())
@@ -190,6 +190,8 @@ public class CustService {
                 .custNo(request.getCustNo())
                 .custSex(request.getCustSex())
                 .build();
+		
+		CustBas custBas = custBasDTO.toEntity();
 
         return custRepository.save(custBas);
 	}
@@ -232,7 +234,7 @@ public class CustService {
 	 * 구매후기 구매시 회원의 Long id 조회 - 김시우
 	 * 
 	 */
-	public Long getId(String inCustId) {
+	public List<CustBas> getId(String inCustId) {
 		
 		// repository에 반환 값 받을 list
 		List<CustBas> outCustList = new ArrayList<CustBas>();
@@ -250,8 +252,6 @@ public class CustService {
 		outCustList = custRepository.findByDynamicQuery(custBasEntity.getCustId(), custBasEntity.getCustNm(), custBasEntity.getCustBirth(), custBasEntity.getCustEmail());
 		logger.debug("outCustList :::" + StringUtil.toString(outCustList));
 		
-		Long outId = outCustList.get(0).getId();
-		
-		return outId;
+		return outCustList;
 	}
 }

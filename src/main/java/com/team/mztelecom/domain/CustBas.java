@@ -58,9 +58,8 @@ public class CustBas implements UserDetails {
 	
 	// DTO <-> Entity
 	@Builder
-	public CustBas(Long id, String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, String custBirth, String custAddress, String custSex, String intmPurStusYn) {
+	public CustBas( String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, String custBirth, String custAddress, String custSex, String intmPurStusYn) {
 		
-		this.id = id;
 		this.custId = custId;
 		this.custNm = custNm;
 		this.custPassword = custPassword;

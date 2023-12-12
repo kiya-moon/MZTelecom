@@ -4,38 +4,57 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.dto.CustBasSaveDTO;
+import com.team.mztelecom.dto.CustBasDTO;
 
+import jakarta.persistence.criteria.Predicate;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 @Repository
-public interface CustRepository extends JpaRepository<CustBas, Long>  {
+public interface CustRepository extends JpaRepository<CustBas, Long>  , JpaSpecificationExecutor<CustBas> {
 
 	/**
-	 * 아이디 찾기 repository - 김시우
+	 * 아이디, 비밀번호 찾기시 / 회원 Long id 조회시 - 김시우
+	 * 
+	 * @param custId
 	 * @param custNm
 	 * @param custBirth
 	 * @param custEmail
 	 * @return
 	 */
-	@Query(value = "select * from cust_bas where cust_nm = :custNm and cust_birth = :custBirth and cust_email = :custEmail", nativeQuery = true)
-	List<CustBas> findById(@Param("custNm")String custNm, @Param("custBirth")String custBirth, @Param("custEmail")String custEmail);
-	
-	/**
-	 * 비밀번호 찾기 고객 조회 repository - 김시우
-	 * @param custId
-	 * @param custBirth
-	 * @param custEmail
-	 * @return
-	 */
-	@Query(value = "select * from cust_bas where cust_id = :custId and cust_birth = :custBirth and cust_email = :custEmail", nativeQuery = true)
-	List<CustBas> findByPw(@Param("custId")String custId, @Param("custBirth")String custBirth, @Param("custEmail")String custEmail);
+    default List<CustBas> findByDynamicQuery(String custId, String custNm, String custBirth, String custEmail) {
+        return findAll((Specification<CustBas>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            // 여기서는 null이 아닌 경우에 대한 검색 조건을 추가합니다.
+            if (custId != null) {
+            	predicates.add(criteriaBuilder.equal(root.get("custId"), custId));
+            }
+            if (custNm != null) {
+                predicates.add(criteriaBuilder.equal(root.get("custNm"), custNm));
+            }
+
+            if (custBirth != null) {
+                predicates.add(criteriaBuilder.equal(root.get("custBirth"), custBirth));
+            }
+
+            if (custEmail != null) {
+                predicates.add(criteriaBuilder.equal(root.get("custEmail"), custEmail));
+            }
+
+            // AND 조건으로 모든 검색 조건을 결합합니다.
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+    }
 	
 	/**
 	 * 비밀번호 찾기 이메일 발송 repository - 김시우
@@ -61,7 +80,7 @@ public interface CustRepository extends JpaRepository<CustBas, Long>  {
 	 * @param custId
 	 * @return
 	 */
-	 Long save(CustBasSaveDTO request); 
+//	 Long save(CustBasDTO request); 
 	
 	
 	/* 로그인 - 박지윤 */
