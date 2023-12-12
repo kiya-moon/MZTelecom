@@ -163,22 +163,28 @@ public class CustService {
 		logger.debug("서비스 도착 확인");
 		
     	String[] custIdfyNoArr = request.getCustIdfyNo().split(",");
-    	request.setCustIdfyNo(custIdfyNoArr[0] + "-" + custIdfyNoArr[1] );
     	
-    	request.setCustBirth(request.getCustIdfyNo().substring(0,6));
-    	
-    	String[] custNoArr = request.getCustNo().split(",");
-    	request.setCustNo(custNoArr[0] + "-" + custNoArr[1] + "-" + custNoArr[2]);
-    	
-    	String sex = request.getCustIdfyNo().substring(7, 8);
-    	if (sex.equals("1") || sex.equals("3")) {
-    		request.setCustSex("남성");
-    	} else if (sex.equals("2") || sex.equals("4")) {
-    		request.setCustSex("여성");
+    	if (custIdfyNoArr.length >= 2) {
+    	    request.setCustIdfyNo(custIdfyNoArr[0] + "-" + custIdfyNoArr[1]);
+    	    
+    	    request.setCustBirth(request.getCustIdfyNo().substring(0,6));
+    	    
+    	    String[] custNoArr = request.getCustNo().split(",");
+    	    request.setCustNo(custNoArr[0] + "-" + custNoArr[1] + "-" + custNoArr[2]);
+    	    
+    	    String sex = request.getCustIdfyNo().substring(7, 8);
+    	    
+    	    if (sex.equals("1") || sex.equals("3")) {
+    	    	request.setCustSex("남성");
+    	    } else if (sex.equals("2") || sex.equals("4")) {
+    	    	request.setCustSex("여성");
+    	    }
+    	    
+    	    String email = request.getCustEmail() + '@'+ request.getEmailDomain();
+    	    request.setCustEmail(email);
+    	    
     	}
     	
-    	String email = request.getCustEmail() + '@'+ request.getEmailDomain();
-    	request.setCustEmail(email);
 		
 		CustBasDTO custBasDTO = CustBasDTO.builder()
                 .custId(request.getCustId())

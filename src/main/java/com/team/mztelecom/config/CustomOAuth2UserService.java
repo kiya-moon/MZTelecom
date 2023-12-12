@@ -61,7 +61,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		 
 		 String providerTypeCode = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
 		 
-		 String custId = providerTypeCode + "__%s".formatted(oauthId);
+		 String custId = providerTypeCode + "_%s".formatted(oauthId);
 		 
 		 CustBas custBas = custService.whenSocialLogin(providerTypeCode, custId, custNm, custEmail);
 		 
