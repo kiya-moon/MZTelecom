@@ -1,11 +1,25 @@
 package com.team.util;
 
+import org.springframework.util.ObjectUtils;
+
 public class Utiles {
 	
 	// nullorempty 체크
 	static public boolean isNullOrEmpty(String str) 
 	{
 		if(str == null || str.isEmpty())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	static public boolean isNullOrEmpty(Object obj) 
+	{
+		if(obj == null || ObjectUtils.isEmpty(obj))
 		{
 			return true;
 		}
@@ -25,6 +39,4 @@ public class Utiles {
 	{
 		return StringUtil.toString(subObject);
 	}
-	
-	
 }

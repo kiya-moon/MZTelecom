@@ -31,4 +31,5 @@ public interface PurRevBoardRepository extends JpaRepository<PurRevBoard, Long> 
 	 */
 	Page<PurRevBoard> findByWriterContains(String writer, Pageable pageable);
 	
+	
 }

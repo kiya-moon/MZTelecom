@@ -11,39 +11,40 @@
 					<div>
 						<div class="pur-rev-write">
 						</div>
-						<form action="" method="post">
+						<form th:action="@{/purRevView/{id}}" method="post" th:object="${purRevBoard}" id="pur-rev-Write-form">
 					        <div class="rev-group">
 							    <label><span class="dot"></span>작성자</label>
-							    <div>
-							    	아이디 받아올거다
+							    <div class="input-writer">
+							    	<input type="text" th:placeholder="${purRevBoard.writer}" th:value="${purRevBoard.writer}" name="writer" id="writer" readonly>
 							    </div>
 							</div>
 							<div class="rev-group rev-select">
 							    <label for="category"><span class="dot"></span>상품명</label>
-							    <div>
-									상풍명 받아올거다
+							    <div class="input-writer">
+									<input type="text" th:placeholder="${purRevBoard.intmNm}" th:value="${purRevBoard.intmNm}" name="intmNm" id="intmNm" readonly>
 							   </div>
 							</div>
 					        <div class="rev-group">
 					            <label><span class="dot"></span>제목</label>
 					            <div class="rev-title-content" style="flex:none;">
-						            제목 받아올거다
+						            <input type="text" th:placeholder="${purRevBoard.boardTitle}" th:value="${purRevBoard.boardTitle}" id = "rev-title-input" disabled>
 					            </div>
 					        </div>
 					        <div class="rev-group">
 					            <label><span class="dot"></span>구매후기내용</label>
-					            구매후기 내용 받아올거다
+					            <textarea class="form-control" id="content" name="content" disabled>[[${purRevBoard.boardDetail}]]</textarea>
 					        </div>
 					        <div class="rev-group file-div">
 					            <label><span class="dot"></span>첨부파일</label>
 					            <div class="rev-file-content" style="flex:none;">
-									첨부파일 받아올거다
+									<!--<input type="file" name="file" >-->
 								</div>
 					        </div>
 					        <div class="write-btn-div">
-								<button type="button" class="pur-Rev-btn" value="수정">수정</button>
-								<button type="button" class="pur-Rev-btn" value="삭제">삭제</button>
-								<button type="button" class="pur-Rev-btn" value="나가기">나가기</button>
+								<button type="button" class="pur-Rev-btn" id="edit-button" th:if="${(purRevBoard.writer == custId) && custId != null}" onclick="enableEdit()"value="수정">수정</button>
+								<button type="button" class="pur-Rev-btn" id="complete-button" style="display: none;" th:if="${(purRevBoard.writer == custId) && custId != null}" th:onclick="|completeEdit(${id})|"value="수정완료">수정완료</button>
+								<button type="button" class="pur-Rev-btn" th:if="${(purRevBoard.writer == custId) && custId != null}" onclick="enableEdit()" value="삭제">삭제</button>
+								<button type="button" class="pur-Rev-btn" value="나가기" onclick="goBack()">나가기</button>
 					        </div>
 					    </form>
 					</div>
@@ -52,3 +53,7 @@
 		</article>
 	</section>
 </th:block>
+<th:block layout:fragment="script">
+	<script th:src="@{/js/purRevBoard.js}" ></script>
+</th:block>
+</html>
