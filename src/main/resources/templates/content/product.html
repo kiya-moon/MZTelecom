@@ -28,8 +28,7 @@
 								<div class="cont">
 									<div class="title">
 										<h3 th:text="${product.IntmKorNm}"></h3>
-										<button type="button" class="btnLike"
-											th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
+										<button type="button" class="btnLike" th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
 											<i class="heart" data-feather="heart"></i>
 										</button>
 									</div>
@@ -67,5 +66,6 @@
 <th:block layout:fragment="script">
 	<script th:src="@{/js/product.js}" ></script>
 </th:block>
+
 
 </html>

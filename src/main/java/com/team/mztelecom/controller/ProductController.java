@@ -53,13 +53,17 @@ public class ProductController {
 	    return "content/productDetail";
 	}
 	
-	@PutMapping(value = "/product/{productId}/like")
+	@PutMapping(value = "/product/{productId}/liked")
     public ResponseEntity<Boolean> toggleProductLiked(@PathVariable Long productId, Model model) {
         productService.toggleProductLiked(productId);
         
         boolean isLoggedIn = custService.isLoggedIn();
+        logger.debug("isLoggedIn :: " + isLoggedIn);
+        
         model.addAttribute("isLoggedIn", isLoggedIn);
         
         return ResponseEntity.ok(isLoggedIn);
     }
+	
+	
 }

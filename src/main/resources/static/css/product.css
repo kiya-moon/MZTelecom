@@ -118,12 +118,13 @@
 	border-radius: 10px;
 }
 
-.order-btn {
+.detail-btn {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	gap: 10px;
 }
-.order-btn .cart {
+.detail-btn .cart {
 	flex: 1;
 	font-size: 20px;
 	font-weight: bold;
@@ -134,14 +135,34 @@
 	cursor: pointer;
 }
 
-.order-btn .cart:hover {
+.detail-btn .cart:hover {
 	border: 2px solid #333;
 }
 
-.order-btn .order {
+.detail-btn .btnLike {
+	display: flex;
 	flex: 1;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
 	font-size: 20px;
 	font-weight: bold;
+	background-color: #fff;
+	border: 2px solid #bbb;
+	border-radius: 10px; 
+	padding: 20px;
+	cursor: pointer;
+}
+
+.detail-btn .btnLike:hover {
+	border: 2px solid red;
+}
+
+.order {
+	width: 100%;
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 20px;
 	background-color: #33A188;
 	border: 0;
 	border-radius: 10px; 
@@ -151,6 +172,6 @@
 	transition: 0.3s;
 }
 
-.order-btn .order:hover {
+.order:hover {
 	background-color: #FFA200;
 }

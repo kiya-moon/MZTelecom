@@ -119,7 +119,6 @@ public class ProductService {
                 .isLiked(productItem.isLiked())
                 .build();
 
-//        productRepository.save(productDTO.toEntity());
         
         IntmBas savedProduct = productRepository.save(productDTO.toEntity());
         logger.debug("savedProduct :: " + StringUtil.toString(savedProduct));
