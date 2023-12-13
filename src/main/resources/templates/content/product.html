@@ -10,67 +10,62 @@
 					<h2>모바일 기기</h2>
 					<div>
 						<ul class="category-list">
-		                    <li><a href="#" class="category-link">판매순</a></li>
-		                    <li><a href="#" class="category-link">최신순</a></li>
-		                    <li><a href="#" class="category-link">낮은 가격순</a></li>
-		                    <li><a href="#" class="category-link">높은 가격순</a></li>
-		                </ul>
+							<li><a href="#" class="category-link">판매순</a></li>
+							<li><a href="#" class="category-link">최신순</a></li>
+							<li><a href="#" class="category-link">낮은 가격순</a></li>
+							<li><a href="#" class="category-link">높은 가격순</a></li>
+						</ul>
 					</div>
 				</div>
-				
+
 				<div class="product-item-list">
 					<ul>
-					    <li th:each="product : ${productList}" class="product-item">
-					        <a th:href="@{'/productDetail/' + ${product.id}}">
-					            <div class="thumb">
-					                <img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
-					            </div>
-					            <div class="cont">
-					                <div class="title">
-					                    <h3 th:text="${product.IntmKorNm}"></h3>
-					                    <button type="button" class="btnLike" onclick="handleLikeClick(event)">
-					                        <i class="heart" data-feather="heart"></i>
-					                    </button>
-					                </div>
-					                <div class="cont-info">
-					                    <p class="item-capacity">
-					                        <span th:each="capacity : ${product.IntmGB}" class="capacity-con" th:text="${product.IntmGB}"></span>
-					                    </p>
-					                    <p class="dsc-item">
-					                        <span class="dsc-title">휴대폰</span>
-					                        <span class="dsc-cont" th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
-					                    </p>
-					                    <!--<p class="dsc-item">
+						<li th:each="product : ${productList}" class="product-item">
+							<a th:href="@{'/productDetail/' + ${product.id}}">
+								<div class="thumb">
+									<img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
+								</div>
+								<div class="cont">
+									<div class="title">
+										<h3 th:text="${product.IntmKorNm}"></h3>
+										<button type="button" class="btnLike"
+											th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
+											<i class="heart" data-feather="heart"></i>
+										</button>
+									</div>
+									<div class="cont-info">
+										<p class="item-capacity">
+											<span th:each="capacity : ${product.IntmGB}" class="capacity-con"
+												th:text="${product.IntmGB}"></span>
+										</p>
+										<p class="dsc-item">
+											<span class="dsc-title">휴대폰</span>
+											<span class="dsc-cont"
+												th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
+										</p>
+										<!--<p class="dsc-item">
 					                        <span class="dsc-title">요금</span>
 					                        <span class="dsc-cont" th:text="${product.fee} + '원/월'"></span>
 					                    </p>-->
-					                </div>
-					                <div class="final-price">
-					                    <span class="price-cont"><em class="num" th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')}"></em><em class="unit"> 원/월</em></span>
-					                </div>
-					            </div>
-					        </a>
-					    </li>
+									</div>
+									<div class="final-price">
+										<span class="price-cont"><em class="num"
+												th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')}"></em><em
+												class="unit"> 원/월</em></span>
+									</div>
+								</div>
+							</a>
+						</li>
 					</ul>
 
 				</div>
 			</div>
 		</article>
 	</section>
-	
-	<script>
-	
-	    function toggleHeartColor(button) {
-	        button.classList.toggle('red');
-	    }
-	
-	    function handleLikeClick(event) {
-	        // 페이지 이동을 막기 위해 기본 동작을 취소
-	        event.preventDefault();
-	        
-	        var button = event.currentTarget;
-	        toggleHeartColor(button);
-	    }
-	</script>
-
 </th:block>
+
+<th:block layout:fragment="script">
+	<script th:src="@{/js/product.js}" ></script>
+</th:block>
+
+</html>

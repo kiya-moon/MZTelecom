@@ -28,7 +28,7 @@ public class SecurityConfig {
 					.requestMatchers("/admin").hasRole("ADMIN")
 					
 					// ADMIN, USER 권한을 가진 사람만 접속 가능
-					.requestMatchers("/myPage/**", "/purRevWrite").hasAnyRole("ADMIN","USER")
+					.requestMatchers("/myPage/**", "/purRevWrite", "/cart").hasAnyRole("ADMIN","USER")
 	
 					// permitAll() -> 를 사용하면 권한이 없는 모든 사람들이 들어갈 수 있음.
 					.requestMatchers("/**" , "/js/**", "/css/**","/images/**", "/login").permitAll()
@@ -50,6 +50,7 @@ public class SecurityConfig {
         return http.build();
 
 	}
+	
 	
 	// 패스워드 암호화 시켜주는 거
 	@Bean

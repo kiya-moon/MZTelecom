@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.PurRevBoard;
+import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.ProductService;
@@ -53,7 +54,6 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/login")
-	@PreAuthorize("isAnonymous()")
 	public String login(Locale locale, Model model) {
 		return "content/login";
 	}
@@ -71,38 +71,15 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/cart")
-	@PreAuthorize("isAuthenticated()")
 	public String cart(Locale locale, Model model) {
-		return "content/cart";
+		return "cart";
 	}
-	
-	@GetMapping(value = "/product")
-	public String product(Locale locale, Model model) {
-		logger.debug("상품 시작");
-		
-		List<IntmBas> productList = productService.getAllProductsWithImages();
-		
-        model.addAttribute("productList", productList);
-        
-		return "content/product";
-	}
-	
 	
 	@GetMapping(value = "/phoneplan")
 	public String phoneplan(Locale locale, Model model) {
 		return "content/phoneplan";
 	}
 	
-	@GetMapping(value = "/productDetail/{productId}")
-	public String productDetail(@PathVariable Long productId, Model model) {
-		
-		IntmBas product = productService.getProductById(productId);
-		
-		model.addAttribute("product", product);
-
-	    return "content/productDetail";
-	}
- 
 	@GetMapping(value = "/support")
 	public String support(Locale locale, Model model) {
   
@@ -110,7 +87,6 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/myPage")
-	@PreAuthorize("isAuthenticated()")
 	public String myPage(Locale locale, Model model) {
 		
 		logger.debug("마이페이지");
@@ -164,7 +140,6 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/purRevWrite")
-	@PreAuthorize("isAuthenticated()")
 	public String purRevWrite(Locale locale, Model model) {
 		
 		logger.debug("구매후기 글쓰기 진입");
@@ -182,7 +157,6 @@ public class HomeController {
 	
 	
 	@GetMapping(value = "/admin")
-	@PreAuthorize("hesAuthority('ADMIN')")
 	public String admin(Locale locale, Model model) {
 		
 		return "admin";

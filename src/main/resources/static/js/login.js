@@ -1,26 +1,3 @@
-// findIdOrPw 탭버튼
-var tabs = document.querySelectorAll("[data-tab-target]");
-var tabcon = document.querySelectorAll("[data-tab-content]");
-
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-	
-    var target = document.querySelector(tab.dataset.tabTarget);
-    tabcon.forEach((tabc_all) => {
-      tabc_all.classList.remove("active");
-    });
-
-    target.classList.add("active");
-
-	tabs.forEach((t) => {
-      t.classList.remove("active-tab");
-    });
-    
-    tab.classList.add("active-tab");
-
-  });
-});
-
 
 /* signup checkbox */
 const signupForm = document.getElementById('signup-form');
