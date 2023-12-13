@@ -382,4 +382,11 @@
 	border-bottom: 1px solid #888;
 }
 
+#pur-rev-Write-form .input-writer input{
+	border: none;
+	outline: none;
+	font-size: 18px;
+    text-align: right;
+}
+
 /* 구매후기 작성 및 보기 */

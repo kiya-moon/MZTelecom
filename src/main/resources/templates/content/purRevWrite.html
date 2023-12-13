@@ -14,8 +14,8 @@
 						<form th:action="@{/purRevWrite}" th:method="post" id="pur-rev-Write-form" enctype="multipart/form-data">
 					        <div class="rev-group">
 							    <label><span class="dot"></span>작성자</label>
-							    <div>
-							    	아이디 받아올거다
+							    <div class="input-writer">
+							    	<input type="text" th:placeholder="${custId}" th:value="${custId}" name="writer" id="writer" readonly>
 							    </div>
 							</div>
 							<div class="rev-group rev-select">
@@ -35,28 +35,27 @@
 							        </div>
 							   </div>
 							</div>
-							
 							<input type="hidden" id="selectedCategory" name="selectedCategory">
 					        
 					        <div class="rev-group">
 					            <label><span class="dot"></span>제목</label>
 					            <div class="rev-title-content">
-						            <input type="text">
+						            <input type="text" name="title">
 					            </div>
 					        </div>
 					        <div class="rev-group">
 					            <label><span class="dot"></span>구매후기내용</label>
-					            <textarea maxlength="2000" placeholder="  구매 후기를 작성해 주세요."></textarea>
+					            <textarea maxlength="2000" placeholder="  구매 후기를 작성해 주세요." name="contents"></textarea>
 					        </div>
-					        <!--<div class="rev-group file-div">
+					        <div class="rev-group file-div">
 					            <label><span class="dot"></span>첨부파일</label>
 					            <div class="rev-file-content">
-									<input type="file" name="fileName">
+									<input type="file" name="file">
 								</div>
-					        </div>-->
+					        </div>
 					        <div class="write-btn-div">
-					        	<button type="submit" class="btn-submit">확인</button>
-					        	<button type="submit" class="btn-submit">취소</button>
+					        	<button type="submit" class="btn-submit" onclick="return validateForm()">확인</button>
+					        	<button type="button" class="btn-submit" onclick="goBack()">취소</button>
 					        </div>
 					    </form>
 					</div>
@@ -65,3 +64,7 @@
 		</article>
 	</section>
 </th:block>
+<th:block layout:fragment="script">
+	<script th:src="@{/js/purRevBoard.js}" ></script>
+</th:block>
+</html>

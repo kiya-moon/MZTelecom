@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,12 +36,28 @@ public class PurRevBoard {
 	@Column(length = 1000)
 	private String boardDetail;			// 글내용
 	
-	private String boardAttachment;		// 첨부파일
-	
 	private String writer;
+
+	private Long attachmentId;			// 첨부파일
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private CustBas custBas;			// 작성자
+
+	@Builder
+	public PurRevBoard(long id, String intmNm, String boardTitle, String boardDate,
+		 String boardDetail, String writer, Long attachmentId, CustBas custBas) {
+		
+		this.id = id;
+		this.intmNm = intmNm;
+		this.boardTitle = boardTitle;
+		this.boardDate = boardDate;
+		this.boardDetail = boardDetail;
+		this.writer = writer;
+		this.attachmentId = attachmentId;
+		this.custBas = custBas;
+	}
+	
+	
 	
 	
 }

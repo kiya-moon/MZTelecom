@@ -48,7 +48,7 @@
 									<tr th:each="purRevBoard : ${purRevBoardList}">
 										<td th:text="${purRevBoard.id}">1</td>
 										<td th:text="${purRevBoard.intmNm}">갤럭시A32</td>
-										<td><a th:href="@{'/purRevBoard/purRevWrite(id=${purRevBoard.id})}"  th:text="${purRevBoard.boardTitle}">테스트후기</a></td>
+										<td><a th:href="@{'/purRevView/' + ${purRevBoard.id}}"  th:text="${purRevBoard.boardTitle}">테스트후기</a></td>
 										<td th:text="${purRevBoard.writer}">작성자나야나</td>
 										<td th:text="${#temporals.createDate(purRevBoard.boardDate, 'yyyyMMdd')}">20230914</td>				
 									</tr>
@@ -94,3 +94,7 @@
 		</article>
 	</section>
 </th:block>
+<th:block layout:fragment="script">
+	<script th:src="@{/js/purRevBoard.js}" ></script>
+</th:block>
+</html>
