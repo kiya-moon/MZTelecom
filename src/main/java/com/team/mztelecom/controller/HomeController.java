@@ -1,5 +1,6 @@
 package com.team.mztelecom.controller;
 
+import java.security.Principal;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Sort;
 
-import com.team.mztelecom.domain.IntmBas;
-import com.team.mztelecom.domain.PurRevBoard;
-import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.PurRevBoardService;
-import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 @Controller
@@ -102,7 +96,7 @@ public class HomeController {
 		return "content/inquiryDetail";
 	}
 	
-	@GetMapping(value = "/purRevBoard/**")
+	@GetMapping(value = "/purRevBoard")
 	public String purRevBoard(Model model,
 	                          @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 	                          @RequestParam(name = "keyWord", required = false) String keyWord,
@@ -140,17 +134,56 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/purRevWrite")
-	public String purRevWrite(Locale locale, Model model) {
+	public String purRevWrite(Locale locale, Model model, Authentication authentication) {
 		
 		logger.debug("구매후기 글쓰기 진입");
+		logger.debug(authentication.getName());
+		
+        // 현재 로그인한 사용자의 세션 ID 얻기
+        String custId = authentication.getName();
+        
+        model.addAttribute("custId", custId);
 		
 		return "content/purRevWrite";
 	}
 	
-	@GetMapping(value = "/purRevView")
-	public String purRevView(Locale locale, Model model) {
+	@GetMapping(value = "/purRevView/{id}")
+	public String purRevView(Model model, @PathVariable Long id, Principal principal) {
 		
 		logger.debug("구매후기 열람 진입");
+		logger.debug("id ::: " + id);
+		
+		PurRevBoardDTO purRevBoardDTO = new PurRevBoardDTO();
+		
+		purRevBoardDTO = purRevBoardService.purRevDetail(id);
+		
+//		String custId = null;
+//		
+//		try {
+//			
+//			if(!Utiles.isNullOrEmpty(principal.getName()))
+//			{
+//				custId = principal.getName();
+//			}
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}finally {
+//			model.addAttribute("custId", custId);
+//		}
+		
+		
+		/*
+		 * 현재 로그인한 사용자가 있을 경우 로그인 사용자를 넘겨주고
+		 * 그렇지 않은 경우. 즉, null인 경우는 null로 할당
+		 */
+	    String custId = Optional.ofNullable(principal)
+	            .map(Principal::getName)
+	            .orElse(null);
+
+	    model.addAttribute("custId", custId);
+		model.addAttribute("id", id);
+		model.addAttribute("purRevBoard", purRevBoardDTO);
 		
 		return "content/purRevView";
 	}
