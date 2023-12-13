@@ -21,7 +21,7 @@ const error = document.querySelectorAll('.error_next_box');
 
 
 // id 중복확인
-const isDuplicateChecked = false; // 중복 확인 여부 저장하는 변수
+var isDuplicateChecked = false; // 중복 확인 여부 저장하는 변수
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -62,15 +62,23 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (data.includes('사용 가능한')) {
 					alert(data);
 					statusElement.style.color = '#33A188';
-					isDuplicateChecked = true; // 중복 확인됨
 					signupBtn.disabled = false; // 가입 버튼 활성화
+					
+					return true;
+					
 				} else {
 					alert(data);
 					statusElement.style.color = 'red';
-					isDuplicateChecked = false; // 중복 확인되지 않음
 					signupBtn.disabled = true; // 가입 버튼 비활성화
+					
+					return false;
 				}
 			})
+			
+			.then(function(isDuplicate) {
+	            isDuplicateChecked = isDuplicate;
+	        })
+			
 			.catch(function(error) {
 				console.log('에러 발생: ' + error);
 			});
