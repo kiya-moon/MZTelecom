@@ -2,13 +2,12 @@ package com.team.mztelecom.domain;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -16,8 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class IntmBas {
     @Id
@@ -33,31 +31,34 @@ public class IntmBas {
     
     @NotNull
     @Column(unique = true)
-    private String intmIdfyNo;		// 기기식별번호
+    private String intmIdfyNo;			// 기기식별번호
 
     @NotNull
-    private String intmNm;			// 단말기 이름
+    private String intmNm;				// 단말기 이름
     
     @NotNull
-    private String intmKorNm;		// 단말기 한글 이름
+    private String intmKorNm;			// 단말기 한글 이름
     
     @NotNull
-    private String intmGB;			// 기기 용량
+    private String intmGB;				// 기기 용량
     
     @NotNull
-    private String intmPrice;		// 기기 값
+    private String intmPrice;			// 기기 값
 
-    private String intmSalesStatus; // 기기판매여부
+    private String intmSalesStatus; 	// 기기판매여부
 
-    private String intmBuyerId;		// 기기구매자아이디
+    private String intmBuyerId;			// 기기구매자아이디
     
-    @OneToMany(mappedBy = "intmBas")
-    private List<IntmImg> intmImgs;
+    private boolean isLiked;			// 찜하기
 
+    @OneToMany(mappedBy = "intmBas")	
+    private List<IntmImg> intmImgs;		// 상품 이미지
+    
+    
     @Builder
 	public IntmBas(Long id, String repIntmModelId, String intmModelColor, String intmSeq,
 			String intmIdfyNo, String intmNm, String intmKorNm, String intmGB,
-			String intmPrice, String intmSalesStatus, String intmBuyerId, List<IntmImg> intmImgs) {
+			String intmPrice, String intmSalesStatus, String intmBuyerId, boolean isLiked,List<IntmImg> intmImgs) {
 		
     	this.id = id;
 		this.repIntmModelId = repIntmModelId;
@@ -70,7 +71,8 @@ public class IntmBas {
 		this.intmPrice = intmPrice;
 		this.intmSalesStatus = intmSalesStatus;
 		this.intmBuyerId = intmBuyerId;
+		this.isLiked = isLiked;
 		this.intmImgs = intmImgs;
 	}
-    
+
 }

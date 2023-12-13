@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,13 @@ public class CustService {
 	private final CustChgPwService custChgPwService;
 	
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
+	// 로그인 확인
+	public boolean isLoggedIn() {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    return auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
+	}
 	
 	/**
 	 * 아이디 찾기 service - 김시우
