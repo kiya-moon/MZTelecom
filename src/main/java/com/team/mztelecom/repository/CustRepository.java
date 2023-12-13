@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.dto.CustBasDTO;
 
 import jakarta.persistence.criteria.Predicate;
 
