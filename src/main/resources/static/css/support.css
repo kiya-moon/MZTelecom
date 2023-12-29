@@ -108,7 +108,7 @@
     border-radius: 4px;
 }
 
-.support-container .email-content {
+.support-container .email-content, .support-container .textarea-content {
 	display: flex;
     flex: 2;
     align-items: center;
@@ -117,14 +117,16 @@
 .support-container .email-content input, 
 .support-container .email-content select {
 	flex: 1;
+	width: 100%;
 	padding: 15px 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 } 
 
-.support-container textarea {
+.support-container .textarea-content textarea {
     height: 20vh;
     resize: none;
+    padding-left: 10px;
 }
 
 .support-container .form-checkbox {
