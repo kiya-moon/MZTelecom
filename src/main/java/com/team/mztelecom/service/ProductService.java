@@ -2,11 +2,13 @@ package com.team.mztelecom.service;
 
 import java.util.*;
 
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
 import com.team.mztelecom.dto.IntmBasDTO;
@@ -24,7 +26,6 @@ public class ProductService {
 
 	private final ProductRepository productRepository;
 	
-	
 	// 상품
 	public List<IntmBasDTO> getAllProductsWithImages() {
 		
@@ -35,23 +36,19 @@ public class ProductService {
 	    List<IntmBasDTO> intmDTOList = new ArrayList<>();
 
 	    for (IntmBas intmBas : intmBasList) {
+	    	
 	    	List<IntmImg> intmImgList = intmBas.getIntmImgs();
 	    	List<IntmImgDTO> intmImgDTOList = IntmImgListToDTO(intmImgList);
-	        
+	    	
 	        logger.debug("intmImgDTOList :: " + StringUtil.toString(intmImgDTOList));
 
 	        IntmBasDTO intmDTO = new IntmBasDTO(
 	            intmBas.getId(), 
-	            intmBas.getRepIntmModelId(),
 	            intmBas.getIntmModelColor(), 
-	            intmBas.getIntmSeq(), 
-	            intmBas.getIntmIdfyNo(), 
 	            intmBas.getIntmNm(),
 	            intmBas.getIntmKorNm(), 
-	            intmBas.getIntmGB(), 
+	            intmBas.getIntmGB(),
 	            intmBas.getIntmPrice(), 
-	            intmBas.getIntmSalesStatus(),
-	            intmBas.getIntmBuyerId(), 
 	            intmBas.isLiked(),
 	            intmImgDTOList
 	        );
@@ -60,7 +57,7 @@ public class ProductService {
 	        
 	    }
 	    
-
+	    
 	    logger.debug("intmDTOList :: " + StringUtil.toString(intmDTOList));
 	    
 	    return intmDTOList;
@@ -75,7 +72,6 @@ public class ProductService {
 	    	
 	    	IntmImgDTO intmImgDTO = new IntmImgDTO(
 	                intmImg.getId(), 
-	                intmImg.getRepIntmModelId(),
 	                intmImg.getIntmNm(),
 	                intmImg.getImgName(),
 	                intmImg.getImgPath()
@@ -105,16 +101,11 @@ public class ProductService {
         
         IntmBasDTO productDTO = IntmBasDTO.builder()
                 .id(productItem.getId())
-                .repIntmModelId(productItem.getRepIntmModelId())
                 .intmModelColor(productItem.getIntmModelColor())
-                .intmSeq(productItem.getIntmSeq())
-                .intmIdfyNo(productItem.getIntmIdfyNo())
                 .intmNm(productItem.getIntmNm())
                 .intmKorNm(productItem.getIntmKorNm())
                 .intmGB(productItem.getIntmGB())
                 .intmPrice(productItem.getIntmPrice())
-                .intmSalesStatus(productItem.getIntmSalesStatus())
-                .intmBuyerId(productItem.getIntmBuyerId())
                 .intmImgs(intmImgDTOList)
                 .isLiked(productItem.isLiked())
                 .build();

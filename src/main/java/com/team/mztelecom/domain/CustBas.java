@@ -88,40 +88,44 @@ public class CustBas implements UserDetails {
         return collection;
     }
 	
+	// 관리자 권한
 	public boolean isAdmin() {
         return "admin".equals(custId);
     }
 
-
-	@Override
-	public String getPassword() {
-		return getCustPassword();
-	}
-
+	
+	// 사용자 id 반환
 	@Override
 	public String getUsername() {
 		return getCustId();
 	}
-
-
+	
+	// 사용자 비밀번호 반환
+	@Override
+	public String getPassword() {
+		return getCustPassword();
+	}
+	
+	// 계정 만료 여부, true: 만료X
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
-
+	
+	// 계정 잠금 여부, true: 잠금X
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
-
+	// 패스워드 만료 여부, true: 만료X
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
-
+	// 계정 사용 가능 여부, true: 사용가능
 	@Override
 	public boolean isEnabled() {
 		return true;

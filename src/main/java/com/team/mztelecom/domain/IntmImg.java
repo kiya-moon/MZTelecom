@@ -25,9 +25,6 @@ public class IntmImg {
     private String intmNm;
 	
 	@NotNull
-    private String repIntmModelId;
-	
-	@NotNull
     private String imgName;
 
 	@NotNull
@@ -37,12 +34,11 @@ public class IntmImg {
     private IntmBas intmBas;
 
     @Builder
-	public IntmImg(Long id, String intmNm, String repIntmModelId, String imgName,
+	public IntmImg(Long id, String intmNm, String imgName,
 			String imgPath, IntmBas intmBas) {
     	
 		this.id = id;
 		this.intmNm = intmNm;
-		this.repIntmModelId = repIntmModelId;
 		this.imgName = imgName;
 		this.imgPath = imgPath;
 		this.intmBas = intmBas;

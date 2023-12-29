@@ -44,3 +44,20 @@ function handleLikeClick(event, productId, liked) {
 			toggleHeartColor(button); // 에러 발생 시 다시 원래 색상으로 되돌림
 		});
 }
+
+
+var radios = document.querySelectorAll('.option');
+var priceDisplay = document.querySelectorAll('.priceDisplay');
+
+radios.forEach(function(radio, index) {
+    radio.addEventListener('change', function() {
+        var dataValue = priceDisplay[index].getAttribute('data-value');
+        var radioValue = radio.value;
+        
+        if (dataValue === radioValue) {
+            priceDisplay[index].textContent = priceDisplay[index].textContent;
+        } 
+        priceDisplay[0].style.display = dataValue === '0' ? 'block' : 'none';
+        priceDisplay[1].style.display = dataValue === '1' ? 'block' : 'none';
+    });
+});
