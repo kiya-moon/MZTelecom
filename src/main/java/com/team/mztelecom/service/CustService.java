@@ -174,21 +174,33 @@ public class CustService {
     	String[] custIdfyNoArr = request.getCustIdfyNo().split(",");
     	
     	if (custIdfyNoArr.length >= 2) {
+    		// 주민번호 '-' 삽입
     	    request.setCustIdfyNo(custIdfyNoArr[0] + "-" + custIdfyNoArr[1]);
     	    
-    	    request.setCustBirth(request.getCustIdfyNo().substring(0,6));
-    	    
+    	    // 핸드폰번호 '-' 삽입
     	    String[] custNoArr = request.getCustNo().split(",");
     	    request.setCustNo(custNoArr[0] + "-" + custNoArr[1] + "-" + custNoArr[2]);
     	    
+    	    // 성별
     	    String sex = request.getCustIdfyNo().substring(7, 8);
-    	    
     	    if (sex.equals("1") || sex.equals("3")) {
     	    	request.setCustSex("남성");
     	    } else if (sex.equals("2") || sex.equals("4")) {
     	    	request.setCustSex("여성");
     	    }
+
+    	    // 생년월일
+    	    String birthDay = request.getCustIdfyNo().substring(0,6);
+    	    if (sex.equals("1") || sex.equals("2")) {
+    	    	birthDay = "19" + birthDay;
+    	    	logger.debug("19xx : " + birthDay);
+    	    } else if (sex.equals("3") || sex.equals("4")) {
+    	    	birthDay = "20" + birthDay;
+    	    	logger.debug("20xx : " + birthDay);
+    	    }
+    	    request.setCustBirth(birthDay);
     	    
+    	    // 이메일 '@' 삽입
     	    String email = request.getCustEmail() + '@'+ request.getEmailDomain();
     	    request.setCustEmail(email);
     	    
