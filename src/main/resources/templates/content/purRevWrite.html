@@ -11,11 +11,11 @@
 					<div>
 						<div class="pur-rev-write">
 						</div>
-						<form th:action="@{/purRevWrite}" th:method="post" id="pur-rev-Write-form" enctype="multipart/form-data">
+						<form th:action="@{/purRevWrite}" th:method="post" id="pur-rev-Write-form" autocomplete="off" enctype="multipart/form-data">
 					        <div class="rev-group">
 							    <label><span class="dot"></span>작성자</label>
 							    <div class="input-writer">
-							    	<input type="text" th:placeholder="${custId}" th:value="${custId}" name="writer" id="writer" readonly>
+							    	<input type="text" th:placeholder="${custNm}" th:value="${custNm}" name="writer" id="writer" readonly>
 							    </div>
 							</div>
 							<div class="rev-group rev-select">
@@ -45,13 +45,23 @@
 					        </div>
 					        <div class="rev-group">
 					            <label><span class="dot"></span>구매후기내용</label>
-					            <textarea maxlength="2000" placeholder="  구매 후기를 작성해 주세요." name="contents"></textarea>
+					        	<div class="rev-textarea">
+						            <textarea maxlength="2000" placeholder="구매 후기를 작성해 주세요." name="contents"></textarea>
+								</div>
 					        </div>
 					        <div class="rev-group file-div">
-					            <label><span class="dot"></span>첨부파일</label>
-					            <div class="rev-file-content">
-									<input type="file" name="file">
-								</div>
+					            <label>
+									<span class="dot"></span>첨부파일
+								</label>
+								<div>
+					                <span class="image-preview-container"id="image-preview-container"></span>
+								    <div class="file-group" id="file-group">
+								    	<label><i data-feather="file-plus" ></i>
+								    		<span>첨부파일</span>
+								    		<input type="file" class="img-attachment" name="files" accept=".jpg, .jpeg, .png, .pdf"  multiple="multiple" onchange="displaySelectedImages(this);"/>
+										</label>
+									</div>
+					            </div>
 					        </div>
 					        <div class="write-btn-div">
 					        	<button type="submit" class="btn-submit" onclick="return validateForm()">확인</button>

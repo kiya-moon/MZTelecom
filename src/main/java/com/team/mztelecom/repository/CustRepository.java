@@ -65,23 +65,6 @@ public interface CustRepository extends JpaRepository<CustBas, Long>  , JpaSpeci
 	@Query(value = "update cust_bas set cust_password = :custPw where cust_id = :custId", nativeQuery = true)
 	void updatePw(@Param("custPw")String custPw, @Param("custId")String custId);
 	
-	/**
-	 * custId로 사용자 정보 조회 repository - 문기연
-	 * @param custId
-	 * @return
-	 */
-	 
-	 // 아이디 존재여부 확인. @Query를 줘야 하나?? 
-//	 boolean existsById(String custId);
-	 
-	/**
-	 * 회원가입 repository - 문기연
-	 * @param custId
-	 * @return
-	 */
-//	 Long save(CustBasDTO request); 
-	
-	
 	/* 로그인 - 박지윤 */
 	Optional<CustBas> findByCustId(String custId);
 }

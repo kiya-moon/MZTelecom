@@ -38,6 +38,27 @@ public class CustService {
 	}
 	
 	/**
+	 * 구매후기 작성자에 넣을 이름 - 김시우
+	 * 
+	 */
+	public String findName(String str){
+		
+		CustBasDTO inCustBasDTO = CustBasDTO.builder()
+				.custId(str)
+				.build();
+		
+		CustBas inCustBas = inCustBasDTO.toEntity();
+		
+		List<CustBas> outList = new ArrayList<CustBas>();
+		outList = custRepository.findByDynamicQuery(inCustBas.getCustId(), inCustBas.getCustNm(), inCustBas.getCustBirth(), inCustBas.getCustEmail());
+		
+		String custNm = outList.get(0).getCustNm();
+		
+		return custNm;
+	}
+	
+	
+	/**
 	 * 아이디 찾기 service - 김시우
 	 */
 	public Map<String, String> findId(Map<String, String> info) 
@@ -46,8 +67,6 @@ public class CustService {
 		logger.debug("아이디찾기 service");
 		logger.debug("info 확인 ::" + info.toString());
 		
-		// repository에 반환 값 받을 list
-
 		// info의 값들을 사용하여 CustBasSaveDTO의 새로운 인스턴스 생성
         CustBasDTO custBasDTO = CustBasDTO.builder()
                 .custNm(info.get("custNm"))
@@ -246,17 +265,19 @@ public class CustService {
 	
 	
 	/**
-	 * 구매후기 구매시 회원의 Long id 조회 - 김시우
+	 * 구매후기 작성시 회원의 Long id 조회 - 김시우
 	 * 
+	 * @param inCustNm
+	 * @return
 	 */
-	public List<CustBas> getId(String inCustId) {
+	public List<CustBas> getId(String inCustNm) {
 		
 		// repository에 반환 값 받을 list
 		List<CustBas> outCustList = new ArrayList<CustBas>();
 
 		// info의 값들을 사용하여 CustBasSaveDTO의 새로운 인스턴스 생성
 		CustBasDTO custBasDTO = CustBasDTO.builder()
-		        .custId(inCustId)
+		        .custNm(inCustNm)
 		        .build();
 		logger.debug("확인"+StringUtil.toString(custBasDTO));
 

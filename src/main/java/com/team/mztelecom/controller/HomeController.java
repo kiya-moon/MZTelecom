@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Sort;
 
+import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.ProductService;
+import com.team.mztelecom.service.PurRevAttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
+import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 @Controller
@@ -33,10 +35,13 @@ public class HomeController {
 	ProductService productService;
 	
 	@Autowired
-	CustService custServicev;
+	CustService custService;
 	
 	@Autowired
 	PurRevBoardService purRevBoardService;
+	
+	@Autowired
+	PurRevAttachmentService purRevAttachmentService;
 
 	
 	@GetMapping(value = "/")
@@ -96,6 +101,15 @@ public class HomeController {
 		return "content/inquiryDetail";
 	}
 	
+	/**
+	 * 구매후기 목록 - 김시우
+	 * 
+	 * @param model
+	 * @param pageable
+	 * @param keyWord
+	 * @param catgo
+	 * @return
+	 */
 	@GetMapping(value = "/purRevBoard")
 	public String purRevBoard(Model model,
 	                          @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -127,63 +141,79 @@ public class HomeController {
 	    logger.debug("getSize ::: " + purRevBoardList.getSize());
 
 	    model.addAttribute("purRevBoardList", purRevBoardList);
-
-	    logger.debug("controller 리턴 전");
+	    
+	    List<PurRevBoardDTO> temp = new ArrayList<>();
+	    
+	    temp.addAll(purRevBoardList.getContent());
+	    
+	    logger.debug("temp :: " + StringUtil.toString(temp));
 
 	    return "content/purRevBoard";
 	}
 	
+	/**
+	 * 구매후기 작성페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @param principal
+	 * @return
+	 */
 	@GetMapping(value = "/purRevWrite")
-	public String purRevWrite(Locale locale, Model model, Authentication authentication) {
+	public String purRevWrite(Locale locale, Model model, Principal principal) {
 		
 		logger.debug("구매후기 글쓰기 진입");
-		logger.debug(authentication.getName());
+		logger.debug(principal.getName());
 		
-        // 현재 로그인한 사용자의 세션 ID 얻기
-        String custId = authentication.getName();
+		// 현재 로그인한 사용자의 이름
+        String custNm = custService.findName(principal.getName());
         
-        model.addAttribute("custId", custId);
+        model.addAttribute("custNm", custNm);
 		
 		return "content/purRevWrite";
 	}
 	
+	
+	/**
+	 * 구매후기 열람 - 김시우
+	 * 
+	 * @param model
+	 * @param id
+	 * @param principal
+	 * @return
+	 */
 	@GetMapping(value = "/purRevView/{id}")
 	public String purRevView(Model model, @PathVariable Long id, Principal principal) {
 		
 		logger.debug("구매후기 열람 진입");
-		logger.debug("id ::: " + id);
 		
 		PurRevBoardDTO purRevBoardDTO = new PurRevBoardDTO();
+		List<PurRevAttachmentDTO> outPurRevAttachmentDTO = new ArrayList<>();
 		
-		purRevBoardDTO = purRevBoardService.purRevDetail(id);
+		// 게시물 조회
+		purRevBoardDTO = purRevBoardService.purRevView(id);
 		
-//		String custId = null;
-//		
-//		try {
-//			
-//			if(!Utiles.isNullOrEmpty(principal.getName()))
-//			{
-//				custId = principal.getName();
-//			}
-//			
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}finally {
-//			model.addAttribute("custId", custId);
-//		}
+		// 작성된 게시물에 있는 첨부파일 조회
+		outPurRevAttachmentDTO = purRevAttachmentService.getAttachment(id);
 		
+		for(int i =0; i < outPurRevAttachmentDTO.size(); i++) {
+			logger.debug("outPurRevAttachmentDTO :: " + outPurRevAttachmentDTO.get(i).getFilePath());
+		}
 		
+		String custId = purRevBoardDTO.getCustBasDTO().get(0).getCustId();
 		/*
 		 * 현재 로그인한 사용자가 있을 경우 로그인 사용자를 넘겨주고
 		 * 그렇지 않은 경우. 즉, null인 경우는 null로 할당
 		 */
-	    String custId = Optional.ofNullable(principal)
+	    String sessionId = Optional.ofNullable(principal)
 	            .map(Principal::getName)
 	            .orElse(null);
 
+	    model.addAttribute("sessionId", sessionId);
 	    model.addAttribute("custId", custId);
 		model.addAttribute("id", id);
 		model.addAttribute("purRevBoard", purRevBoardDTO);
+		model.addAttribute("purRevAttachment", outPurRevAttachmentDTO);
 		
 		return "content/purRevView";
 	}

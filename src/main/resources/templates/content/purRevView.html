@@ -11,7 +11,7 @@
 					<div>
 						<div class="pur-rev-write">
 						</div>
-						<form th:action="@{/purRevView/{id}}" method="post" th:object="${purRevBoard}" id="pur-rev-Write-form">
+						<form th:action="@{/purRevView/{id}}" method="post" th:object="${purRevBoard}" id="pur-rev-Write-form"  autocomplete="off" enctype="multipart/form-data">
 					        <div class="rev-group">
 							    <label><span class="dot"></span>작성자</label>
 							    <div class="input-writer">
@@ -26,24 +26,38 @@
 							</div>
 					        <div class="rev-group">
 					            <label><span class="dot"></span>제목</label>
-					            <div class="rev-title-content" style="flex:none;">
-						            <input type="text" th:placeholder="${purRevBoard.boardTitle}" th:value="${purRevBoard.boardTitle}" id = "rev-title-input" disabled>
+					            <div class="rev-title-content">
+						            <input type="text" th:value="${purRevBoard.boardTitle}" id = "rev-title-input" disabled>
 					            </div>
 					        </div>
 					        <div class="rev-group">
 					            <label><span class="dot"></span>구매후기내용</label>
-					            <textarea class="form-control" id="content" name="content" disabled>[[${purRevBoard.boardDetail}]]</textarea>
-					        </div>
-					        <div class="rev-group file-div">
-					            <label><span class="dot"></span>첨부파일</label>
-					            <div class="rev-file-content" style="flex:none;">
-									<!--<input type="file" name="file" >-->
+					            <div class = "rev-textarea">
+					            	<textarea class="form-control" id="content" name="content" disabled>[[${purRevBoard.boardDetail}]]</textarea>
 								</div>
 					        </div>
+							<div class="rev-group file-div">
+					            <label>
+									<span class="dot"></span>첨부파일
+								</label>
+								<div class="saved-img-list">
+								    <div class="saved-img" th:each="files : ${purRevAttachment}">
+								        <img th:src="|/files/${files.id}|" th:if="${files} != null" alt="이미지" class="img-item" name="imgItem" th:attr=data-id=${files.id} style="width: 150px; height: 150px;">
+								        <i data-feather="x" class="img-del-btn" name="imgItem" style="display:none" th:attr=data-btn=${files.id} th:onclick="|deleteImage(${files.id})|"></i>
+								    </div>
+								    <span class="image-preview-container"id="image-preview-container"></span>
+								    <div class="file-group" id="file-group" style="display:none">
+								    	<label><i data-feather="file-plus" ></i>
+								    		<span>첨부파일</span>
+								    		<input type="file" class="img-attachment" name="files" accept=".jpg, .jpeg, .png, .pdf"  multiple="multiple" onchange="displaySelectedImages(this);"/>
+										</label>
+									</div>
+								</div>
+					        </div>	
 					        <div class="write-btn-div">
-								<button type="button" class="pur-Rev-btn" id="edit-button" th:if="${(purRevBoard.writer == custId) && custId != null}" onclick="enableEdit()"value="수정">수정</button>
-								<button type="button" class="pur-Rev-btn" id="complete-button" style="display: none;" th:if="${(purRevBoard.writer == custId) && custId != null}" th:onclick="|completeEdit(${id})|"value="수정완료">수정완료</button>
-								<button type="button" class="pur-Rev-btn" th:if="${(purRevBoard.writer == custId) && custId != null}" onclick="enableEdit()" value="삭제">삭제</button>
+								<button type="button" class="pur-Rev-btn" id="edit-button" th:if="${(custId == sessionId) && sessionId != null}" onclick="enableEdit()" value="수정">수정</button>
+								<button type="button" class="pur-Rev-btn" id="complete-button" style="display: none;" th:if="${(custId == sessionId) && sessionId != null}" th:onclick="|completeEdit(${id})|"value="수정완료">수정완료</button>
+								<button type="button" class="pur-Rev-btn" th:if="${(custId == sessionId) && sessionId != null}" th:onclick="|removeReview(${id})|" value="삭제">삭제</button>
 								<button type="button" class="pur-Rev-btn" value="나가기" onclick="goBack()">나가기</button>
 					        </div>
 					    </form>
