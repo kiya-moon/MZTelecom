@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### ouauth ###
-application-ouauth.properties
+src/main/resources/application-ouauth.properties
