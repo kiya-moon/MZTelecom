@@ -36,3 +36,7 @@
 .signup-checkbox div, .cust_id {
 	flex:1; 
 }
+
+.hide {
+display: none;
+}
