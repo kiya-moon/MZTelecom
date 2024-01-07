@@ -302,4 +302,15 @@ public class CustService {
 		
 		return outCustList;
 	}
+
+	/**
+	 * 이메일 중복 확인 - 문기연
+	 * @param custEmail
+	 * @return
+	 */
+	public boolean isEmailDuplicate(String custEmail) {
+        Optional<CustBas> existingCustEmail = custRepository.findByCustEmail(custEmail);
+        logger.debug("이메일 죽복확인 서비스 도착. custEmail :: " + existingCustEmail);
+        return existingCustEmail.isPresent();
+	}
 }

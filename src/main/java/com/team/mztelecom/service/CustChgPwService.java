@@ -144,8 +144,10 @@ public class CustChgPwService {
         message.setTo(mailInfo.get("address"));
         message.setSubject(mailInfo.get("title"));
         message.setText(mailInfo.get("message"));
-        message.setFrom("syoo91@naver.com");
-        message.setReplyTo("syoo91@naver.com");
+//        message.setFrom("syoo91@naver.com");
+//        message.setReplyTo("syoo91@naver.com");
+        message.setFrom("anelune@naver.com");
+        message.setReplyTo("anelune@naver.com");
         
         logger.debug("message 내용 확인 ::: " + message);
         

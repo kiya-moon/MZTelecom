@@ -68,9 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	const sendCertBtn = document.querySelector('#email-cerification')
 	const emailBox = document.getElementById('email-box')
 	const emailDomainBox = document.getElementById('email-domain-box')
-	emailDomainBox.readOnly = false
 	const emailDomainList = document.getElementById('email-domain-list')
+
 	let certCode = ''
+
+	emailDomainBox.readOnly = false
 
 	emailDomainList.addEventListener("change", function() {
 		let selectedOption = emailDomainList.options[emailDomainList.selectedIndex].value
@@ -86,12 +88,31 @@ document.addEventListener('DOMContentLoaded', function() {
 	sendCertBtn.addEventListener('click', function() {
 		if (emailBox.value === '' || emailDomainBox.value === '') {
 			alert("이메일을 입력해주세요")
-			return
 		} else {
-			emailCertView()
-			sendEmailCert()
+			checkEmailDuplicate()
 		}
 	})
+	
+	// 이메일 중복 확인
+	function checkEmailDuplicate(){
+		const custEmail = `${emailBox.value}@${emailDomainBox.value}`
+		console.log(custEmail)
+		fetch(`/checkEmailDuplicate?custEmail=${custEmail}`)
+			.then(function(response) {
+				return response.text()
+			})
+			.then(function(data) {
+				if (data.includes('사용 중인')) {
+					alert(data)
+				} else {
+					emailCertView()
+					sendEmailCert()
+				}
+			})
+			.catch(function(error) {
+				console.log('에러 발생: ' + error)
+			})
+	}
 
 	// 인증요청 클릭 시 인증번호 체크 입력 칸 보이게
 	function emailCertView() {
@@ -101,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 인증번호 요청
 	function sendEmailCert() {
-		console.log(`emailBox :: ${emailBox.value} , emailDomainBox :: ${emailDomainBox.value}`)
 		const custEmail = `${emailBox.value}@${emailDomainBox.value}`
 		console.log(custEmail)
 		fetch(`/sendEmailCert?custEmail=${custEmail}`)
@@ -110,6 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			})
 			.then(function(data) {
 				certCode = data
+			})
+			.catch(function(error) {
+				console.log('에러 발생: ' + error)
 			})
 	}
 	
@@ -194,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	    agree.addEventListener('click', function() {
 			console.log('개별동의 체크 해제')
 	        // 개별 동의 체크박스 중 하나라도 체크가 해제되면 전체 동의 체크박스도 해제
-	        if (!this.checked) {
+	        if (!agree.checked) {
 	            handleAgreeAll.checked = false
 	        }
 	    });
@@ -212,10 +235,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.preventDefault()
 			alert('이메일을 인증해주세요.')
 		}
-		agreeCheckboxes.forEach(agree => {
-			if(!this.checked){
-				alert('전체 동의해주세요.')
-			}
+	    if (!agreeCheckboxes.every(agree => agree.checked)) {
+	        // 하나라도 동의하지 않은 경우
+	        event.preventDefault();
+	        alert('전체 동의해주세요.');
+	    }
 		})
-	})
 })

@@ -164,6 +164,21 @@ public class CustController {
 
 		return "redirect:/login";
 	}
+	
+	/**	
+	 * 회원가입 이메일 중복 확인 - 문기연
+	 */
+	@GetMapping(value = "/checkEmailDuplicate")
+	public ResponseEntity<String> checkEmailDuplicate(@RequestParam("custEmail") String custEmail) {
+		logger.debug("이메일 중복 확인 컨트롤러 도착 :: " + custEmail);
+		boolean isEmailDuplicate = custService.isEmailDuplicate(custEmail);
+		logger.debug("isEmailduplicate :: " + isEmailDuplicate);
+		if (isEmailDuplicate) {
+			return ResponseEntity.badRequest().body("사용 중인 이메일 입니다.");
+		} else {
+			return ResponseEntity.ok("사용 가능한 이메일");
+		}
+	}
 
 	/**
 	 * 회원가입 이메일 인증 - 문기연

@@ -32,7 +32,7 @@
 						<div class="input-content">
 							<input type="text" class="email-box" id="email-box" name="custEmail" required>&nbsp;@&nbsp; 
 							<input type="text" class="email-box" id="email-domain-box" name="emailDomain" placeholder="example.com" required>
-							<select class="email-box" id="email-domain-list" name="emailDomain">
+							<select class="email-box" id="email-domain-list">
 								<option value="naver.com">naver.com</option>
 								<option value="gmail.com">gmail.com</option>
 								<option value="hanmail.net">hanmail.net</option>
@@ -79,10 +79,10 @@
 						<label for="residentNumber">주민등록번호</label>
 						<div class="input-content">
 							<input type="text" id="residentNumber1" name="custIdfyNo" maxlength="6"
-								pattern="\d{2}[0-1]\d{1}[0-3]\d{1}" title="숫자만 가능합니다." required>
+								pattern="[0-9]{6}" title="숫자만 가능합니다." required>
 							&nbsp;-&nbsp;
 							<input type="password" id="residentNumber2" name="custIdfyNo" maxlength="7"
-								pattern="[1-4]\d{6}" title="숫자만 가능합니다." required>
+								pattern="[1-4]\[0-9]{6}" title="숫자만 가능합니다." required>
 						</div>
 						<!-- 이메일과 동일 작업 필요 -->
 					</div>
@@ -93,9 +93,9 @@
 						<div class="input-content">
 							<input type="text" name="custNo" value="010" readonly>
 							&nbsp;-&nbsp;
-							<input type="text" name="custNo" pattern="d{4}" maxlength="4" title="숫자만 가능합니다." required>
+							<input type="text" name="custNo" pattern="[0-9]{4}" maxlength="4" title="숫자만 가능합니다." required>
 							&nbsp;-&nbsp;
-							<input type="text" name="custNo" pattern="d{4}" maxlength="4" title="숫자만 가능합니다." required>
+							<input type="text" name="custNo" pattern="[0-9]{4}" maxlength="4" title="숫자만 가능합니다." required>
 						</div>
 						<!-- 동일 작업 필요 -->
 					</div>
