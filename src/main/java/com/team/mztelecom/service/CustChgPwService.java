@@ -2,6 +2,7 @@ package com.team.mztelecom.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class CustChgPwService {
 	CustRepository custRepository;
 	
 	/**
-	 * 메일 내용 생성 method - 김시우
+	 * 비밀번호 찾기 메일 내용 생성 method - 김시우
 	 * 
 	 * @param memberEmail
 	 * @return
@@ -70,7 +71,38 @@ public class CustChgPwService {
     	
     	custRepository.updatePw(encPw, custId);
     }
- 
+    
+    /**
+     *  이메일 인증 메일 내용 생성 method - 문기연
+     */
+	public String createMailCert(String custEmail) {
+		Map<String, String> mailInfo = new HashMap<>();
+		String certCode = getCertCode();
+		
+        mailInfo.put("address", custEmail);
+        mailInfo.put("title", "MZTelecom 인증 코드 안내 이메일 입니다.");
+        mailInfo.put("message", "안녕하세요, MZTelecom 입니다. \n인증코드 6자리를 진행 중인 화면에 입력하고 인증을 완료해주세요." 
+        		+ "\n인증코드 : " + certCode);
+       
+        mailSend(mailInfo);
+        
+        return certCode;
+	}
+	
+	
+    /**
+     *  랜덤으로 인증코드 만들기 method - 문기연
+     */
+	public String getCertCode() {
+		Random random = new Random();
+		
+        // 100000에서 999999 사이의 랜덤 숫자 생성
+        int randomcode = 100000 + random.nextInt(900000);
+
+        // 숫자를 문자열로 변환하여 반환
+        return String.valueOf(randomcode);
+	}
+	
     
     /**
      * 랜덤으로 임시비밀번호 만들기 method - 김시우
@@ -119,6 +151,7 @@ public class CustChgPwService {
         
         mailSender.send(message);
     }
+
     
     
     
