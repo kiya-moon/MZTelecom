@@ -6,52 +6,50 @@
 	<section class="common">
 		<article>
 			<div class="productDetail-container">
-				<div class="image-content">
-					<img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
-				</div>
-
-				<div class="info-content">
-					<h2 th:text="${product.IntmKorNm}"></h2>
-					
-					<p>색상</p>
-					<div class="info-capacities">
-					    <label th:each="color, colorOption : ${product.intmModelColor}" 
-					           th:class="${color == 'black'} ? 'black' : (${color == 'mint'} ? 'mint' : 'green')">
-					        <input type="radio" class="color" name="color" th:value="${color}" th:checked="${colorOption.index == 0}">
-					        <span th:text="${color}"></span>
-					    </label>
+				<form th:action="@{/authenticate}" method="POST">
+					<div class="image-content">
+						<img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
 					</div>
-
-
-					<p>저장공간</p>
-					
-					<div class="info-capacities">
-						<label th:each="capacity, option : ${product.IntmGB}">
-						    <input type="radio" class ="option" name="option" th:value="${option.index}" th:checked="${option.index == 0}">
-						    <span th:text="${capacity}"></span>
-						</label>
+	
+					<div class="info-content">
+						<h2 th:text="${product.IntmKorNm}"></h2>
+						
+						<p>색상</p>
+						<div class="info-capacities">
+						    <label th:each="color, colorOption : ${product.intmModelColor}" 
+						           th:class="${color == 'black'} ? 'black' : (${color == 'mint'} ? 'mint' : 'green')">
+						        <input type="radio" class="color" name="color" th:value="${color}" th:checked="${colorOption.index == 0}">
+						        <span th:text="${color}"></span>
+						    </label>
+						</div>
+	
+	
+						<p>저장공간</p>
+						
+						<div class="info-capacities">
+							<label th:each="capacity, option : ${product.IntmGB}">
+							    <input type="radio" class ="option" name="option" th:value="${option.index}" th:checked="${option.index == 0}">
+							    <span th:text="${capacity}"></span>
+							</label>
+						</div>
+	
+						<div class="info-plan">
+							<h2 class="priceDisplay" th:each="price, priceList : ${product.IntmPrice}" th:data-value="${priceList.index}" 
+	        					th:text="'월 ' + ${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + '원'"></h2>
+						</div>
+	
+						<div class="detail-btn">
+							<button type="button" class="cart">장바구니</button>
+							<button type="button" class="btnLike"
+								th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
+								<p>찜하기</p>
+								<i class="heart" data-feather="heart"></i>
+							</button>
+						</div>
+						<button class="order">온라인 주문</button>
 					</div>
-
-					<p>
-					        사진은 약 51,200장, 영화는 약 320편 이상을 저장할 수 있어요.
-					</p>
-					
-					<div class="info-plan">
-						<h2 class="priceDisplay" th:each="price, priceList : ${product.IntmPrice}" th:data-value="${priceList.index}" 
-        					th:text="'월 ' + ${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + '원'"></h2>
-					</div>
-
-					<div class="detail-btn">
-						<button type="button" class="cart">장바구니</button>
-						<button type="button" class="btnLike"
-							th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
-							<p>찜하기</p>
-							<i class="heart" data-feather="heart"></i>
-						</button>
-					</div>
-					<a th:href="@{'/order/' + ${product.id}}" class="order">온라인 주문</a>
-				</div>
 				
+				</form>
 				<div class="info-detail">
 					
 				</div>

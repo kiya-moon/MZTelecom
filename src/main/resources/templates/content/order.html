@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/default_layout}">
-	
+
 <th:block layout:fragment="content">
 	<section class="common">
 		<article>
-			order
+			<div class="order-container">
+				<h2>주문내역을 확인해주세요.</h2>
+				<div class="order-group">
+					<div class="order-content">
+						
+					</div>
+				</div>
+			</div>
 		</article>
 	</section>
+</th:block>
+
+
+<th:block layout:fragment="script">
+	<script th:src="@{/js/order.js}"></script>
 </th:block>
 
 </html>

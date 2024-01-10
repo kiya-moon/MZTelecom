@@ -21,7 +21,7 @@ public class IntmBasDTO {
 	String intmNm;					// 단말기 이름
 	String intmKorNm;				// 단말기 한글 이름
 	List<String> intmGB;			// 기기 용량
-	List<String> intmPrice;				// 기기 값
+	List<String> intmPrice;			// 기기 값
 	boolean isLiked;				// 찜하기
 	List<IntmImgDTO> intmImgs;		// 상품 이미지
 	
