@@ -55,17 +55,22 @@ function handleLikeClick(event, productId, liked) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('.btnLike');
+    
+    const userId = localStorage.getItem('userId');
 
-    buttons.forEach(button => {
-        const productId = button.getAttribute('data-product-id');
-        const storedLikes = JSON.parse(localStorage.getItem('likedProducts')) || {};
-        const isLiked = storedLikes[productId];
-		
-		if(isLiked) {
-            button.classList.toggle('red');
-		}
-		
-    });
+    if (userId) {
+        buttons.forEach(button => {
+            const productId = button.getAttribute('data-product-id');
+
+            // 사용자가 찜한 상품 정보를 가져옵니다.
+            const userLikedProducts = JSON.parse(localStorage.getItem(`likedProducts_${userId}`)) || {};
+            const isLiked = userLikedProducts[productId];
+
+            if (isLiked) {
+                button.classList.toggle('red');
+            }
+        });
+    }
 });
 
 

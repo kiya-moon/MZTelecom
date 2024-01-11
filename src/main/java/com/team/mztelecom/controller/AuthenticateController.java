@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,8 +24,15 @@ public class AuthenticateController {
 	@Autowired
 	TemporarySaveDTO temporarySaveDTO;
 	
+	@GetMapping(value = "/authenticate")
+	public String authenticate(Locale locale, Model model) {
+		
+		return "content/authenticate";
+	}
+	
+	
 	@PostMapping(value = "/authenticate")
-	public String order(Locale locale, Model model
+	public String authenticate(Locale locale, Model model
 						,@RequestParam("intmKorNm") String intmKorNm
 						,@RequestParam("color") String cliColor
 						,@RequestParam("option") String cliCpcty) {

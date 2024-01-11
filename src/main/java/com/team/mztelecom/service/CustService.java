@@ -37,6 +37,26 @@ public class CustService {
 	    return auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
 	}
 	
+	// 회원 조회
+	public CustBasDTO getMember(List<String> inList) {
+		
+		CustBas MemberList = CustBas.builder()
+				.custNm(inList.get(0))
+				.custEmail(inList.get(1))
+				.build();
+		
+		
+		List<CustBas> outMemberList = custRepository.findByDynamicQuery(MemberList.getCustId(), MemberList.getCustNm(), MemberList.getCustBirth(), MemberList.getCustEmail());
+		
+		CustBasDTO inDTO = CustBasDTO.builder()
+				.custNm(outMemberList.get(0).getCustNm())
+				.custEmail(outMemberList.get(0).getCustEmail())
+				.build();
+		
+		return inDTO; 
+				
+	}
+	
 	/**
 	 * 구매후기 작성자에 넣을 이름 - 김시우
 	 * 

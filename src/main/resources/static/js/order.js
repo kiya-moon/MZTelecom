@@ -18,9 +18,13 @@ function daumPostCode() {
 	         document.getElementById("address1").value = address;
         }
     }).open();
+    
+    var address2Input = document.getElementById('address2');
+    address2Input.removeAttribute('readonly');
 }
 
-
+const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
 
 
 // 포트원 본인인증
@@ -38,7 +42,7 @@ function identityVerification() {
 	
 	const AllPhone = ChPhone1.concat("-",  ChPhone2, "-", ChPhone3);
 	console.log(AllPhone);
-
+	
 	if(ChName == '') {
 		alert("이름을 입력해주세요.");
 		
@@ -59,21 +63,39 @@ function identityVerification() {
 		
 	} else {
 		
+		const formData = new FormData();
+		formData.append('ChName', ChName);
+		formData.append('AllPhone', AllPhone);
+		formData.append('ChZip', ChZip);
+		formData.append('ChAddress1', ChAddress1);
+		formData.append('ChAddress2', ChAddress2);
+		
 		var IMP = window.IMP; 
 		IMP.init('imp05087430');
-	
+		
 		IMP.certification({ // param
 			pg: 'inicis_unified.MIIiasTest',
 			merchant_uid: 'merchant_' + new Date().getTime() // 주문 번호 개인적으로 설정 가능 
 		}, function(rsp) { // callback
 		
 			if (rsp.success) {
-				const data = {
-					imp_uid: rsp.imp_uid,
-					name: this.ChName,
-					phone: this.AllPhone
-				};
-				$axios.get("")
+				console.log("본인인증이 성공적으로 처리되었습니다.");
+				
+				fetch('/postOrder', {
+					method: 'POST',
+					headers: {
+			            [csrfHeader]: csrfToken,
+			        },
+			        body: formData
+				})
+				.then(function(rsp) {
+					window.location.href = '/order';
+					
+					return rsp.text();
+				})
+				.catch(function(error){
+					alert("에러" + error);
+				})
 			} else {
 				alert("인증에 실패하였습니다. 에러 내용: " + rsp.error_msg);
 			}
