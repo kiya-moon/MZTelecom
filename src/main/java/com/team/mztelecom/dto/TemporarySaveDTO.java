@@ -13,8 +13,8 @@ import lombok.Setter;
 @Component
 public class TemporarySaveDTO {
 	
-	List<Long> deleteFileId;	// fileId 임시저장
-	
+	List<Long>		deleteFileId;	// fileId 임시저장
+	List<String>	orderTmp;		// 주문내역 임시저장
 	
 	// fileId 임시저장 메서드
     public List<Long> getDeleteFileId() {
@@ -29,5 +29,13 @@ public class TemporarySaveDTO {
     	deleteFileId.clear();
     }
 	
+    public List<String> getOrderTmp() {
+        if (orderTmp == null) {
+        	orderTmp = new ArrayList<>();
+        }
+        return orderTmp;
+    }
+	
+    
 
 }
