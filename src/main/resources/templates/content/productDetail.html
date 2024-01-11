@@ -41,10 +41,9 @@
 	
 						<div class="detail-btn">
 							<button type="button" class="cart">장바구니</button>
-							<button type="button" class="btnLike"
-								th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
-								<p>찜하기</p>
-								<i class="heart" data-feather="heart"></i>
+							<button type="button" class="btnLike" th:attr="data-product-id=${product.id}" th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
+											<p>찜하기</p>
+											<i class="heart" data-feather="heart"></i>
 							</button>
 						</div>
 						<button class="order">온라인 주문</button>

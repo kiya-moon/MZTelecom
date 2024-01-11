@@ -57,5 +57,9 @@ public class IntmBas {
 		this.isLiked = isLiked;
 		this.intmImgs = intmImgs;
 	}
+    
+    public void UpdateLiked(boolean isLiked) {
+    	this.isLiked = isLiked;
+    }
 
 }
