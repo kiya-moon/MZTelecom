@@ -1,16 +1,14 @@
 package com.team.mztelecom.controller;
 
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -54,16 +52,15 @@ public class ProductController {
 	}
 	
 	@PutMapping(value = "/product/{productId}/liked")
-    public ResponseEntity<Boolean> toggleProductLiked(@PathVariable Long productId, Model model) {
-        productService.toggleProductLiked(productId);
-        
-        boolean isLoggedIn = custService.isLoggedIn();
-        logger.debug("isLoggedIn :: " + isLoggedIn);
-        
-        model.addAttribute("isLoggedIn", isLoggedIn);
-        
-        return ResponseEntity.ok(isLoggedIn);
-    }
+	public ResponseEntity<Map<String, Boolean>> toggleProductLiked(@PathVariable Long productId, @ModelAttribute IntmBasDTO intmBasDTO) {
+	    boolean isLiked = productService.toggleProductLiked(productId, intmBasDTO);
+	    
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("isLiked", isLiked);
+	    response.put("isLoggedIn", custService.isLoggedIn());
+
+	    return ResponseEntity.ok(response);
+	}
 	
 	
 }
