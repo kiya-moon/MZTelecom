@@ -3,7 +3,7 @@
 <th:block th:fragment="headerFragment">
 	<header class="header">
 		<div class="header-content">
-			
+
 			<div class="logo">
 				<a th:href="@{/}">
 					<img th:src="@{/images/MZ_logo.png}" alt="Logo">
@@ -23,27 +23,31 @@
 				<a th:href="@{/cart}">
 					<i data-feather="shopping-cart"></i>
 				</a>
-				
-				<a sec:authorize="isAnonymous()" th:href="@{/login}">
+
+				<a sec:authorize="isAnonymous() and !hasRole('ROLE_ADMIN')" th:href="@{/login}">
 					<i data-feather="user"></i>
 				</a>
-				
-				<a sec:authorize="isAuthenticated()" th:href="@{/myPage}">
-				    <i data-feather="user"></i>
+
+				<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">
+					<i data-feather="user"></i>
 				</a>
-				
+
+				<a sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')" th:href="@{/myPage}">
+					<i data-feather="user"></i>
+				</a>
+
 				<a class="logout" sec:authorize="isAuthenticated()" th:href="@{/logout}">
 					<i data-feather="log-out"></i>
 				</a>
-				
+
 				<div class="hamburger-menu">
 					<a th:attr="href=${null}" onclick="toggleMenu()">
 						<i data-feather="menu"></i>
 					</a>
 				</div>
-				
+
 			</div>
-			
+
 
 			<!-- 모바일용 메뉴 -->
 			<div class="mobile-menu">
@@ -55,11 +59,11 @@
 						<a sec:authorize="isAnonymous()" th:href="@{/login}">
 							<i data-feather="user"></i>
 						</a>
-						
+
 						<a sec:authorize="isAuthenticated()" th:href="@{/myPage}">
-						    <i data-feather="user"></i>
+							<i data-feather="user"></i>
 						</a>
-						
+
 						<a class="logout" sec:authorize="isAuthenticated()" th:href="@{/logout}">
 							<i data-feather="log-out"></i>
 						</a>

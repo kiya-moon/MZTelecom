@@ -1,0 +1,16 @@
+package com.team.mztelecom.repository;
+
+import java.util.*;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.team.mztelecom.domain.CustBas;
+
+@Repository
+public interface AdminRepository extends JpaRepository<CustBas, Long>{
+	@Query(value = "SELECT i FROM CustBas i WHERE i.custId != 'admin'")
+	List<CustBas> findAllCustInfo(); 
+
+}
