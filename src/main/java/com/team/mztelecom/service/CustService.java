@@ -250,7 +250,7 @@ public class CustService {
                 .custId(request.getCustId())
                 .custPassword(bCryptPasswordEncoder.encode(request.getCustPassword()))
                 .custNm(request.getCustNm())
-                .custIdfyNo(request.getCustIdfyNo())
+                .custIdfyNo(bCryptPasswordEncoder.encode(request.getCustIdfyNo()))
                 .custBirth(request.getCustBirth())
                 .custEmail(request.getCustEmail())
                 .custNo(request.getCustNo())
