@@ -1,13 +1,9 @@
 package com.team.mztelecom.dto;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.domain.IntmBas;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,10 +36,12 @@ public class CustBasDTO {
 	String custEmail;				// 고객이메일
 	String emailDomain;				// 이메일도메인
 	String intmPurStusYn;			// 기기구매여부
+	LocalDateTime createDate;	// 가입
 
 	@Builder
 	public CustBasDTO(Long id, String custId, String custNm, String custPassword, String custPasswordCheck, String custIdfyNo, 
-			String custBirth, String custNo, String custSex, String custAddress, String custEmail, String emailDomain, String intmPurStusYn) {
+			String custBirth, String custNo, String custSex, String custAddress, String custEmail, String emailDomain, 
+			String intmPurStusYn, LocalDateTime createDate ) {
 
 		this.id = id;
 		this.custId = custId;
@@ -58,6 +56,7 @@ public class CustBasDTO {
 		this.custEmail = custEmail;
 		this.emailDomain = emailDomain;
 		this.intmPurStusYn = intmPurStusYn;
+		this.createDate = createDate;
 	}
 	
 	// dto -> entity
@@ -73,9 +72,7 @@ public class CustBasDTO {
 				.custAddress(custAddress)
 				.custEmail(custEmail)
 				.intmPurStusYn(intmPurStusYn)
+				.createDate(createDate)
 				.build();
 	}
-
-	
-	
 }
