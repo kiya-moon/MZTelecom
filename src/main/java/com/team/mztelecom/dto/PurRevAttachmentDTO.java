@@ -12,13 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PurRevAttachmentDTO {
 	
-	private Long id;
-	
-	private String origFileName;
-	
-	private String fileName;
-	
-	private String filePath;
+	Long 	id;
+	String	origFileName;
+	String	fileName;
+	String	filePath;
 
 	
 	public PurRevAttachment toEntity() {

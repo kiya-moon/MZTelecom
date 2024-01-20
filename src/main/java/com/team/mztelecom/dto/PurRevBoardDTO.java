@@ -14,25 +14,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PurRevBoardDTO {
 	
-	private Long id;
+	Long 	id;
+	String	intmNm;
+	String	boardTitle;
+	String	boardDate;
+	String	boardDetail;
+	String	writer;
+	Long	fileId;
 	
-	private String intmNm;
+	List<PurRevAttachmentDTO> purRevAttachmentDTO;
 	
-	private String boardTitle;
-
-	private String boardDate;
+	Long custId;
 	
-	private String boardDetail;
-	
-	private String writer;
-	
-	private Long fileId;
-	
-	private List<PurRevAttachmentDTO> purRevAttachmentDTO;
-	
-	private Long custId;
-	
-	private List<CustBasDTO> custBasDTO;
+	List<CustBasDTO> custBasDTO;
 	
 	public PurRevBoard toEntity() {
 		PurRevBoard build = PurRevBoard.builder()
