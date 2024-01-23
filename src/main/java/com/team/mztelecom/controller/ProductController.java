@@ -5,17 +5,13 @@ import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.IntmBasDTO;
-import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.ProductService;
 import com.team.util.Utiles;
