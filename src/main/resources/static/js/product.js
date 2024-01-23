@@ -1,31 +1,25 @@
-const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
-const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-
+/* 클릭시 하트 색변경 */
 function toggleHeartColor(button, isLiked) {
     button.classList.toggle('red', isLiked);
 }
 
-function handleLikeClick(event, productId, liked) {
-    event.preventDefault();
+/* 찜하기 기능 */
+function clickLiked(event, productId){
+	
+	event.preventDefault();
 
     const button = event.currentTarget;
+	
+    // CSRF 토큰을 가져옵니다
+    const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+    const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
 
-    if (!csrfToken || !csrfHeader) {
-        console.error('CSRF token or header not found!');
-        return;
-    }
-    
-    const formData = new FormData();
-    formData.append('liked', liked);
-
+    // 수정된 데이터를 서버로 전송합니다
     fetch('/product/' + productId + '/liked', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             [csrfHeader]: csrfToken,
-            'Content-Type': 'application/json'
-        },
-        
-         body: JSON.stringify({ liked: liked }) 
+        }
     })
     .then(response => {
         if (!response.ok) {
@@ -48,32 +42,14 @@ function handleLikeClick(event, productId, liked) {
             localStorage.setItem('likedProducts', JSON.stringify(storedLikes));
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
+    .catch(function(error) {
+        alert('잠시 후 다시 실행 해주세요');
     });
+
+	
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.btnLike');
-    
-    const userId = localStorage.getItem('userId');
-
-    if (userId) {
-        buttons.forEach(button => {
-            const productId = button.getAttribute('data-product-id');
-
-            // 사용자가 찜한 상품 정보를 가져옵니다.
-            const userLikedProducts = JSON.parse(localStorage.getItem(`likedProducts_${userId}`)) || {};
-            const isLiked = userLikedProducts[productId];
-
-            if (isLiked) {
-                button.classList.toggle('red');
-            }
-        });
-    }
-});
-
-
+/* 컬러 옵션 / 용량 선택시 가격 변경 등 */
 var radios = document.querySelectorAll('.option');
 var priceDisplay = document.querySelectorAll('.priceDisplay');
 

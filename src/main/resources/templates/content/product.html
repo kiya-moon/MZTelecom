@@ -28,9 +28,6 @@
 								<div class="cont">
 									<div class="title">
 										<h3 th:text="${product.IntmKorNm}"></h3>
-										<button type="button" class="btnLike" th:attr="data-product-id=${product.id}" th:onclick="|handleLikeClick(event, ${product.id}, ${product.liked})|" )>
-											<i class="heart" data-feather="heart"></i>
-										</button>
 									</div>
 									<div class="cont-info">
 										<p class="item-capacity">

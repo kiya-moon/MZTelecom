@@ -2,6 +2,7 @@ package com.team.mztelecom.domain;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,15 +39,18 @@ public class IntmBas {
     @Convert(converter = StringListConverter.class)
     private List<String> intmPrice;			// 기기 값
 
-    private boolean isLiked;				// 찜하기
+    private int wishCnt;					// 찜한 갯수
 
     @OneToMany(mappedBy = "intmBas")	
     private List<IntmImg> intmImgs;			// 상품 이미지
     
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "intmBas")
+	private List<CustWish> CustWish;
+    
     
     @Builder
 	public IntmBas(Long id, List<String> intmModelColor, String intmNm, String intmKorNm, List<String> intmGB,
-			List<String> intmPrice, boolean isLiked, List<IntmImg> intmImgs) {
+			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs) {
 		
     	this.id = id;
 		this.intmModelColor = intmModelColor;
@@ -54,12 +58,12 @@ public class IntmBas {
 		this.intmKorNm = intmKorNm;
 		this.intmGB = intmGB;
 		this.intmPrice = intmPrice;
-		this.isLiked = isLiked;
+		this.wishCnt = wishCnt;
 		this.intmImgs = intmImgs;
 	}
     
-    public void UpdateLiked(boolean isLiked) {
-    	this.isLiked = isLiked;
+    public void UpdateWishd(int wishCnt) {
+    	this.wishCnt = wishCnt;
     }
 
 }

@@ -6,9 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
 import com.team.mztelecom.dto.IntmBasDTO;
@@ -49,7 +46,7 @@ public class ProductService {
 	            intmBas.getIntmKorNm(), 
 	            intmBas.getIntmGB(),
 	            intmBas.getIntmPrice(), 
-	            intmBas.isLiked(),
+	            intmBas.getWishCnt(),
 	            intmImgDTOList
 	        );
 
@@ -88,43 +85,5 @@ public class ProductService {
 
 		return productRepository.findById(productId).orElse(null);
 	}
-	
-	
-	// 찜하기
-	public boolean toggleProductLiked(Long productId ,IntmBasDTO inIntmBasDTO) {
-		
-        IntmBas productItem = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
-        
-        logger.debug("productItem :: " + StringUtil.toString(productItem));
-        
-        boolean chgLiked = false;
-        
-        if(!productItem.isLiked()) {
-        	chgLiked = true;
-        }
-        
-        List<IntmImg> intmImgList = productItem.getIntmImgs();
-        List<IntmImgDTO> intmImgDTOList = IntmImgListToDTO(intmImgList);
-        
-        productItem.UpdateLiked(chgLiked);
-
-        productRepository.save(productItem);
-        
-        Optional<IntmBas> outIntmBas = productRepository.findById(productItem.getId());
-        
-        IntmBasDTO productDTO = IntmBasDTO.builder()
-                .id(outIntmBas.get().getId())
-                .intmModelColor(outIntmBas.get().getIntmModelColor())
-                .intmNm(outIntmBas.get().getIntmNm())
-                .intmKorNm(outIntmBas.get().getIntmKorNm())
-                .intmGB(outIntmBas.get().getIntmGB())
-                .intmPrice(outIntmBas.get().getIntmPrice())
-                .intmImgs(intmImgDTOList)
-                .isLiked(outIntmBas.get().isLiked())
-                .build();
-
-        return productDTO.isLiked();
-    }
 	
 }

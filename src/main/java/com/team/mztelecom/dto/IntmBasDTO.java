@@ -3,7 +3,6 @@ package com.team.mztelecom.dto;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.team.mztelecom.domain.CustBas;
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
 
@@ -22,13 +21,13 @@ public class IntmBasDTO {
 	String intmKorNm;				// 단말기 한글 이름
 	List<String> intmGB;			// 기기 용량
 	List<String> intmPrice;			// 기기 값
-	boolean isLiked;				// 찜하기
+	int wishCnt;					// 찜하기
 	List<IntmImgDTO> intmImgs;		// 상품 이미지
 	
 	
 	@Builder
 	public IntmBasDTO(Long id, List<String> intmModelColor, String intmNm,
-			String intmKorNm, List<String> intmGB, List<String> intmPrice, boolean isLiked, List<IntmImgDTO> intmImgs) {
+			String intmKorNm, List<String> intmGB, List<String> intmPrice, int wishCnt, List<IntmImgDTO> intmImgs) {
 		
 		this.id = id;
 		this.intmModelColor = intmModelColor;
@@ -36,7 +35,7 @@ public class IntmBasDTO {
 		this.intmKorNm = intmKorNm;
 		this.intmGB = intmGB;
 		this.intmPrice = intmPrice;
-		this.isLiked = isLiked;
+		this.wishCnt = wishCnt;
 		this.intmImgs = intmImgs;
 	}
 	
@@ -52,7 +51,7 @@ public class IntmBasDTO {
 				.intmKorNm(intmKorNm)
 				.intmGB(intmGB)
 				.intmPrice(intmPrice)
-				.isLiked(isLiked)
+				.wishCnt(wishCnt)
 				.intmImgs(intmImgList)
 				.build();
 				

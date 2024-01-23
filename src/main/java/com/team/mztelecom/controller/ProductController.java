@@ -1,5 +1,6 @@
 package com.team.mztelecom.controller;
 
+import java.security.Principal;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.service.CustService;
+import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.ProductService;
+import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +30,7 @@ public class ProductController {
 	
 	private final ProductService productService;
 	
-	private final CustService custService;
+	private final CustWishService custWishService;
 	
 	@GetMapping(value = "/product")
 	public String product(Locale locale, Model model) {
@@ -42,25 +45,30 @@ public class ProductController {
 	
 	
 	@GetMapping(value = "/productDetail/{productId}")
-	public String productDetail(@PathVariable Long productId, Model model) {
+	public String productDetail(@PathVariable Long productId, Model model, Principal principal) {
+		
+		int wishCnt;
+		boolean isLiked = false;	
 		
 		IntmBas product = productService.getProductById(productId);
+		
+		if(!Utiles.isNullOrEmpty(principal)) 
+		{
+			
+			wishCnt = custWishService.getWish(productId, principal.getName());
+			
+			if(!Utiles.isNullOrEmpty(wishCnt) && wishCnt == 1) {
+				
+				isLiked = true;
+				
+				model.addAttribute("isLiked", isLiked);
+			}
+		}
+		
 		
 		model.addAttribute("product", product);
 
 	    return "content/productDetail";
 	}
-	
-	@PutMapping(value = "/product/{productId}/liked")
-	public ResponseEntity<Map<String, Boolean>> toggleProductLiked(@PathVariable Long productId, @ModelAttribute IntmBasDTO intmBasDTO) {
-	    boolean isLiked = productService.toggleProductLiked(productId, intmBasDTO);
-	    
-	    Map<String, Boolean> response = new HashMap<>();
-	    response.put("isLiked", isLiked);
-	    response.put("isLoggedIn", custService.isLoggedIn());
-
-	    return ResponseEntity.ok(response);
-	}
-	
 	
 }
