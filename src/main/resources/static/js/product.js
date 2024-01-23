@@ -76,16 +76,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var radios = document.querySelectorAll('.option');
 var priceDisplay = document.querySelectorAll('.priceDisplay');
+var selectedPriceListInput = document.getElementById('selectedPriceList');
 
 radios.forEach(function(radio, index) {
     radio.addEventListener('change', function() {
         var dataValue = priceDisplay[index].getAttribute('data-value');
         var radioValue = radio.value;
         
+        
         if (dataValue === radioValue) {
             priceDisplay[index].textContent = priceDisplay[index].textContent;
         } 
         priceDisplay[0].style.display = dataValue === '0' ? 'block' : 'none';
         priceDisplay[1].style.display = dataValue === '1' ? 'block' : 'none';
+
+        selectedPriceListInput.value =  dataValue === '0' ? priceDisplay[0].textContent : priceDisplay[1].textContent;
     });
 });

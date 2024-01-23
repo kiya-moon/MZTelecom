@@ -35,18 +35,19 @@ public class AuthenticateController {
 	public String authenticate(Locale locale, Model model
 						,@RequestParam("intmKorNm") String intmKorNm
 						,@RequestParam("color") String cliColor
-						,@RequestParam("option") String cliCpcty) {
+						,@RequestParam("option") String cliCpcty
+						,@RequestParam("priceList") String cliPrice) {
 		
 		logger.debug("인증 시작");
 		logger.debug("intmKorNm :: " +  intmKorNm);
 		logger.debug("cliColor ::" + cliColor);
 		logger.debug("option ::: " + cliCpcty);
+		logger.debug("price ::: " + cliPrice);
 		
 		temporarySaveDTO.getOrderTmp().add(intmKorNm);
 		temporarySaveDTO.getOrderTmp().add(cliColor);
 		temporarySaveDTO.getOrderTmp().add(cliCpcty);
-		
-		
+		temporarySaveDTO.getOrderTmp().add(cliPrice);
 		
 	    return "content/authenticate";
 	}

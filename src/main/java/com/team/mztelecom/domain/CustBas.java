@@ -69,6 +69,10 @@ public class CustBas implements UserDetails {
 		this.custSex = custSex;
 		this.intmPurStusYn = intmPurStusYn;
 	}
+	
+	public void UpdateAddress(String custAddress) {
+    	this.custAddress = custAddress;
+    }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -37,6 +37,8 @@
 						<div class="info-plan">
 							<h2 class="priceDisplay" th:each="price, priceList : ${product.IntmPrice}" th:data-value="${priceList.index}" 
 	        					th:text="'월 ' + ${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + '원'"></h2>
+	        					
+	        				<input type="hidden" id="selectedPriceList" name="priceList" th:value="'월 ' + ${#numbers.formatDecimal(product.IntmPrice[0], 0, 'COMMA', 0, 'POINT')} + '원'">
 						</div>
 	
 						<div class="detail-btn">

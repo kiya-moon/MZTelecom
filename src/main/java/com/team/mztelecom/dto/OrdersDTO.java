@@ -1,6 +1,8 @@
 package com.team.mztelecom.dto;
 
 import com.team.mztelecom.domain.AllStatus;
+import com.team.mztelecom.domain.CustBas;
+import com.team.mztelecom.domain.IntmProduct;
 import com.team.mztelecom.domain.Orders;
 
 import lombok.Builder;
@@ -10,14 +12,14 @@ public class OrdersDTO {
     String 		intmKorNm;		// 단말기 한글 이름
 	String 		price;			// 결제 금액
 	String 		orderUid; 		// 주문 번호
-    Long 		custBas;		// 회원
-    Long 		intmProduct;	// 상품
+    CustBas 	custBas;		// 회원
+    IntmProduct intmProduct;	// 상품
 	AllStatus 	status;			// 상태
 	String 		paymentUid;		// 결제 고유 번호
 	
 	@Builder
     public OrdersDTO(Long id, String intmKorNm, String price, String orderUid,
-    		Long custBas, Long intmProduct, AllStatus status, String paymentUid) {
+    		CustBas custBas, IntmProduct intmProduct, AllStatus status, String paymentUid) {
 		
         this.id = id;
         this.intmKorNm = intmKorNm;
@@ -36,6 +38,8 @@ public class OrdersDTO {
                 .intmKorNm(intmKorNm)
                 .price(price)
                 .orderUid(orderUid)
+                .custBas(custBas)
+                .intmProduct(intmProduct)
                 .status(status)
                 .paymentUid(paymentUid)
                 .build();
