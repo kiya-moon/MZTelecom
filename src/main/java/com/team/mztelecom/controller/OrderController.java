@@ -30,15 +30,17 @@ public class OrderController {
 		String intmKorNm = temporarySaveDTO.getOrderTmp().get(0);
 		String cliColor = temporarySaveDTO.getOrderTmp().get(1);
 		String cliCpcty = temporarySaveDTO.getOrderTmp().get(2);
-		String ChName = temporarySaveDTO.getOrderTmp().get(3);
-		String AllPhone = temporarySaveDTO.getOrderTmp().get(4);
-		String ChZip = temporarySaveDTO.getOrderTmp().get(5);
-		String ChAddress1 = temporarySaveDTO.getOrderTmp().get(6);
-		String ChAddress2 = temporarySaveDTO.getOrderTmp().get(7);
+		String cliPrice = temporarySaveDTO.getOrderTmp().get(3);
+		String ChName = temporarySaveDTO.getOrderTmp().get(4);
+		String AllPhone = temporarySaveDTO.getOrderTmp().get(5);
+		String ChZip = temporarySaveDTO.getOrderTmp().get(6);
+		String ChAddress1 = temporarySaveDTO.getOrderTmp().get(7);
+		String ChAddress2 = temporarySaveDTO.getOrderTmp().get(8);
 		
 		model.addAttribute("intmKorNm", intmKorNm);
 		model.addAttribute("cliColor", cliColor);
 		model.addAttribute("cliCpcty", cliCpcty);
+		model.addAttribute("cliPrice", cliPrice);
 		model.addAttribute("ChName", ChName);
 		model.addAttribute("AllPhone", AllPhone);
 		model.addAttribute("ChZip", ChZip);

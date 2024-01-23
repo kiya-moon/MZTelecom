@@ -10,18 +10,22 @@
 				<div class="order-group">
 					<div class="order-content">
 						<p>선택 기기</p>
-						<span th:text="${intmKorNm}"></span>
-
+						<input type="text" id="OrderIntmName" th:value="${intmKorNm}" readonly>
 					</div>
 
 					<div class="order-content">
 						<p>선택 컬러</p>
-						<span th:text="${cliColor}"></span>
+						<input type="text" id="OrderColor" th:value="${cliColor}" readonly>
 					</div>
 
 					<div class="order-content">
 						<p>선택 용량</p>
-						<span th:text="${cliCpcty}"></span>
+						<input type="text" id="OrderCpcty" th:value="${cliCpcty}" readonly>
+					</div>
+					
+					<div class="order-content">
+						<p>결제 금액</p>
+						<input type="text" id="OrderPrice" th:value="${cliPrice}" readonly>
 					</div>
 				</div>
 
@@ -29,25 +33,25 @@
 				<div class="order-group">
 					<div class="shippingInfo-content">
 						<div class="zip-group">
-							<input type="text" id="zipcode" th:value="${ChZip}" placeholder="우편번호" readonly>
+							<input type="text" id="OrderZipcode" th:value="${ChZip}" placeholder="우편번호" readonly>
 							<button type="button" onclick="daumPostCode()">수정하기</button>
 						</div>
-						<input type="text" id="address1" th:value="${ChAddress1}" placeholder="기본 주소" readonly>
-						<input type="text" id="address2" th:value="${ChAddress2}" placeholder="상세 주소를 입력해주세요." readonly>
+						<input type="text" id="OrderAddress1" th:value="${ChAddress1}" placeholder="기본 주소" readonly>
+						<input type="text" id="OrderAddress2" th:value="${ChAddress2}" placeholder="상세 주소를 입력해주세요." readonly>
 					</div>
 
 					<div class="shippingInfo-content">
 						<p>받으시는 분</p>
-						<span th:text="${ChName}"></span>
+						<input type="text" id="OrderName" th:value="${ChName}" readonly>
 					</div>
 
 					<div class="shippingInfo-content">
 						<p>받으시는 분 연락처</p>
-						<span th:text="${AllPhone}"></span>
+						<input type="text" id="OrderPhone" th:value="${AllPhone}" readonly>
 					</div>
 				</div>
 				
-				<button class="btn-order">결제하기</button>
+				<button class="btn-order" th:onclick="requestPay()">결제하기</button>
 			</div>
 		</article>
 	</section>
