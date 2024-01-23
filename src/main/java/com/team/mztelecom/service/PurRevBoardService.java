@@ -280,14 +280,12 @@ public class PurRevBoardService{
                 // DB의 저장되어 있는 파일 추출
                 for(PurRevAttachmentDTO purRevAttachmentDTO : dbAttachmentList) 
                 {
-                	logger.debug("확인444");
                     // DB의 파일 원본파일명 얻어오기
                     String dbOrigFileName = purRevAttachmentDTO.getOrigFileName();
                     
                     // dbOrigFileName 이 객체가 inFile 리스트에 포함이 되어 있는지, 포함이 안 되어 있는지 확인
                     if(!inFile.contains(dbOrigFileName))
                     {
-                    	logger.debug("확인555");
                     	convertFileList = purRevAttachmentService.convertFile(inFile);
                     }
                 }
@@ -309,7 +307,6 @@ public class PurRevBoardService{
 		// 첨부파일 저장처리
 		for(int i = 0; i < addAtcmList.size(); i++)
 		{
-			logger.debug("확인666");
 			PurRevAttachmentDTO purRevAttachmentDTO = PurRevAttachmentDTO.builder()
 					.id(addAtcmList.get(i).getId())
 					.fileName(addAtcmList.get(i).getFileName())

@@ -114,7 +114,7 @@ function completeEdit(id) {
         headers: {
             [csrfHeader]: csrfToken,
         },
-        body: formData,
+        body: formData
     })
     .then(function(response) {
 		window.location.href = '/purRevBoard';

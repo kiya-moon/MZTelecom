@@ -28,7 +28,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr onclick="selectRow(this)">
+								<tr th:each="cust : ${custInfoList}" onclick="selectRow(this)">
+									<td th:text="${cust.custEmail}"></td>
+									<td th:text="${cust.custNm}"></td>
+									<td th:text="${cust.custIdfyNo}"></td>
+									<td th:text="${cust.custNo}"></td>
+								</tr>
+<!--								<tr onclick="selectRow(this)">
 									<td>test@naver.com</td>
 									<td>오둥이</td>
 									<td>123456-7890123</td>
@@ -39,7 +45,7 @@
 									<td>거북이</td>
 									<td>123456-7890123</td>
 									<td>010-1234-5678</td>
-								</tr>
+								</tr>-->
 							</tbody>
 						</table>
 						<button class="delete-btn">삭제</button>

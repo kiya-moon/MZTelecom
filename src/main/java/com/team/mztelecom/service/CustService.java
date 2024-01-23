@@ -49,8 +49,14 @@ public class CustService {
 		List<CustBas> outMemberList = custRepository.findByDynamicQuery(MemberList.getCustId(), MemberList.getCustNm(), MemberList.getCustBirth(), MemberList.getCustEmail());
 		
 		CustBasDTO inDTO = CustBasDTO.builder()
+				.id(outMemberList.get(0).getId())
 				.custNm(outMemberList.get(0).getCustNm())
 				.custEmail(outMemberList.get(0).getCustEmail())
+				.custAddress(outMemberList.get(0).getCustAddress())
+				.custBirth(outMemberList.get(0).getCustBirth())
+				.custId(outMemberList.get(0).getCustId())
+				.custNo(outMemberList.get(0).getCustNo())
+				.custSex(outMemberList.get(0).getCustSex())
 				.build();
 		
 		return inDTO; 
@@ -297,7 +303,7 @@ public class CustService {
 	
 	
 	/**
-	 * 구매후기 작성시 회원의 Long id 조회 - 김시우
+	 * 구매후기 작성시 회원 이름으로 회원의 Long id 조회 - 김시우
 	 * 
 	 * @param inCustNm
 	 * @return

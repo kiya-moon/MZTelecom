@@ -1,13 +1,20 @@
 package com.team.mztelecom.domain;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +27,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class CustBas implements UserDetails {
 
 	@Id
@@ -54,9 +62,15 @@ public class CustBas implements UserDetails {
 	
 	private String intmPurStusYn;			// 기기구매여부
 	
+	@CreatedDate
+	@Column(updatable = false, nullable = false)
+	@Convert(converter = LocalDateTimeConverter.class)
+	private LocalDateTime createDate;	// 가입
+	
 	// DTO <-> Entity
 	@Builder
-	public CustBas( String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, String custBirth, String custAddress, String custSex, String intmPurStusYn) {
+	public CustBas( String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, 
+			String custBirth, String custAddress, String custSex, String intmPurStusYn, LocalDateTime createDate) {
 		
 		this.custId = custId;
 		this.custNm = custNm;
@@ -68,6 +82,7 @@ public class CustBas implements UserDetails {
 		this.custAddress = custAddress;
 		this.custSex = custSex;
 		this.intmPurStusYn = intmPurStusYn;
+		this.createDate = createDate;
 	}
 	
 	public void UpdateAddress(String custAddress) {

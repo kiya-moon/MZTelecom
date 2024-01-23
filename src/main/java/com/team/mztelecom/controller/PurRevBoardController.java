@@ -110,8 +110,7 @@ public class PurRevBoardController {
 	 * @return
 	 */
 	@PostMapping(value="/purRevView/{id}")
-	public String updatePurRev(Model model, Principal principal
-								, @PathVariable Long id
+	public String updatePurRev(Model model, @PathVariable Long id
 								, @ModelAttribute PurRevBoardDTO inPurRevBoardDTO 
 								, @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 		
@@ -135,14 +134,12 @@ public class PurRevBoardController {
 	 * 작성된 글 삭제 - 김시우
 	 * 
 	 * @param model
-	 * @param principal
 	 * @param id
 	 * @param inPurRevBoardDTO
 	 * @return
 	 */
 	@PostMapping(value="/purRevView/{id}/remove")
-	public String removePurRev(Model model, Principal principal
-								, @PathVariable Long id
+	public String removePurRev(Model model, @PathVariable Long id
 								, @ModelAttribute PurRevBoardDTO inPurRevBoardDTO) {
 		
 		logger.debug("삭제 확인");
