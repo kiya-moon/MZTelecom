@@ -3,10 +3,7 @@ package com.team.mztelecom.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> branch 'main' of git@gitlab.com:mztelecom/MZT.git
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter;
@@ -68,12 +65,9 @@ public class CustBas implements UserDetails {
 	
 	private String intmPurStusYn;			// 기기구매여부
 	
-<<<<<<< HEAD
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "custBas")
 	private List<CustWish> CustWish;
 	
-=======
->>>>>>> branch 'main' of git@gitlab.com:mztelecom/MZT.git
 	@CreatedDate
 	@Column(updatable = false, nullable = false)
 	@Convert(converter = LocalDateTimeConverter.class)
@@ -81,15 +75,9 @@ public class CustBas implements UserDetails {
 	
 	// DTO <-> Entity
 	@Builder
-<<<<<<< HEAD
 	public CustBas(Long id, String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, 
 			String custBirth, String custAddress, String custSex, String intmPurStusYn, LocalDateTime createDate) {
 		this.id = id;
-=======
-	public CustBas( String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, 
-			String custBirth, String custAddress, String custSex, String intmPurStusYn, LocalDateTime createDate) {
-		
->>>>>>> branch 'main' of git@gitlab.com:mztelecom/MZT.git
 		this.custId = custId;
 		this.custNm = custNm;
 		this.custPassword = custPassword;
