@@ -20,7 +20,7 @@ public class IntmProduct {
     private Long id;
 
 	@NotNull
-    private String repIntmModelId;		// 대표기기모델아이디
+    private String intmModelId;		// 대표기기모델아이디
 
 	private String intmSeq; 			// 기기일련번호
 
@@ -30,18 +30,19 @@ public class IntmProduct {
 
 	private String intmSalesStatus; 	// 기기판매여부
 
-    private String intmBuyerId;			// 기기구매자아이디
-
     @Builder
-	public IntmProduct(Long id, String repIntmModelId, String intmSeq, String intmIdfyNo,
-			String intmSalesStatus, String intmBuyerId) {
+	public IntmProduct(Long id, String intmModelId, String intmSeq, String intmIdfyNo,
+			String intmSalesStatus) {
 
 		this.id = id;
-		this.repIntmModelId = repIntmModelId;
+		this.intmModelId = intmModelId;
 		this.intmSeq = intmSeq;
 		this.intmIdfyNo = intmIdfyNo;
 		this.intmSalesStatus = intmSalesStatus;
-		this.intmBuyerId = intmBuyerId;
+	}
+
+	public void setIntmSalesStatus(String intmSalesStatus) {
+		this.intmSalesStatus = intmSalesStatus;
 	}
     
 }

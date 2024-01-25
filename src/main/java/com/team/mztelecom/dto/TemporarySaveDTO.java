@@ -15,6 +15,7 @@ public class TemporarySaveDTO {
 	
 	List<Long>		deleteFileId;	// fileId 임시저장
 	List<String>	orderTmp;		// 주문내역 임시저장
+	String 			tmpIntmModelId;	// 대표기기모델 임시저장 
 	
 	// fileId 임시저장 메서드
     public List<Long> getDeleteFileId() {
@@ -34,6 +35,14 @@ public class TemporarySaveDTO {
         	orderTmp = new ArrayList<>();
         }
         return orderTmp;
+    }
+    
+    public String getTmpIntmModelId() {
+    	if(tmpIntmModelId == null) {
+    		tmpIntmModelId = "";
+    	}
+    	
+    	return tmpIntmModelId;
     }
 	
     

@@ -23,7 +23,6 @@ import lombok.Setter;
 public class CustBasDTO {
 	
 	Long id;
-	
 	String custId;					// 고객아이디
 	String custNm;					// 고객명
 	String custPassword;			// 고객패스워드
@@ -62,6 +61,7 @@ public class CustBasDTO {
 	// dto -> entity
 	public CustBas toEntity() {
 		return CustBas.builder()
+				.id(id)
 				.custId(custId)
 				.custNm(custNm)
 				.custPassword(custPassword)

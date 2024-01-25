@@ -131,12 +131,10 @@ function requestPay() {
 			// (buyer_ 부분은 꼭 작성하지 않아도된다. (선택사항))
 			buyer_name: OrderName,									// 주문자명
 			buyer_tel: OrderPhone,									// 주문자 연락처
-			buyer_addr: Alladdress, 				// 주문자 우편번호
+			buyer_addr: Alladdress, 								// 주문자 우편번호
 		},
 		function(rsp) {
 			if (rsp.success) {
-				console.log("js 확인")
-				
 				$.ajax({
 					url: "/validation/" + rsp.imp_uid,
 					method: "POST",
@@ -145,16 +143,26 @@ function requestPay() {
 						[csrfHeader]: csrfToken
 					},
 					data: JSON.stringify({
-						"payment_uid": rsp.imp_uid,     // 결제 고유번호
-						"order_uid": rsp.merchant_uid,  // 주문번호
 						"address": Alladdress			// 주소
 					})
-				}).done(function(response) {
-					console.log(response);
+				}).done(function(res) {
+					console.log(res);
+						$.ajax({
+			                method: "POST",
+			                url: "/order/payment",
+			                headers: { 
+								"Content-Type": "application/json",
+								[csrfHeader]: csrfToken
+							},
+							data: JSON.stringify({
+								"paymentUid": rsp.imp_uid,     // 결제 고유번호
+								"orderUid": rsp.merchant_uid,  // 주문번호
+								"intmKorNm": OrderIntmName,
+								"price": OrderPrice,
+							})
+			            })
 					
-					// 가맹점 서버 결제 API 성공시 로직
-					alert('결제 완료!');
-					
+					alert('결제가 완료되었습니다.');
 					window.location.href = "/";
 				})
 			} else {
