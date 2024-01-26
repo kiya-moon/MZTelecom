@@ -189,6 +189,24 @@
 					</div>
 					<div class="content_5" id="content_5" th:if="${#strings.equals(param.tab, 'wishlist')}">
 						<h1>찜한상품</h1>
+						
+						<div>
+							<ul>
+								<li>
+								<li th:each="wishList : ${wishList}">
+									<a th:href="@{'/productDetail/' + ${wishList.id}}">
+										<div>
+											<img th:src="@{'/' + ${wishList.intmImgs[0].ImgPath}}" th:alt="${wishList.IntmKorNm}">
+										</div>
+										<div >
+											<div class>
+												<h3 th:text="${wishList.IntmKorNm}"></h3>
+											</div>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div class="content_6" id="content_6" th:if="${#strings.equals(param.tab, 'inquiryDetail')}">
 						<div class="admin-container">

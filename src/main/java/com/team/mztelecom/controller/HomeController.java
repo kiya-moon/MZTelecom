@@ -18,10 +18,12 @@ import org.springframework.data.domain.Sort;
 
 import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.InquiryCustDTO;
+import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.service.AdminService;
 import com.team.mztelecom.service.CustService;
+import com.team.mztelecom.service.MypageService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.PurRevAttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
@@ -47,6 +49,9 @@ public class HomeController {
 
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	MypageService mypageService;
 
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
@@ -89,8 +94,32 @@ public class HomeController {
 		return "content/support";
 	}
 
+	/**
+	 * 마이페이지 - 김시우, 박지윤
+	 * 2024.01.26 : 찜한 상품 완(김시우)
+	 * 
+	 * @param locale
+	 * @param model
+	 * @param principal
+	 * @return
+	 */
 	@GetMapping(value = "/myPage")
-	public String myPage(Locale locale, Model model) {
+	public String myPage(Locale locale, Model model, Principal principal) {
+		
+		logger.debug("mypage 진입");
+		
+		String custId;
+		List<IntmBasDTO> wishList = new ArrayList<>();
+		
+		if(!Utiles.isNullOrEmpty(principal))
+		{
+			custId = principal.getName();
+			
+			wishList = mypageService.listMyWish(custId);
+		}
+		
+		
+		model.addAttribute("wishList", wishList);
 
 		logger.debug("마이페이지");
 
