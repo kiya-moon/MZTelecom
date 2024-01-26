@@ -20,8 +20,6 @@
 						th:class="${#strings.equals(param.tab, 'cart') ? 'activeTab' : ''}">장바구니</a>
 					<a th:href="@{/myPage?tab=wishlist}" id="menu5"
 						th:class="${#strings.equals(param.tab, 'wishlist') ? 'activeTab' : ''}">찜한상품</a>
-					<a th:href="@{/myPage?tab=inquiryDetail}" id="menu6"
-						th:class="${#strings.equals(param.tab, 'inquiryDetail') ? 'activeTab' : ''}">문의내역</a>
 					<hr>
 				</div>
 	
@@ -207,44 +205,6 @@
 								</li>
 							</ul>
 						</div>
-					</div>
-					<div class="content_6" id="content_6" th:if="${#strings.equals(param.tab, 'inquiryDetail')}">
-						<div class="admin-container">
-					        <table>
-					            <thead>
-					                <tr>
-									<th>문의분류</th>
-									<th>내용</th>
-									<th>작성일</th>
-									<th>답변</th>
-					                </tr>
-					            </thead>
-					            <tbody>
-								    <tr th:each="qna : ${qnaList}" class="clickQna" th:data-target="'answer' + ${qna.id}">
-								        <td th:text="${qna.category}">Category</td>
-								        <td th:text="${qna.title}">Title</td>
-								        <td th:text="${qna.date}">Date</td>
-								        <td>x</td>
-								    </tr>
-								</tbody>
-					        </table>
-					        	
-					        <div th:each="qna : ${qnaList}" class="admin-answer" th:id="'answer' + ${qna.id}">
-							    <div class="answer-title">
-							        <p th:text="'분류: ' + ${qna.category}"></p>
-							        <p th:text="'작성자: ' + ${qna.name}"></p>
-							        <p th:text="'문의 일시: ' + ${qna.date}"></p>
-							        <p class="answer-text" th:text="${qna.message}"></p>
-							    </div>
-							    
-							    <div class="answer-body">
-							        <form action="#" method="post">
-							            <textarea name="answer" rows="4" cols="50" placeholder="답변을 입력하세요"></textarea>
-							            <input type="submit" value="답변 제출">
-							        </form>
-							    </div>
-							</div>
-		                </div>
 					</div>
 				</div>
 			</div>

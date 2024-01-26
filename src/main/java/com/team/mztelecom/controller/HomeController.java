@@ -87,7 +87,7 @@ public class HomeController {
 	public String phoneplan(Locale locale, Model model) {
 		return "content/phoneplan";
 	}
-
+	
 	@GetMapping(value = "/support")
 	public String support(Locale locale, Model model) {
 
@@ -124,14 +124,6 @@ public class HomeController {
 		logger.debug("마이페이지");
 
 		return "myPage";
-	}
-
-	@GetMapping(value = "/inquiryDetail")
-	public String inquiryDetail(Locale locale, Model model) {
-
-		logger.debug("마이페이지/문의내역/문의내용");
-
-		return "content/inquiryDetail";
 	}
 
 	/**
