@@ -38,14 +38,6 @@ public class CustChgPwService {
     	
         String tempPw = getTempPassword();
         Map<String, String> mailInfo = new HashMap<>();
-//        MailDTO dto = new MailDTO();
-        
-        
-//        dto.setAddress(temp.get("cust_email"));
-//        dto.setTitle("MZTelecom 임시비밀번호 안내 이메일 입니다.");
-//        dto.setMessage("안녕하세요. MZTelecom 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
-//                + str + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
-        
         
         mailInfo.put("address", temp.get("cust_email"));
         mailInfo.put("title", "MZTelecom 임시비밀번호 안내 이메일 입니다.");
@@ -56,7 +48,6 @@ public class CustChgPwService {
         
         mailSend(mailInfo);
         
-//        return dto;
     }
     
     //임시 비밀번호로 업데이트
@@ -144,10 +135,8 @@ public class CustChgPwService {
         message.setTo(mailInfo.get("address"));
         message.setSubject(mailInfo.get("title"));
         message.setText(mailInfo.get("message"));
-//        message.setFrom("syoo91@naver.com");
-//        message.setReplyTo("syoo91@naver.com");
-        message.setFrom("anelune@naver.com");
-        message.setReplyTo("anelune@naver.com");
+        message.setFrom("syoo91@naver.com");
+        message.setReplyTo("syoo91@naver.com");
         
         logger.debug("message 내용 확인 ::: " + message);
         

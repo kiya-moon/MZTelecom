@@ -61,7 +61,7 @@ public class ProductService {
 	}
 	
 	// 상품 이미지
-	private List<IntmImgDTO> IntmImgListToDTO(List<IntmImg> intmImgList) {
+	public List<IntmImgDTO> IntmImgListToDTO(List<IntmImg> intmImgList) {
 		
 	    List<IntmImgDTO> intmImgDTOList = new ArrayList<>();
 	    
