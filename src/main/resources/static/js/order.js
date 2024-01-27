@@ -108,8 +108,6 @@ function identityVerification() {
 
 function requestPay() {
 	const OrderIntmName = document.getElementById('OrderIntmName').value;
-	const OrderColor = document.getElementById('OrderColor').value;
-	const OrderCpcty = document.getElementById('OrderCpcty').value;
 	const OrderPrice = document.getElementById('OrderPrice').value;
 	const OrderAddress1 = document.getElementById('OrderAddress1').value;
 	const OrderAddress2 = document.getElementById('OrderAddress2').value;
