@@ -53,87 +53,92 @@
 							</div>
 						</div>
 					</div>
+					<!-- 회원정보수정 탭  -->
 					<div class="login-container" th:if="${#strings.equals(param.tab, 'editMemberInformation')}">
-						<form action="#">
-							<div class="input-container">
-								<label for="name">이름</label> 
-								<input type="text" id="name" name="name" value="Sample" readonly="readonly">
-							</div>
+						<div class="input-container">
+							<label for="custId">아이디</label> 
+							<input type="text" id="custId" name="custId" th:value="${custInfo.custId}" readonly="readonly">
+						</div>
 							
-							<div class="input-container">
-								<label for="email">이메일</label>
-								<input type="email" id="email" class="signup-email" name="email" value="sample@sample.com" readonly="readonly"> 
-							</div>
+						<div class="input-container">
+							<label for="name">이름</label> 
+							<input type="text" id="name" name="name" th:value="${custInfo.custNm}" readonly="readonly">
+						</div>
+						
+						<div class="input-container">
+							<label for="email">이메일</label>
+							<input type="email" id="email" class="signup-email" name="email" th:value="${custInfo.custEmail}" readonly="readonly"> 
+						</div>
 							
-							<div class="input-container">
-								<label for="password">비밀번호</label>
-								<div id="pw-container" class="pw-container">
-									<input type="password" id="password" class="signup-password" name="password" value="*******" readonly="readonly"> 
-									<button type="button" class="modify_btn" onclick="modifyPW()">수정</button>
-								</div>
+						<div class="input-container">
+							<label for="password">비밀번호</label>
+							<div id="pw-container" class="pw-container">
+								<input type="password" id="password" class="signup-password" name="password" value="*******" readonly="readonly"> 
+								<input type="hidden" id="existi-pw" th:value="${custInfo.custPassword}">
+								<button type="button" class="modify_btn" onclick="modifyPW()">수정</button>
 							</div>
+						</div>
 							
-							<div class="input-container">
-								<div id="pw-modify-container" class="pw-modify-container modify">
-									<label for="password">새 비밀번호</label> 
-									<input type="password" name="newPassword" pattern=".{8,20}" required title="최소 8자 ~ 20자">
-									<label for="password">비밀번호 확인</label> 
-									<input type="password" name="newPassword" pattern=".{8,20}" required>
-								</div>
+						<div class="input-container">
+							<div id="pw-modify-container" class="pw-modify-container modify">
+								<label for="password">새 비밀번호</label> 
+								<input type="password" id="updatePw" name="newPassword" minlength="8" maxlength="20" required title="최소 8자 ~ 20자">
+								<p style="font-size: 0.8em">* 최소 8자 ~ 20자 입력 가능합니다.</p>
+								<p style="font-size: 0.8em">* 비밀번호는 문자, 숫자, 특수문자의 조합이어야 합니다.</p>
+								<p style="font-size: 0.8em">* 사용 가능한 특수문자: *@$!%*#?&</p>
+									
+								<label for="password">비밀번호 확인</label> 
+								<input type="password" id="chkPw" name="newPassword" pattern=".{8,20}" required>
+								<div class="mismatch-message hide" style="color: red;">비밀번호가 일치하지 않습니다.</div>
+								<div class="match-message hide" style="color: #33A188;">비밀번호가 일치합니다.</div>
 							</div>
+						</div>
 							
-							<div class="input-container">	
-								<label for="residentNumber">주민등록번호</label>
-								<div class="residentNumber-container" style="display:flex">							
-									<input type="text" id="residentNumber1" name="residentNumber1" value="123456" readonly="readonly"> 
-										&nbsp;-&nbsp; 
-									<input type="password" id="residentNumber2" name="residentNumber2" value="*******" readonly="readonly"> 
-								</div>
+						<div class="input-container">
+							<label for="phoneNumber">핸드폰 번호</label> 
+							<!--핸드폰 번호가 등록 되어 있을 때 -->
+							<div class="phone-container" th:if="${custInfo.custNo != null}">
+								<input type="text" id="phoneStart" name="phoneNumber" th:value="${#strings.arraySplit(custInfo.custNo, '-')[0]}" readonly="readonly">
+								&nbsp;-&nbsp;
+								<input type="text" name="phoneMiddle" maxlength="4" th:value="${#strings.arraySplit(custInfo.custNo, '-')[1]}" readonly="readonly">
+								&nbsp;-&nbsp;
+								<input type="text" name="phoneEnd" maxlength="4" th:value="${#strings.arraySplit(custInfo.custNo, '-')[2]}" readonly="readonly">
+								<button type="button" class="modify_btn" onclick="phoneNumModify()">수정</button>
 							</div>
-							
-							<div class="input-container">
-								<label for="phoneNumber">핸드폰 번호</label> 
-								<div class="phone-container">
-									<input type="text" id="phoneStart" name="phoneNumber" value="010" readonly="readonly">
-									&nbsp;-&nbsp;
-									<input type="text" name="phoneMiddle" maxlength="4" value="1234" readonly="readonly">
-									&nbsp;-&nbsp;
-									<input type="text" name="phoneEnd" maxlength="4" value="5678" readonly="readonly">
-									<button type="button" class="modify_btn" onclick="phoneNumModify()">수정</button>
-								</div>
+							<!--핸드폰 번호가 등록 되어 있지 않을 때-->
+							<div th:if="${custInfo.custNo == null}">
+								<input type="text" value="비공개 입니다." readonly="readonly"> 
 							</div>
+						</div>
 								
-							<div class="input-container">
-								<div id="phone-modify-container" class="phone-modify-container modify">
-									<label for="phoneNumber">새 핸드폰 번호</label> 
-									<div class="input-content">
-										<select name="phonePrefix" class="phone-box">
-										  <option value="kt">KT</option>
-										  <option value="skt">SKT</option>
-										  <option value="lg">LG</option>
-										  <!-- 다른 번호도 추가 -->
-										</select>
-										<input type="text" name="phoneStart" maxlength="3" required>
-										&nbsp;-&nbsp;
-										<input type="text" name="phoneMiddle" maxlength="4" required>
-										&nbsp;-&nbsp;
-										<input type="text" name="phoneEnd" maxlength="4" required>	
-									</div>
-								</div>			
-							</div>
+						<div class="input-container">
+							<div id="phone-modify-container" class="phone-modify-container modify">
+								<label for="phoneNumber">새 핸드폰 번호</label> 
+								<div class="input-content">
+									<input type="text" id="phoneStart" name="phoneStart" maxlength="3" value="010" readonly>
+									&nbsp;-&nbsp;
+									<input type="text" id="phoneMiddle" name="phoneMiddle" maxlength="4" required>
+									&nbsp;-&nbsp;
+									<input type="text" id="phoneEnd" name="phoneEnd" maxlength="4" required>	
+								</div>
+							</div>			
+						</div>
 							
-							<div class="myPage-btn">
-								<button class="selete-modify" type="submit">완료</button>
-								<button class="delete-user" type="button">회원탈퇴</button>
-							</div>
-						</form>
+						<div class="myPage-btn">
+							<button class="selete-modify" type="button" onclick="updateCustInfo()">완료</button>
+							<button class="delete-user" type="button" onclick="withdrawal()">회원탈퇴</button>
+						</div>
 					</div>
+					
+					<!-- 요금조회 탭 -->
 					<div class="content_2" id="content_2" th:if="${#strings.equals(param.tab, 'feeCheck')}">
 						<img th:src="@{/images/stop.png}"
 							alt="stop" style="width:20%" />
 						<br>
 						<h1>아직 오픈되지 않은 페이지 입니다.</h1>
 					</div>
+					
+					<!-- 주문내역 탭 -->
 					<div class="content_3" id="content_3" th:if="${#strings.equals(param.tab, 'orderDetail')}">
 						<div class="filter-box">
 							<h4>기간별 주문내역 조회</h4>
@@ -182,9 +187,13 @@
 							</table>
 						</div>
 					</div>
+					
+					<!-- 장바구니 탭 -->
 					<div class="content_4" id="content_4" th:if="${#strings.equals(param.tab, 'cart')}">
 						<h1>장바구니</h1>
 					</div>
+					
+					<!-- 찜한 상품 탭 -->
 					<div class="content_5" id="content_5" th:if="${#strings.equals(param.tab, 'wishlist')}">
 						<h1>찜한상품</h1>
 						

@@ -109,17 +109,22 @@ public class HomeController {
 		logger.debug("mypage 진입");
 		
 		String custId;
-		List<IntmBasDTO> wishList = new ArrayList<>();
 		
 		if(!Utiles.isNullOrEmpty(principal))
 		{
 			custId = principal.getName();
+			CustBasDTO inCustBasDTO = CustBasDTO.builder()
+										.custId(custId)
+										.build();
 			
-			wishList = mypageService.listMyWish(custId);
+			CustBasDTO outCustBasDTO = custService.getMember(inCustBasDTO);
+			List<IntmBasDTO> wishList = mypageService.listMyWish(inCustBasDTO.getCustId());
+			
+			
+			model.addAttribute("custInfo", outCustBasDTO);
+			model.addAttribute("wishList", wishList);
 		}
 		
-		
-		model.addAttribute("wishList", wishList);
 
 		logger.debug("마이페이지");
 

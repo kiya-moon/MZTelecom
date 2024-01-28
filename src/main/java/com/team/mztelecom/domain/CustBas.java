@@ -94,6 +94,12 @@ public class CustBas implements UserDetails {
 	public void UpdateAddress(String custAddress) {
     	this.custAddress = custAddress;
     }
+	public void UpdatecustPassword(String custPassword) {
+		this.custPassword = custPassword;
+	}
+	public void UpdatecustNo(String custNo) {
+		this.custNo = custNo;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

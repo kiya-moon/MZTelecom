@@ -2,15 +2,14 @@ package com.team.mztelecom.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.CustBas;
-import com.team.mztelecom.domain.CustWish;
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
 import com.team.mztelecom.dto.CustBasDTO;
@@ -38,6 +37,53 @@ public class MypageService {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
+	public void updateCustInfo(CustBasDTO inCustBasDTO) {
+		
+		CustBas inCustBas = inCustBasDTO.toEntity(); 
+		
+		List<CustBas> outCustList = custRepository.findByDynamicQuery(inCustBas.getCustId(), inCustBas.getCustNm(), inCustBas.getCustBirth(), inCustBas.getCustEmail());
+		
+		// 기존 회원 정보
+		CustBas outCustBas = outCustList.get(0);
+		logger.debug("outCustBas 업데이트 전 ::: " + StringUtil.toString(outCustBas));
+		
+		// 비밀번호 업데이트
+		if(!Utiles.isNullOrEmpty(inCustBasDTO.getCustPassword())) 
+		{
+			outCustBas.UpdatecustPassword(bCryptPasswordEncoder.encode(inCustBasDTO.getCustPassword()));
+		}
+		
+		// 전화번호 업데이트
+		if(!Utiles.isNullOrEmpty(inCustBasDTO.getCustNo())) 
+		{
+			outCustBas.UpdatecustNo(inCustBasDTO.getCustNo());
+		}
+		
+		logger.debug("outCustBas 업데이트 후 ::: " + StringUtil.toString(outCustBas));
+		
+		custRepository.save(outCustBas);
+		
+	}
+	
+	/**
+	 * 회원탈퇴 - 김시우
+	 * 
+	 * @param inCustBasDTO
+	 */
+	public void deleteCust(CustBasDTO inCustBasDTO) {
+		
+		CustBas incustBas = inCustBasDTO.toEntity();
+		
+		List<CustBas> outCustList = custRepository.findByDynamicQuery(incustBas.getCustId(), incustBas.getCustNm(), incustBas.getCustBirth(), incustBas.getCustEmail());
+		
+		custRepository.deleteById(outCustList.get(0).getId());
+		
+	}
 	
 	/**
 	 * 마이페이지 찜한 상품 - 김시우
@@ -93,7 +139,8 @@ public class MypageService {
 					intmBas.getIntmGB(),
 					intmBas.getIntmPrice(), 
 					intmBas.getWishCnt(),
-					intmImgDTOList
+					intmImgDTOList,
+					intmBas.getFee()
 					);
 			
 			intmDTOList.add(intmDTO);

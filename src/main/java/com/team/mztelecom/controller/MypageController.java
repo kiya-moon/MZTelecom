@@ -2,18 +2,42 @@ package com.team.mztelecom.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.team.mztelecom.dto.CustBasDTO;
+import com.team.mztelecom.service.MypageService;
+import com.team.util.StringUtil;
 
 @Controller
 public class MypageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MypageController.class);
 
+	@Autowired
+	MypageService mypageService;
+	
+	@PostMapping(value = "/update/custInfo")
+	public String updateCustInfo(@ModelAttribute CustBasDTO inCustBasDTO) {
+		logger.debug("inCustBasDTO :: " + StringUtil.toString(inCustBasDTO));
+		
+		mypageService.updateCustInfo(inCustBasDTO);
+		
+		return "redirect:/";
+		
+	}
+	
 	
 	@PostMapping(value = "/custWithdrawal")
-	public void deleteCust() {
+	public String deleteCust(@ModelAttribute CustBasDTO inCustBasDTO) {
 		
+		logger.debug("inCustBasDTO :: " + StringUtil.toString(inCustBasDTO));
+		
+		mypageService.deleteCust(inCustBasDTO);
+		
+		return "redirect:/logout";
 	}
 
 }
