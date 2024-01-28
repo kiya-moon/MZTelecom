@@ -38,26 +38,40 @@ public class CustService {
 	}
 	
 	// 회원 조회
-	public CustBasDTO getMember(List<String> inList) {
+	public CustBasDTO getMember(CustBasDTO inCustBasDTO) {
 		
 		CustBas MemberList = CustBas.builder()
-				.custNm(inList.get(0))
-				.custEmail(inList.get(1))
+				.custId(inCustBasDTO.getCustId())
+				.custNm(inCustBasDTO.getCustNm())
+				.custBirth(inCustBasDTO.getCustBirth())
+				.custEmail(inCustBasDTO.getCustEmail())
 				.build();
-		
 		
 		List<CustBas> outMemberList = custRepository.findByDynamicQuery(MemberList.getCustId(), MemberList.getCustNm(), MemberList.getCustBirth(), MemberList.getCustEmail());
 		
+		// 소셜 회원가입시 핸드폰 번호가 처음에 unknown으로 DB에 저장되어 null 값으로 처리
+		String custNo = null;
+		if(outMemberList.get(0).getCustNo().equals("Unknown")) 
+		{
+			custNo = null;
+		}
+		else
+		{
+			custNo = outMemberList.get(0).getCustNo();
+		}
+		
 		CustBasDTO inDTO = CustBasDTO.builder()
-				.id(outMemberList.get(0).getId())
-				.custNm(outMemberList.get(0).getCustNm())
-				.custEmail(outMemberList.get(0).getCustEmail())
-				.custAddress(outMemberList.get(0).getCustAddress())
-				.custBirth(outMemberList.get(0).getCustBirth())
 				.custId(outMemberList.get(0).getCustId())
-				.custNo(outMemberList.get(0).getCustNo())
+				.custNm(outMemberList.get(0).getCustNm())
+				.custPassword(outMemberList.get(0).getCustPassword())
+				.custBirth(outMemberList.get(0).getCustBirth())
+				.custNo(custNo)
 				.custSex(outMemberList.get(0).getCustSex())
+				.custAddress(outMemberList.get(0).getCustAddress())
+				.custEmail(outMemberList.get(0).getCustEmail())
 				.build();
+		
+		logger.debug("inDTO ::: " + StringUtil.toString(inDTO));
 		
 		return inDTO; 
 				
