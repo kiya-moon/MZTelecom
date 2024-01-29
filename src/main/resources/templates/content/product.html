@@ -38,10 +38,10 @@
 											<span class="dsc-cont"
 												th:text="${#numbers.formatDecimal(product.IntmPrice, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
 										</p>
-										<!--<p class="dsc-item">
+										<p class="dsc-item" th:if="${ratePlanOpnYn} == 'Y'">
 					                        <span class="dsc-title">요금</span>
 					                        <span class="dsc-cont" th:text="${product.fee} + '원/월'"></span>
-					                    </p>-->
+					                    </p>
 									</div>
 									<div class="final-price">
 										<span class="price-cont">

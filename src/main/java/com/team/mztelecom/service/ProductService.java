@@ -47,7 +47,8 @@ public class ProductService {
 	            intmBas.getIntmGB(),
 	            intmBas.getIntmPrice(), 
 	            intmBas.getWishCnt(),
-	            intmImgDTOList
+	            intmImgDTOList,
+	            intmBas.getFee()
 	        );
 
 	        intmDTOList.add(intmDTO);

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.IntmBasDTO;
+import com.team.mztelecom.dto.SysCdDTO;
 import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.ProductService;
+import com.team.mztelecom.service.SysCdBasService;
 import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;
@@ -28,13 +30,24 @@ public class ProductController {
 	
 	private final CustWishService custWishService;
 	
+	private final SysCdBasService sysCdBasService;
+	
 	@GetMapping(value = "/product")
 	public String product(Locale locale, Model model) {
 		logger.debug("상품 시작");
 		
 		List<IntmBasDTO> productList = productService.getAllProductsWithImages();
 		
+		// 요금 오픈 여부
+		SysCdDTO sysCdDTO = SysCdDTO.builder()
+				.sys_cd_group_id("rate_plan_group")
+				.sys_cd_id("rate_plan_details_yn")
+				.build();
+		
+		String ratePlanOpnYn = sysCdBasService.getSysCd(sysCdDTO);
+		
         model.addAttribute("productList", productList);
+        model.addAttribute("ratePlanOpnYn", ratePlanOpnYn);
         
 		return "content/product";
 	}

@@ -46,11 +46,13 @@ public class IntmBas {
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "intmBas")
 	private List<CustWish> CustWish;
+	
+	private String fee;
     
     
     @Builder
 	public IntmBas(Long id, List<String> intmModelColor, String intmNm, String intmKorNm, List<String> intmGB,
-			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs) {
+			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs, String fee) {
 		
     	this.id = id;
 		this.intmModelColor = intmModelColor;
@@ -60,6 +62,7 @@ public class IntmBas {
 		this.intmPrice = intmPrice;
 		this.wishCnt = wishCnt;
 		this.intmImgs = intmImgs;
+		this.fee = fee;
 	}
     
     public void UpdateWishd(int wishCnt) {
