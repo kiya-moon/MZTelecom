@@ -9,45 +9,84 @@
 			<div class="myPage-container">
 				<div class="sidebar">
 					<h2>관리자페이지</h2>
-					<a th:href="@{/admin?tab=member}" th:class="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member') ? 'activeTab' : ''}">회원관리</a>
-					<a th:href="@{/admin?tab=product}" th:class="${#strings.equals(param.tab, 'product') ? 'activeTab' : ''}">상품관리</a>
-					<a th:href="@{/admin?tab=qna}" th:class="${#strings.equals(param.tab, 'qna') ? 'activeTab' : ''}">QnA</a>
-					<a th:href="@{/admin?tab=order}" th:class="${#strings.equals(param.tab, 'order') ? 'activeTab' : ''}">주문현황</a>
+					<a th:href="@{/admin?tab=member}"
+						th:class="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member') ? 'activeTab' : ''}">회원관리</a>
+					<a th:href="@{/admin?tab=product}"
+						th:class="${#strings.equals(param.tab, 'product') ? 'activeTab' : ''}">상품관리</a>
+					<a th:href="@{/admin?tab=qna}"
+						th:class="${#strings.equals(param.tab, 'qna') ? 'activeTab' : ''}">QnA</a>
+					<a th:href="@{/admin?tab=order}"
+						th:class="${#strings.equals(param.tab, 'order') ? 'activeTab' : ''}">주문현황</a>
 					<hr>
 				</div>
 
 				<div class="content" id="content">
-					<div class="admin-container member-list" th:if="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member')}">
+					<div class="admin-container member-list"
+						th:if="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member')}">
+						<div id="board-search" style="padding-bottom: 20px;">
+							<div>
+								<div class="rev-search">
+									<form method="get">
+										<div class="search-wrap">
+											<label for="search" class="rev-blind">구매후기 검색</label> 
+											<input type="text" size="45" id="keyword" name="keyword" th:value="${keyword}" placeholder="회원 이름을 입력해주세요.">
+											<button type="submit" class="rev-search-btn">검색</button>
+										</div>
+									</form>
+									<form method="get">
+										<button type="submit" class="reset-btn">초기화</button>
+									</form>
+								</div>
+							</div>
+						</div>
 						<table>
 							<thead>
 								<tr>
-									<th>Email</th>
 									<th>이름</th>
-									<th>주민등록번호</th>
+									<th>아이디</th>
+									<th>Email</th>
+									<th>생년월일</th>
 									<th>핸드폰번호</th>
+									<th>가입일</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="cust : ${custInfoList}" onclick="selectRow(this)">
-									<td th:text="${cust.custEmail}"></td>
+								<tr th:each="cust : ${custInfoPage.content}" onclick="selectRow(this)">
 									<td th:text="${cust.custNm}"></td>
-									<td th:text="${cust.custIdfyNo}"></td>
+									<td th:text="${cust.custId}"></td>
+									<td th:text="${cust.custEmail}"></td>
+									<td th:text="${cust.CustBirth}"></td>
 									<td th:text="${cust.custNo}"></td>
+									<td th:text="${#temporals.format(cust.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								</tr>
-<!--								<tr onclick="selectRow(this)">
-									<td>test@naver.com</td>
-									<td>오둥이</td>
-									<td>123456-7890123</td>
-									<td>010-1234-5678</td>
-								</tr>
-								<tr onclick="selectRow(this)">
-									<td>test@gmail.com</td>
-									<td>거북이</td>
-									<td>123456-7890123</td>
-									<td>010-1234-5678</td>
-								</tr>-->
 							</tbody>
 						</table>
+						<br />
+						<div>
+							<ul th:if="${custInfoPage.totalPages > 1}" class="pagination">
+								<li th:class="${custInfoPage.first} ? disabled">
+									<a
+										th:href="@{${'/admin'}(page=0, size=${custInfoPage.size}, keyword=${keyword})}">&lt;&lt;</a>
+								</li>
+								<li th:class="${custInfoPage.first} ? disabled">
+									<a
+										th:href="@{${'/admin'}(page=${custInfoPage.number - 1}, size=${custInfoPage.size}, keyword=${keyword})}">&lt;</a>
+								</li>
+								<li th:each="pageNum : ${#numbers.sequence(0, custInfoPage.totalPages - 1)}"
+									th:class="${pageNum == custInfoPage.number} ? active">
+									<a th:href="@{${'/admin'}(page=${pageNum}, size=${custInfoPage.size}, keyword=${keyword})}"
+										th:text="${pageNum + 1}"></a>
+								</li>
+								<li th:class="${custInfoPage.last} ? disabled">
+									<a
+										th:href="@{${'/admin'}(page=${custInfoPage.number + 1}, size=${custInfoPage.size}, keyword=${keyword})}">&gt;</a>
+								</li>
+								<li th:class="${custInfoPage.last} ? disabled">
+									<a
+										th:href="@{${'/admin'}(page=${custInfoPage.totalPages - 1}, size=${custInfoPage.size}, keyword=${keyword})}">&gt;&gt;</a>
+								</li>
+							</ul>
+						</div>
 						<button class="delete-btn">삭제</button>
 					</div>
 					<div class="admin-container" th:if="${#strings.equals(param.tab, 'product')}">
@@ -204,7 +243,7 @@
 </th:block>
 
 <th:block layout:fragment="script">
-	<script th:src="@{/js/admin.js}" ></script>
+	<script th:src="@{/js/admin.js}"></script>
 </th:block>
 
 
