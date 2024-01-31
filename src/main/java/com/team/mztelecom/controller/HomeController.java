@@ -21,16 +21,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team.mztelecom.dto.CustBasDTO;
+import com.team.mztelecom.dto.FAQDTO;
 import com.team.mztelecom.dto.InquiryCustDTO;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
+import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.service.AdminService;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.MypageService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.PurRevAttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
+import com.team.mztelecom.service.SupportService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
@@ -56,7 +59,10 @@ public class HomeController {
 	
 	@Autowired
 	MypageService mypageService;
-
+	
+	@Autowired
+	SupportService supportService;
+	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -95,6 +101,10 @@ public class HomeController {
 	@GetMapping(value = "/support")
 	public String support(Locale locale, Model model) {
 
+		List<FAQDTO> FAQList = supportService.getFAQ();
+		
+		model.addAttribute("FAQList", FAQList);
+		
 		return "content/support";
 	}
 
@@ -257,11 +267,15 @@ public class HomeController {
 		Page<InquiryCustDTO> custInfoPage = adminService.getCustInfoPage(keyword, pageable);
 		logger.debug("custInfoPage :: " + custInfoPage);
 		
+		List<InquiryCustDTO> custInfoList = adminService.getCustInfoList();
+		
+		// 문의 내역 조회 - 김시우
+		List<QnADTO> outQnAList =  supportService.getQnA();
+		
 		model.addAttribute("custInfoPage", custInfoPage);
 		model.addAttribute("keyword", keyword);
-
-		List<InquiryCustDTO> custInfoList = adminService.getCustInfoList();
 		model.addAttribute("custInfoList", custInfoList);
+		model.addAttribute("outQnAList", outQnAList);	// 문의 내역
 
 		return "admin";
 	}

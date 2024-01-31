@@ -2,6 +2,7 @@ package com.team.mztelecom.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.team.mztelecom.domain.CustBas;
+import com.team.mztelecom.domain.QnA;
 import com.team.mztelecom.dto.InquiryCustDTO;
+import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.repository.AdminRepository;
+import com.team.mztelecom.repository.QnARepository;
 import com.team.util.StringUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class AdminService {
 	private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 	private final AdminRepository adminRepository;
+	
+	private final QnARepository qnARepository;
 
 	// 1. 사용자 정보 담기
 	public List<InquiryCustDTO> getCustInfoList() {
@@ -62,5 +68,16 @@ public class AdminService {
 
 	// 2. 상품 정보 담기
 	// 3. 문의 정보 담기
+	public void deleteQna(QnADTO inQnADTO) {
+		
+		QnA inQnA = inQnADTO.toEntity();
+		
+		Optional<QnA> outQnA = qnARepository.findById(inQnA.getId());
+		logger.debug("outQnA :: " + StringUtil.toString(outQnA.get()));
+		
+		qnARepository.deleteById(outQnA.get().getId());
+		
+		
+	}
 
 }

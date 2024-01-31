@@ -185,7 +185,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="qna : ${qnaList}" class="clickQna" th:data-target="'answer' + ${qna.id}">
+								<tr th:each="qna : ${outQnAList}" class="clickQna" th:data-target="'answer' + ${qna.id}">
 									<td th:text="${qna.category}"></td>
 									<td th:text="${qna.email}"></td>
 								</tr>
@@ -193,20 +193,23 @@
 							</tbody>
 						</table>
 
-						<div th:each="qna : ${qnaList}" class="admin-answer" th:id="'answer' + ${qna.id}">
+						<div th:each="qna : ${outQnAList}" class="admin-answer" th:id="'answer' + ${qna.id}">
 							<div class="answer-title">
-								<p th:text="'분류 : ' + ${qna.category}"></p>
-								<p th:text="'작성자: ' + ${qna.name}"></p>
-								<p>문의 일시: 2023-09-17</p>
-								<p class="answer-text" th:text="${qna.message}"></p>
+								<form th:action="@{answrCmplt}" th:method="post">
+									<input type="hidden" name="qna-id" th:value="${qna.id}">
+									<p th:text="'분류 : ' + ${qna.category}"></p>
+									<p th:text="'답변받을 이메일: ' + ${qna.email}"></p>
+									<p class="answer-text" th:text="${qna.details}"></p>
+									<input type = "submit" value="답변 완료">
+								</form>
 							</div>
 
-							<div class="answer-body">
+<!--							<div class="answer-body">
 								<form action="" method="post">
 									<textarea name="answer" rows="4" cols="50" placeholder="답변을 입력하세요"></textarea>
 									<input type="submit" value="답변 제출">
 								</form>
-							</div>
+							</div>-->
 						</div>
 
 					</div>

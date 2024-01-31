@@ -89,7 +89,7 @@
     resize: none;
 }
 
-.admin-container .answer-body input[type="submit"] {
+.admin-container .answer-title input[type="submit"] {
     background-color: #FFA200;
     color: #fff;
     padding: 10px 20px;

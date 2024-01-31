@@ -17,6 +17,15 @@ public class SupportController {
 	@Autowired
 	SupportService supportService;
 	
+	/**
+	 * 문의하기 - 김시우
+	 * 
+	 * @param category
+	 * @param emailId
+	 * @param domain
+	 * @param contents
+	 * @return
+	 */
 	@PostMapping(value = "/sendQnA")
 	public String sendQnA(@RequestParam("selectedCategory") String category
 						,@RequestParam("email") String emailId
