@@ -14,10 +14,6 @@ body {
     flex-direction: column;
 }
 
-main {
-	flex:1; 
-}
-
 ul, ol {
     list-style: none;
 }
@@ -38,6 +34,7 @@ article{
 }
 
 .common {
+	flex:1;
 	margin-top: 105px;
 }
 
