@@ -88,11 +88,6 @@ public class HomeController {
 		return "content/findIdOrPw";
 	}
 
-	@GetMapping(value = "/cart")
-	public String cart(Locale locale, Model model) {
-		return "cart";
-	}
-
 	@GetMapping(value = "/phoneplan")
 	public String phoneplan(Locale locale, Model model) {
 		return "content/phoneplan";

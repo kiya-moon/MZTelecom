@@ -16,5 +16,4 @@ public interface AdminRepository extends JpaRepository<CustBas, Long> {
 	List<CustBas> findAllCustInfo();
 
 	Page<CustBas> findByCustNmContaining(String custNm, Pageable pageable);
-
 }

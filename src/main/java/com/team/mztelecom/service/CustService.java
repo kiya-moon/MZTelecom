@@ -61,6 +61,7 @@ public class CustService {
 		}
 		
 		CustBasDTO inDTO = CustBasDTO.builder()
+				.id(outMemberList.get(0).getId())
 				.custId(outMemberList.get(0).getCustId())
 				.custNm(outMemberList.get(0).getCustNm())
 				.custPassword(outMemberList.get(0).getCustPassword())
