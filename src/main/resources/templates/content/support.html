@@ -17,12 +17,12 @@
 					<h2>자주하는 질문</h2>
 					<ul class="qna" th:each="FAQ : ${FAQList}">
 				        <li>
-				        	<div class="qna-title" onclick="qnaToggleMenu('item1')">
+				        	<div class="qna-title" th:onclick="|qnaToggleMenu('${FAQ.id}')|">
 					            <p><strong>Q</strong>&nbsp; [[${FAQ.titleFAQ}]]</p>
 				        		<i data-feather="plus"></i>
 				        	</div>
 				        	
-				            <div class="qna-item hidden" id="item1">
+				            <div class="qna-item hidden" th:id="${FAQ.id}">
 				            	<p>[[${FAQ.detailFAQ}]]</p>
 				            </div>
 				        </li>
