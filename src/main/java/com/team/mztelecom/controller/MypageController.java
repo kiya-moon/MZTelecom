@@ -19,17 +19,28 @@ public class MypageController {
 	@Autowired
 	MypageService mypageService;
 	
+	/**
+	 * 회원정보 수정 컨트롤러 - 김시우
+	 * 
+	 * @param inCustBasDTO
+	 * @return
+	 */
 	@PostMapping(value = "/update/custInfo")
 	public String updateCustInfo(@ModelAttribute CustBasDTO inCustBasDTO) {
 		logger.debug("inCustBasDTO :: " + StringUtil.toString(inCustBasDTO));
 		
 		mypageService.updateCustInfo(inCustBasDTO);
 		
-		return "redirect:/";
+		return "/myPage?tab=editMemberInformation";
 		
 	}
 	
-	
+	/**
+	 * 회원 탈퇴 컨트롤러 - 김시우
+	 * 
+	 * @param inCustBasDTO
+	 * @return
+	 */
 	@PostMapping(value = "/custWithdrawal")
 	public String deleteCust(@ModelAttribute CustBasDTO inCustBasDTO) {
 		

@@ -182,7 +182,7 @@ function updateCustInfo(){
     	})
 		.then(function(response) {
 			alert('회원 정보가 수정되었습니다.');
-			location.reload();
+			window.location.href = '/myPage?tab=editMemberInformation';
     		return response.text(); // 서버의 응답 텍스트를 반환
 		})
     	.catch(function(error) {

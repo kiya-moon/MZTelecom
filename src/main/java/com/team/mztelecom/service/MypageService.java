@@ -42,6 +42,11 @@ public class MypageService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
+	/**
+	 * 회원정보 수정 - 김시우
+	 * 
+	 * @param inCustBasDTO
+	 */
 	public void updateCustInfo(CustBasDTO inCustBasDTO) {
 		
 		CustBas inCustBas = inCustBasDTO.toEntity(); 

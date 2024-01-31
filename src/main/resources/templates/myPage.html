@@ -25,7 +25,7 @@
 	
 				<div class="content" id="content">
 					<div class="rounded_rectangle" id="rounded_rectangle" th:if="${#strings.isEmpty(param.tab)}">
-						<h1>*** 님, 환영합니다:)</h1>
+						<h1 th:value="${custInfo.custNm}">[[${custInfo.custNm}]] 님, 환영합니다:)</h1>
 						<div class="rounded_rectangle_2" id="rounded_rectangle_2">
 							<div class="container">
 								<div class="image-part">
@@ -34,9 +34,9 @@
 										alt="smartphone_mypage">
 								</div>
 								<div class="text-part">
-									<h2>고객님은 현재 구매하신 모바일 기기가 없습니다.</h2>
-									<a href="#" class="mobile_btn" id="mobile_btn">➜ 모바일 기기
-										구매하러 가기</a>
+									<h2>
+										<a th:href="@{/product}" class="mobile_btn" id="mobile_btn">모바일 기기 구경하러 가기</a>
+									</h2>
 								</div>
 							</div>
 							<hr>
@@ -47,8 +47,9 @@
 										alt="smartphone_mypage">
 								</div>
 								<div class="text-part">
-									<h2>고객님은 현재 이용하시는 요금제가 없습니다.</h2>
-									<a href="#" class="plan_btn" id="plan_btn">➜ 요금제 신청하러 가기</a>
+									<h2>
+										<a th:href="@{/phoneplan}" class="plan_btn" id="plan_btn">요금제 구경하러 가기</a>
+									</h2>
 								</div>
 							</div>
 						</div>

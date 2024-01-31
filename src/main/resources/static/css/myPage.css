@@ -4,6 +4,7 @@
 	
 }
 .sidebar {
+	min-width: 200px;
 	flex: 1;
 	padding-right: 40px;
 }
@@ -33,14 +34,12 @@
    background-color: #FFA200;
    padding-bottom: 20px;
    border-radius: 20px;
-   height: 385px;
 }
 
 .rounded_rectangle h1 {
 	color: black;
 	font-size: 1.5em;
 	font-weight: bold;
-	margin-top: 25px;
 	text-align: center;
 	padding-top: 15px;
     margin-bottom: 15px;	
@@ -51,23 +50,17 @@
     margin: 0 20px;
     background-color: #fff;
     border-radius: 20px;
-    height: 300px;
 }
 
 .container {
 	padding: 5px 15px 0px 15px;
 	display: flex;
+	align-items: center;
 }
 
 .image-part {
-    
     max-width: 120px;
-    padding: 10px; /* 내부 여백 설정 */
-    margin: 10px;
-}
-
-.text-part {
-    padding: 30px 10px 10px 0px; /* 내부 여백 설정 */
+    padding: 10px;
 }
 
 .mobile_btn {
