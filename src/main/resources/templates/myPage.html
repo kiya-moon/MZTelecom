@@ -169,19 +169,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>2023-01-05</td>
-										<td>상품 1</td>
-										<td>10000원</td>
-										<td>배송 완료</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>2023-02-10</td>
-										<td>상품 2</td>
-										<td>15000원</td>
-										<td>배송 중</td>
+									<tr th:each="orders : ${ordersList}">
+								        <td th:text="${orders.orderUid}"></td>
+								        <td>2023-01-05</td>
+								        <td th:text="${orders.intmKorNm}"></td>
+								        <td th:text="${orders.price}"></td>
+								        <td th:text="${orders.status}"></td>
 									</tr>
 									<!-- 주문 내역 데이터를 동적으로 생성하여 추가할 수 있습니다. -->
 								</tbody>
