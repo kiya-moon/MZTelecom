@@ -1,5 +1,7 @@
 package com.team.mztelecom.domain;
 
+import java.time.LocalDate;
+
 import com.team.mztelecom.dto.OrdersDTO;
 
 import jakarta.persistence.Entity;
@@ -31,7 +33,6 @@ public class Orders {
 	@NotNull
 	private String orderUid; 			// 주문 번호
 	
-	
 	@ManyToOne
     @JoinColumn(name = "custBas_id")
     private CustBas custBas;			// 회원
@@ -43,11 +44,13 @@ public class Orders {
 	private AllStatus status;			// 상태
 
 	private String paymentUid; 			// 결제 고유 번호
+	
+	private LocalDate paymentDate;			// 결제 일자
 
 	
 	@Builder
 	public Orders(Long id, String intmKorNm, String price, String orderUid,
-			CustBas custBas, IntmProduct intmProduct, AllStatus status, String paymentUid) {
+			CustBas custBas, IntmProduct intmProduct, AllStatus status, String paymentUid, LocalDate paymentDate) {
 		
 		this.id = id;
 		this.intmKorNm = intmKorNm;
@@ -57,6 +60,7 @@ public class Orders {
 		this.intmProduct = intmProduct;
 		this.status = status;
         this.paymentUid = paymentUid;
+        this.paymentDate = paymentDate;
 	}
 	
 	// entity -> dto
@@ -70,6 +74,7 @@ public class Orders {
                 .intmProduct(intmProduct)
                 .status(status)
                 .paymentUid(paymentUid)
+                .paymentDate(paymentDate)
                 .build();
     }
 }

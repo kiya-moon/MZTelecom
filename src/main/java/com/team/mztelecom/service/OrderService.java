@@ -1,6 +1,7 @@
 package com.team.mztelecom.service;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -167,6 +168,7 @@ public class OrderService {
 				.intmProduct(outIntmProduct)
 				.status(AllStatus.READY)
 				.paymentUid(ordersDTO.getPaymentUid())
+				.paymentDate(LocalDate.now())
 				.build();
 		
 		Orders orders = ordersDto.toEntity();
