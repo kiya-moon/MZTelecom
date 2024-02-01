@@ -73,34 +73,37 @@ radios.forEach(function(radio, index) {
 
 
 /* 장바구니 */
-function addCart() {
-	// CSRF 토큰을 가져옵니다
+function addCart(id) {
 	const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
 	const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
 
-	var itemId = document.getElementById('id').value;
-	var paramData = { id: itemId };
-	var param = JSON.stringify(paramData);
+	const formData = new FormData();
+	formData.append('id', id);
 
-	$.ajax({
-		url: "/cart/add",
+	fetch("/cart/add", {
 		method: "POST",
 		headers: {
-			[csrfHeader]: csrfToken
+			[csrfHeader]: csrfToken,
 		},
-		data: param,
-		contentType: 'application/json',
-		success: function(result, status) {
+		body: formData
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(response.status); // HTTP 상태 코드를 에러로 사용
+			}
+			return response.json();
+		})
+		.then(result => {
 			alert("상품을 장바구니에 담았습니다.");
-		},
-		error: function(jqXHR, status, error) {
-
-			if (jqXHR.status == '401') {
-				alert('로그인 후 이용해주세요');
+		})
+		.catch(error => {
+			if (error.message === "401") { // HTTP 상태 코드 확인
+				alert("로그인 후 이용해주세요");
 				location.href = '/login';
 			} else {
-				alert(jqXHR.responseText);
+				console.error("서버 오류 상세 정보:", error);
+				alert("오류가 발생했습니다: 서버에서 Unauthorized 응답이 왔습니다.");
 			}
-		}
-	})
+		});
 }
+

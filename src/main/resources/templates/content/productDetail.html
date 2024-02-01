@@ -12,8 +12,6 @@
 					</div>
 	
 					<div class="info-content">
-						<input type="hidden" th:value="${product.id}" id="id" name="id">
-						
 						<h2 th:text="${product.IntmKorNm}" name="intmKorNm"></h2>
 						<input type="hidden" th:value="${product.IntmKorNm}" name="intmKorNm">
 						
@@ -44,7 +42,7 @@
 						</div>
 	
 						<div class="detail-btn">
-							<button type="button" class="cart" th:onclick="addCart()">장바구니</button>
+							<button type="button" class="cart" th:onclick="|addCart(${product.id})|">장바구니</button>
 							<button type="button"  th:if="${isLiked != null && isLiked == true}" class="btnLike red" th:attr="data-product-id=${product.id}" th:onclick="|clickLiked(event, ${product.id})|")>
 											<p>찜하기</p>
 											<i class="heart" data-feather="heart"></i>

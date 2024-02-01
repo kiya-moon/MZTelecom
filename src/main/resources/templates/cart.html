@@ -8,15 +8,48 @@
 		<article>
 			<div class="cart-container">
 				<h1>장바구니</h1>
-				<div th:if="${not #lists.isEmpty(cartItems)}">
+				
+				<div th:if="${not #lists.isEmpty(cartItems)}" class="product-item-list">
 					<ul>
-						<li th:each="item : ${cartItems}">
-							<p th:text="${item.id}"></p>
-							<p th:text="${item.custBas.id}"></p>
-							<p th:text="${item.intmBas.id}"></p>
+						<li th:each="item : ${cartItems}" class="product-item">
+								<div class="cart-delete">
+									<i data-feather="x" th:onclick="|deleteCartItem(${item.cartItemId})|"></i>
+								</div>
+							<a th:href="@{'/productDetail/' + ${item.id}}">
+								<div class="thumb">
+									<img th:src="@{'/' + ${item.intmImgs[0].ImgPath}}" th:alt="${item.IntmKorNm}">
+								</div>
+								<div class="cont">
+									<div class="title">
+										<h3 th:text="${item.IntmKorNm}"></h3>
+									</div>
+									<div class="cont-info">
+										<p class="item-capacity">
+											<span th:each="capacity : ${item.IntmGB}" class="capacity-con" th:text="${capacity}"></span>
+										</p>
+										<p class="dsc-item">
+											<span class="dsc-title">휴대폰</span>
+											<span class="dsc-cont"
+												th:text="${#numbers.formatDecimal(item.IntmPrice, 0, 'COMMA', 0, 'POINT')} + '원'"></span>
+										</p>
+										<p class="dsc-item" th:if="${ratePlanOpnYn} == 'Y'">
+					                        <span class="dsc-title">요금</span>
+					                        <span class="dsc-cont" th:text="${item.fee} + '원/월'"></span>
+					                    </p>
+									</div>
+									<div class="final-price">
+										<span class="price-cont">
+											<em class="num"
+												th:text="${#numbers.formatDecimal(item.intmPrice[0], 0, 'COMMA', 0, 'POINT')}"></em><em
+												class="unit"> 원/월</em>
+										</span>
+									</div>
+								</div>
+							</a>
 						</li>
 					</ul>
 				</div>
+				
 				<div th:if="${#lists.isEmpty(cartItems)}" class="cart-null">
 					<i data-feather="shopping-cart"></i>
 					<h2>장바구니에 담은 상품이 없습니다.</h2>
@@ -25,6 +58,10 @@
 			</div>
 		</article>
 	</section>
+</th:block>
+
+<th:block layout:fragment="script">
+	<script th:src="@{/js/cart.js}" ></script>
 </th:block>
 
 </html>

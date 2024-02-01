@@ -21,17 +21,13 @@
 .product-item {
 	flex-basis: calc(25% - 15px);
     border: 1px solid #ccc;
-    padding: 25px;
+    padding: 10px;
 }
 
 .product-item a {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-}
-
-.product-item a .cont {
-	margin-top: auto;
 }
 
 .product-item a .cont .title {

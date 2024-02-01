@@ -41,6 +41,7 @@ public class ProductService {
 
 	        IntmBasDTO intmDTO = new IntmBasDTO(
 	            intmBas.getId(), 
+	            null,
 	            intmBas.getIntmModelColor(), 
 	            intmBas.getIntmNm(),
 	            intmBas.getIntmKorNm(), 

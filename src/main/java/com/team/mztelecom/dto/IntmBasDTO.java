@@ -16,6 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class IntmBasDTO {
 	Long   id;						// id
+	Long cartItemId;				// 장바구니 상품 아이디
 	List<String> intmModelColor;	// 기기색상
 	String intmNm;					// 단말기 이름
 	String intmKorNm;				// 단말기 한글 이름
@@ -27,10 +28,11 @@ public class IntmBasDTO {
 	
 	
 	@Builder
-	public IntmBasDTO(Long id, List<String> intmModelColor, String intmNm,
+	public IntmBasDTO(Long id, Long cartItemId, List<String> intmModelColor, String intmNm,
 			String intmKorNm, List<String> intmGB, List<String> intmPrice, int wishCnt, List<IntmImgDTO> intmImgs, String fee) {
 		
 		this.id = id;
+		this.cartItemId = cartItemId;
 		this.intmModelColor = intmModelColor;
 		this.intmNm = intmNm;
 		this.intmKorNm = intmKorNm;

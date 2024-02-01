@@ -138,6 +138,7 @@ public class MypageService {
 			
 			IntmBasDTO intmDTO = new IntmBasDTO(
 					intmBas.getId(), 
+					null,
 					intmBas.getIntmModelColor(), 
 					intmBas.getIntmNm(),
 					intmBas.getIntmKorNm(), 

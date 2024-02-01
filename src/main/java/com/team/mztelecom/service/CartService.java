@@ -22,8 +22,9 @@ import com.team.mztelecom.repository.ProductRepository;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,82 +40,10 @@ public class CartService {
 
 	private final CartItemRepository cartItemRepository;
 	
-	private final CustService custService;
-	
-	// 장바구니 담기
-//	public Long addCart(CartItemDTO cartItemDTO, String custId) {
-//
-//		IntmBas item = productRepository.findById(cartItemDTO.getId()).orElseThrow(EntityNotFoundException::new);
-//		logger.debug("서비스 item ::: " + StringUtil.toString(item));
-//		
-//		CustBasDTO inDTO = CustBasDTO.builder()
-//							.custId(custId)
-//							.build();
-//		
-//		CustBasDTO outDTO = custService.getMember(inDTO);
-//		
-//		logger.debug("outDTO ::: " + StringUtil.toString(outDTO));
-//		
-//		Optional<CustBas> custBasOptional = custRepository.findByCustId(custId);
-//		
-//		logger.debug("서비스 custBasOptional ::: " + custBasOptional);
-//
-//		CustBas custBas = custBasOptional.orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다."));
-//		
-//		
-//		CustBas custBas = outDTO.toEntity();
-//
-//		logger.debug("custBAs ::: " + custBas.getId());
-//		
-//		Cart cart = cartRepository.findByCustBasId(custBas.getId());
-//
-//		if (Utiles.isNullOrEmpty(cart)) {
-//			logger.debug("서비스 cart if ::: " + StringUtil.toString(cart));
-//			
-//			cart = Cart.builder()
-//					.custBas(custBas)
-//					.build();
-//
-//			cartRepository.save(cart);
-//			
-//			cart = cartRepository.findByCustBasId(custBas.getId());
-//		}
-//
-//		
-//		
-//		CartItem cartItem = cartItemRepository.findByCartIdAndIntmBasId(cart.getId(), item.getId());
-//		
-//		logger.debug("서비스 cartItem ::: " + StringUtil.toString(cartItem));
-//
-//		if (!Utiles.isNullOrEmpty(cartItem)) {
-//			
-//			logger.debug("서비스 if문 ::: " + StringUtil.toString(cartItem));
-//			
-//			cartItem.addCount(cartItemDTO.getCount());
-//
-//			return cartItem.getId();
-//
-//		} else {
-//			
-//			logger.debug("서비스 else ::: " + StringUtil.toString(cartItem));
-//			
-//			cartItem = CartItem.builder()
-//					.cart(cart)
-//					.intmBas(item)
-//					.build();
-//
-//			cartItemRepository.save(cartItem);
-//			
-//			CartItem outCartItem = cartItemRepository.findByCartIdAndIntmBasId(cart.getId(), item.getId());
-//			
-//			return outCartItem.getId();
-//		}
-//	}
-	
 	public Long addCart(CartItemDTO cartItemDTO, String custId){
 		
 		// 장바구니에 담을 상품 조회
-        IntmBas item = productRepository.findById(cartItemDTO.getId())
+		IntmBas item = productRepository.findById(cartItemDTO.getId())
                 .orElseThrow(EntityNotFoundException::new);
         
         logger.debug("서비스 item ::: " + StringUtil.toString(item));
@@ -122,16 +51,15 @@ public class CartService {
         // 로그인한 회원 조회
         Optional<CustBas> member = custRepository.findByCustId(custId);
         
-        CustBas custBas = member.orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다."));
-
-        logger.debug("서비스 custBas ::: " + StringUtil.toString(custBas));
-        
         // 현재 로그인한 회원 장바구니 조회
-        Cart cart = cartRepository.findByCustBasId(custBas.getId());
+        Cart cart = cartRepository.findByCustBasId(member.get().getId());
+        
+        logger.debug("서비스 custBas ::: " + member.get().getId());
         
         // 처음 장바구니 사용
         if (Utiles.isNullOrEmpty(cart)) {
 			
+        	CustBas custBas = member.get();
         	// 해당 회원의 장바구니 생성
         	cart = Cart.builder()
                     .custBas(custBas)
@@ -141,17 +69,17 @@ public class CartService {
 			
 		}
         
-        // 현재 상품이 장바구니에 이미 있는 상품인지 확인
+        // 현재 상품이 장바구니에 있는 상품인지 확인
         CartItem savedCartItem = cartItemRepository.findByCartIdAndIntmBasId(cart.getId(), item.getId());
-        
-        logger.debug("서비스 savedCartItem ::: " + StringUtil.toString(savedCartItem));
         
         if(!Utiles.isNullOrEmpty(savedCartItem)){
         	// 기존 수량에 현재 수량 더하기
             savedCartItem.addCount(cartItemDTO.getCount());
-            return savedCartItem.getId();
             
+            throw new IllegalArgumentException("이미 있는 상품입니다");
         } else {
+        	
+        	logger.debug("확인");
         	// 장바구니 상품 엔티티 생성
         	CartItem cartItem = CartItem.builder()
         		    .cart(cart)
@@ -159,9 +87,6 @@ public class CartService {
         		    .count(cartItemDTO.getCount())
         		    .build();
         	
-        	
-        	logger.debug("서비스 cartItem ::: " + StringUtil.toString(cartItem));
-			
             cartItemRepository.save(cartItem);
             
             return cartItem.getId();
@@ -170,19 +95,16 @@ public class CartService {
 
 	
 	// 장바구니 조회
+	@Transactional
     public List<IntmBasDTO> getCart(String custId) {
+    	
+    	logger.debug("장바구니 조회 서비스");
     	
     	List<IntmBasDTO> intmBasList = new ArrayList<>();
     	
-    	Optional<CustBas> custBasOptional = custRepository.findByCustId(custId);
+    	Optional<CustBas> member = custRepository.findByCustId(custId);
     	
-    	logger.debug("장바구니 조회 custBasOptional ::: " + StringUtil.toString(custBasOptional));
-    	
-    	CustBas custBas = custBasOptional.orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다."));
-		
-    	Cart cart = cartRepository.findByCustBasId(custBas.getId());
-    	
-    	logger.debug("장바구니 조회 cart ::: " + StringUtil.toString(cart));
+    	Cart cart = cartRepository.findByCustBasId(member.get().getId());
     	
     	if (Utiles.isNullOrEmpty(cart)) { 
     		return intmBasList;
@@ -193,8 +115,11 @@ public class CartService {
     	logger.debug("장바구니 조회 cartItems ::: " + StringUtil.toString(cartItems));
         
     	for (CartItem cartItem : cartItems) {
-            IntmBas intmBas = cartItem.getIntmBas();
+    		Long cartItemId = cartItem.getId();
+    		IntmBas intmBas = cartItem.getIntmBas();
             IntmBasDTO intmBasDTO = convertIntmBasDTO(intmBas);
+            
+            intmBasDTO.setCartItemId(cartItemId);
             
             intmBasList.add(intmBasDTO);
         }
@@ -235,6 +160,18 @@ public class CartService {
                 .imgName(intmImg.getImgName())
                 .imgPath(intmImg.getImgPath())
                 .build();
+    }
+    
+    
+    // 장바구니에 담긴 상품 삭제
+    @Transactional
+    public void deleteCartItem(Long cartItemId) {
+    	
+    	logger.debug("장바구니 delete 서비스");
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        
+        cartItemRepository.delete(cartItem);
     }
     
     
