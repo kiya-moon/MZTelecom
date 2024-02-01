@@ -28,6 +28,7 @@ import com.team.mztelecom.dto.OrdersDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.QnADTO;
+import com.team.mztelecom.dto.SysCdDTO;
 import com.team.mztelecom.service.AdminService;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.MypageService;
@@ -36,6 +37,7 @@ import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.PurRevAttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.mztelecom.service.SupportService;
+import com.team.mztelecom.service.SysCdBasService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
@@ -67,6 +69,9 @@ public class HomeController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	@Autowired
+	SysCdBasService sysCdBasService;
 	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
@@ -112,7 +117,7 @@ public class HomeController {
 	 * 마이페이지 - 김시우, 박지윤
 	 * 2024.01.26 : 찜한 상품 완(김시우)
 	 * 2024.01.28 : 회원 정보 완(김시우)
-	 * 2024.01.31 : 주문 내역 (김시우)
+	 * 2024.01.31 : 주문 내역 완(김시우)
 	 * 
 	 * @param locale
 	 * @param model
@@ -138,7 +143,16 @@ public class HomeController {
 			
 			List<OrdersDTO> outOrdersDTO = orderService.getOrdersByCustBas(inCustBasDTO);
 			
+			// 요금 오픈 여부
+			SysCdDTO sysCdDTO = SysCdDTO.builder()
+					.sys_cd_group_id("rate_plan_group")
+					.sys_cd_id("rate_plan_details_yn")
+					.build();
 			
+			String ratePlanOpnYn = sysCdBasService.getSysCd(sysCdDTO);
+			
+			
+			model.addAttribute("ratePlanOpnYn", ratePlanOpnYn);
 			model.addAttribute("custInfo", outCustBasDTO);
 			model.addAttribute("wishList", wishList);
 			model.addAttribute("ordersList", outOrdersDTO);

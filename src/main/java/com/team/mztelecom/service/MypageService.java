@@ -136,18 +136,17 @@ public class MypageService {
 			
 			logger.debug("intmImgDTOList :: " + StringUtil.toString(intmImgDTOList));
 			
-			IntmBasDTO intmDTO = new IntmBasDTO(
-					intmBas.getId(), 
-					null,
-					intmBas.getIntmModelColor(), 
-					intmBas.getIntmNm(),
-					intmBas.getIntmKorNm(), 
-					intmBas.getIntmGB(),
-					intmBas.getIntmPrice(), 
-					intmBas.getWishCnt(),
-					intmImgDTOList,
-					intmBas.getFee()
-					);
+			IntmBasDTO intmDTO = IntmBasDTO.builder()
+					.id(intmBas.getId())
+					.intmModelColor(intmBas.getIntmModelColor())
+					.intmNm(intmBas.getIntmNm())
+					.intmKorNm(intmBas.getIntmKorNm())
+					.intmGB(intmBas.getIntmGB())
+					.intmPrice(intmBas.getIntmPrice())
+					.wishCnt(intmBas.getWishCnt())
+					.fee(intmBas.getFee())
+					.intmImgs(intmImgDTOList)
+					.build();
 			
 			intmDTOList.add(intmDTO);
 			
