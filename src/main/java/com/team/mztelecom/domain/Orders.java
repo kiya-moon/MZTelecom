@@ -1,5 +1,7 @@
 package com.team.mztelecom.domain;
 
+import com.team.mztelecom.dto.OrdersDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -57,4 +59,17 @@ public class Orders {
         this.paymentUid = paymentUid;
 	}
 	
+	// entity -> dto
+	public OrdersDTO toDTO() {
+        return OrdersDTO.builder()
+                .id(id)
+                .intmKorNm(intmKorNm)
+                .price(price)
+                .orderUid(orderUid)
+                .custBas(custBas)
+                .intmProduct(intmProduct)
+                .status(status)
+                .paymentUid(paymentUid)
+                .build();
+    }
 }

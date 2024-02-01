@@ -11,6 +11,7 @@ import com.team.mztelecom.domain.AllStatus;
 import com.team.mztelecom.domain.CustBas;
 import com.team.mztelecom.domain.IntmProduct;
 import com.team.mztelecom.domain.Orders;
+import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.IntmProductDTO;
 import com.team.mztelecom.dto.OrdersDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
@@ -35,6 +36,8 @@ public class OrderService {
 	private final CustRepository custRepository;
 	
 	private final TemporarySaveDTO temporarySaveDTO;
+	
+	private final CustService custService;
 
 	public void setIntmProduct() {
 		
@@ -179,4 +182,34 @@ public class OrderService {
 		}
 		
    }
+	
+	
+	/**
+	 * 주문내역 - 김시우
+	 * 마이페이지
+	 * 
+	 * @param inDTO
+	 * @return
+	 */
+	public List<OrdersDTO> getOrdersByCustBas(CustBasDTO inDTO) {
+		
+		logger.debug("주문내역 서비스");
+		List<OrdersDTO> outList = new ArrayList<>();
+		
+		CustBas inCust = custService.getMember(inDTO).toEntity();
+		
+		logger.debug("inCust ::: " + inCust.getId());
+		
+		List<Orders> inOrders = orderRepository.findByCustBasId(inCust.getId());
+		
+		for(Orders outOrders : inOrders) {
+			
+			OrdersDTO outDTO = outOrders.toDTO();
+			
+			outList.add(outDTO);
+		}
+		
+		return outList;
+	}
+
 }

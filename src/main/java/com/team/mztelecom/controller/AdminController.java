@@ -18,6 +18,12 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	
+	/**
+	 * 문의내역 답변 완료 - 김시우
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@PostMapping(value="/answrCmplt")
 	public String answrQnA(@RequestParam("qna-id") Long id) {
 		

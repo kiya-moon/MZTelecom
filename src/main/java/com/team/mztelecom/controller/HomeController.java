@@ -24,12 +24,14 @@ import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.FAQDTO;
 import com.team.mztelecom.dto.InquiryCustDTO;
 import com.team.mztelecom.dto.IntmBasDTO;
+import com.team.mztelecom.dto.OrdersDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.service.AdminService;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.MypageService;
+import com.team.mztelecom.service.OrderService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.PurRevAttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
@@ -62,6 +64,9 @@ public class HomeController {
 	
 	@Autowired
 	SupportService supportService;
+	
+	@Autowired
+	OrderService orderService;
 	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
@@ -106,6 +111,8 @@ public class HomeController {
 	/**
 	 * 마이페이지 - 김시우, 박지윤
 	 * 2024.01.26 : 찜한 상품 완(김시우)
+	 * 2024.01.28 : 회원 정보 완(김시우)
+	 * 2024.01.31 : 주문 내역 (김시우)
 	 * 
 	 * @param locale
 	 * @param model
@@ -129,9 +136,12 @@ public class HomeController {
 			CustBasDTO outCustBasDTO = custService.getMember(inCustBasDTO);
 			List<IntmBasDTO> wishList = mypageService.listMyWish(inCustBasDTO.getCustId());
 			
+			List<OrdersDTO> outOrdersDTO = orderService.getOrdersByCustBas(inCustBasDTO);
+			
 			
 			model.addAttribute("custInfo", outCustBasDTO);
 			model.addAttribute("wishList", wishList);
+			model.addAttribute("ordersList", outOrdersDTO);
 		}
 		
 
