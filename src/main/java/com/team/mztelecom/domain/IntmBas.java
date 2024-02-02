@@ -1,5 +1,6 @@
 package com.team.mztelecom.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,12 +49,14 @@ public class IntmBas {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "intmBas")
 	private List<CustWish> CustWish;
 	
-	private String fee;
+	private String fee;						
+	
+	private Date createdAt;					// 최신순
     
     
     @Builder
 	public IntmBas(Long id, List<String> intmModelColor, String intmNm, String intmKorNm, List<String> intmGB,
-			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs, String fee) {
+			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs, String fee, Date createdAt) {
 		
     	this.id = id;
 		this.intmModelColor = intmModelColor;
@@ -64,6 +67,7 @@ public class IntmBas {
 		this.wishCnt = wishCnt;
 		this.intmImgs = intmImgs;
 		this.fee = fee;
+		this.createdAt = createdAt;
 	}
     
     public void UpdateWishd(int wishCnt) {

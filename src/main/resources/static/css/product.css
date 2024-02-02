@@ -11,6 +11,15 @@
     gap: 20px;
 }
 
+
+.pagination {
+	margin-top: 30px;
+}
+
+.category-list a.active, .pagination li.active {
+	font-weight: bold;
+}
+
 .product-item-list ul {
 	display: flex;
 	gap: 20px;
@@ -214,4 +223,28 @@
 
 .order:hover {
 	background-color: #FFA200;
+}
+
+@media (max-width: 540px) {
+	.product-item {
+	    flex-basis: calc(50% - 10px);
+	    border: 1px solid #ccc;
+	    padding: 10px;
+	}
+	
+	.product-context {
+		display: block;
+	}
+	
+	.category-list {
+		padding-top: 10px;	
+	}
+}
+
+@media (max-width: 380px) {
+	.product-item {
+	    flex-basis: 100%;
+	    border: 1px solid #ccc;
+	    padding: 10px;
+	}
 }

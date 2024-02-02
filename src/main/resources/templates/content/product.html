@@ -10,17 +10,16 @@
 					<h2>모바일 기기</h2>
 					<div>
 						<ul class="category-list">
-							<li><a href="#" class="category-link">판매순</a></li>
-							<li><a href="#" class="category-link">최신순</a></li>
-							<li><a href="#" class="category-link">낮은 가격순</a></li>
-							<li><a href="#" class="category-link">높은 가격순</a></li>
+							<li><a th:href="@{/product?sortBy=createdAt}" th:class="${sortBy == 'createdAt' ? 'active' : ''}">최신순</a></li>
+        					<li><a th:href="@{/product?sortBy=intmPriceDesc}" th:class="${sortBy == 'intmPriceDesc' ? 'active' : ''}">낮은가격순</a></li>
+        					<li><a th:href="@{/product?sortBy=intmPrice}" th:class="${sortBy == 'intmPrice' ? 'active' : ''}">높은가격순</a></li>
 						</ul>
 					</div>
 				</div>
 
 				<div class="product-item-list">
 					<ul>
-						<li th:each="product : ${productList}" class="product-item">
+						<li th:each="product : ${product}" class="product-item">
 							<a th:href="@{'/productDetail/' + ${product.id}}">
 								<div class="thumb">
 									<img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
@@ -56,6 +55,24 @@
 					</ul>
 
 				</div>
+				
+				
+				<div>
+				    <ul class="pagination">
+				        <li th:class="${currentPage == 0} ? 'disabled' : ''">
+				            <a th:href="@{/product(page=${currentPage - 1}, size=${size}, sort=${sortBy})}">&lt;</a>
+				        </li>
+				        
+				        <li th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}" th:class="${currentPage == pageNumber} ? 'active' : ''">
+				            <a th:href="@{/product(page=${pageNumber}, size=${size}, sort=${sortBy})}" th:text="${pageNumber + 1}"></a>
+				        </li>
+				        
+				        <li th:class="${currentPage == totalPages - 1} ? 'disabled' : ''">
+				            <a th:href="@{/product(page=${currentPage + 1}, size=${size}, sort=${sortBy})}">&gt;</a>
+				        </li>
+				    </ul>
+				</div>
+
 			</div>
 		</article>
 	</section>

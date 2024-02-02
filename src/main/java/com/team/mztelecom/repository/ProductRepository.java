@@ -2,6 +2,8 @@ package com.team.mztelecom.repository;
 
 import java.util.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +15,11 @@ import com.team.mztelecom.domain.IntmBas;
 public interface ProductRepository extends JpaRepository<IntmBas, Long> {
 	@Query(value = "SELECT i FROM IntmBas i LEFT JOIN FETCH i.intmImgs")
     List<IntmBas> findAllProductsWithImages();
+	
+	// 상품 페이지 정렬
+	Page<IntmBas> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    Page<IntmBas> findAllByOrderByIntmPriceAsc(Pageable pageable);
+    Page<IntmBas> findAllByOrderByIntmPriceDesc(Pageable pageable);
 	
 	/**
 	 * 상품 조회 - 김시우

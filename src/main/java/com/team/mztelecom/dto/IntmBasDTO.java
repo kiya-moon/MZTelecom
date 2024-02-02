@@ -25,11 +25,12 @@ public class IntmBasDTO {
 	int wishCnt;					// 찜하기
 	List<IntmImgDTO> intmImgs;		// 상품 이미지
 	String fee;
+	Date createdAt;					// 최신순
 	
 	
 	@Builder
 	public IntmBasDTO(Long id, Long cartItemId, List<String> intmModelColor, String intmNm,
-			String intmKorNm, List<String> intmGB, List<String> intmPrice, int wishCnt, List<IntmImgDTO> intmImgs, String fee) {
+			String intmKorNm, List<String> intmGB, List<String> intmPrice, int wishCnt, List<IntmImgDTO> intmImgs, String fee, Date createdAt) {
 		
 		this.id = id;
 		this.cartItemId = cartItemId;
@@ -41,6 +42,7 @@ public class IntmBasDTO {
 		this.wishCnt = wishCnt;
 		this.intmImgs = intmImgs;
 		this.fee = fee;
+		this.createdAt = createdAt;
 	}
 	
 	public IntmBas toEntity() {
@@ -58,6 +60,7 @@ public class IntmBasDTO {
 				.wishCnt(wishCnt)
 				.intmImgs(intmImgList)
 				.fee(fee)
+				.createdAt(createdAt)
 				.build();
 				
 	}
