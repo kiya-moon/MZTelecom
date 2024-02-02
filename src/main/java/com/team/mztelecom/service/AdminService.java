@@ -95,7 +95,18 @@ public class AdminService {
 			imgRepository.save(IntmImgAdd);
 		}
 		
-		IntmBas intmBasAdd =  intmBasDTO.toEntity();
+		List<IntmImg> outIntmImg = imgRepository.findAll();
+		
+		IntmBas intmBasAdd =  IntmBas.builder()
+				.intmModelColor(intmBasDTO.getIntmModelColor())
+				.intmNm(intmBasDTO.getIntmNm())
+				.intmKorNm(intmBasDTO.getIntmKorNm())
+				.intmGB(intmBasDTO.getIntmGB())
+				.intmPrice(intmBasDTO.getIntmPrice())
+				.intmImgs(outIntmImg)
+				.fee(intmBasDTO.getFee())
+				.createdAt(intmBasDTO.getCreatedAt())
+				.build();
 		
 		productRepository.save(intmBasAdd);
 	}
