@@ -24,9 +24,6 @@ public class IntmImg {
     private String intmNm;
 	
 	@NotNull
-    private String imgKor;
-	
-	@NotNull
     private String imgName;
 	
 	@NotNull
@@ -42,16 +39,15 @@ public class IntmImg {
     private IntmBas intmBas;
 
     @Builder
-	public IntmImg(Long id, String intmNm, String imgKor, String imgName, String imgDetailNm,
+	public IntmImg(Long id, String intmNm, String imgName, String imgDetailNm,
 			String imgPath, String imgDetailPath, IntmBas intmBas) {
     	
 		this.id = id;
 		this.intmNm = intmNm;
-		this.imgKor = imgKor;
 		this.imgName = imgName;
-		this.imgName = imgDetailNm;
+		this.imgDetailNm = imgDetailNm;
 		this.imgPath = imgPath;
-		this.imgPath = imgDetailPath;
+		this.imgDetailPath = imgDetailPath;
 		this.intmBas = intmBas;
 	}
 

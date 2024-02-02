@@ -86,17 +86,11 @@ public class AdminService {
 			
 			IntmImg IntmImgAdd = IntmImg.builder()
 					.intmNm(intmImgDTO.getIntmNm())
-					.imgKor(intmBasDTO.getIntmKorNm())
 					.imgName(intmImgDTO.getImgName())
 					.imgDetailNm(intmImgDTO.getImgDetailNm())
 					.imgPath(intmImgDTO.getImgPath())
 					.imgDetailPath(intmImgDTO.getImgDetailPath())
 					.build();
-			
-			logger.debug(" inList ::: " + StringUtil.toString(intmImgDTO));
-			
-			logger.debug("addProductNm :: " + IntmImgAdd.getImgDetailNm());
-			logger.debug("addProductPath :: " + IntmImgAdd.getImgDetailPath());
 			
 			imgRepository.save(IntmImgAdd);
 		}
