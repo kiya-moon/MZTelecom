@@ -1,6 +1,6 @@
 package com.team.mztelecom.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,12 +51,12 @@ public class IntmBas {
 	
 	private String fee;						
 	
-	private Date createdAt;					// 최신순
+	private LocalDate createdAt;					// 최신순
     
     
     @Builder
 	public IntmBas(Long id, List<String> intmModelColor, String intmNm, String intmKorNm, List<String> intmGB,
-			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs, String fee, Date createdAt) {
+			List<String> intmPrice, int wishCnt, List<IntmImg> intmImgs, String fee, LocalDate createdAt) {
 		
     	this.id = id;
 		this.intmModelColor = intmModelColor;

@@ -89,41 +89,71 @@
 						</div>
 						<button class="delete-btn">삭제</button>
 					</div>
+					
 					<div class="admin-container" th:if="${#strings.equals(param.tab, 'product')}">
 						<table>
 							<thead>
 								<tr>
-									<th>ID</th>
 									<th>상품명</th>
-									<th>이미지</th>
-									<th>기가</th>
-									<th>기가 종류</th>
-									<th>기기값</th>
-									<th>요금제</th>
-									<th>월가격</th>
+									<th>단말기 한글명</th>
+									<th>기기 용량</th>
+									<th>기기 값</th>
+									<th>색상</th>
+									<th>상품 이미지</th>
+									<th>상품 상세 이미지</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="product : ${productList}" th:onclick="selectRow(this)">
-									<td th:text="${product.id}"></td>
-									<td th:text="${product.name}"></td>
+								<tr th:onclick="selectRow(this)">
+								<!--<tr th:each="product : ${productList}" th:onclick="selectRow(this)">-->
+									<!--<td th:text="${product.name}"></td>
 									<td th:text="${product.image}"></td>
 									<td>
 										<span th:each="capacity : ${product.capacities}" th:text="${capacity}"></span>
 									</td>
 									<td th:text="${product.dscCapacity}"></td>
-									<td th:text="${product.dscPrice}"></td>
-									<td th:text="${product.fee}"></td>
-									<td th:text="${product.finalPrice}"></td>
+									<td th:text="${product.dscPrice}"></td>-->
+									
+									<td>
+							          <input type="text" class="form_control" value="김철수" readonly>
+							        </td>
+							        
+							        <td>
+							          <input type="text" class="form_control" value="한국">
+							        </td>
+							        
+							        <td>
+							          <input class="form_control" value="010-1234-1234">
+							        </td>
+							        
+							        <td>
+										<input type="text" class="form_control" value="gkgk">
+							        </td>
+							        
+							        <td>
+										<input type="text" class="form_control" value="gd">
+							        </td>
+							        
+							        <td>
+										<input type="text" class="form_control" value="hd">
+							        </td>
+							        
+							        <td>
+										<input type="text" class="form_control" value="df">
+							        </td>
+							        
 								</tr>
 							</tbody>
 						</table>
 						<div class="admin-btnList">
-							<button class="update-btn" onclick="showModal(this)">수정</button>
-							<button class="delete-btn">삭제</button>
-							<button class="add-btn">추가</button>
+							<button class="update-btn" onclick="udateModal(this)">수정</button>
+							<button class="delete-btn" onclick="remove_tr(this)">삭제</button>
+							<button class="add-btn" onclick="addProduct()">추가</button>
 						</div>
-						<div id="adminModal" class="modal">
+						
+						
+						<!--수정 model-->
+						<div id="adminUpdateModal" class="modal">
 							<div class="admin-modal">
 								<div class="modal-title">
 									<h2>상품 수정</h2>
@@ -131,50 +161,101 @@
 								</div>
 								<form>
 									<div class="input-container">
-										<label for="update-id">ID:</label>
-										<input type="text" id="update-id" readonly>
-									</div>
-
-									<div class="input-container">
 										<label for="update-name">상품명:</label>
-										<input type="text" id="update-name">
+										<input type="text"id="update-name">
+									</div>
+									
+									<div class="input-container">
+										<label for="update-kor">단말기 한글명:</label>
+										<input type="text" id="update-kor">
 									</div>
 
 									<div class="input-container">
-										<label for="update-image">이미지:</label>
-										<input type="file" id="update-image">
-									</div>
-
-									<div class="input-container">
-										<label for="update-capacity">기가:</label>
+										<label for="update-capacity">기기 용량:</label>
 										<input type="text" id="update-capacity">
 									</div>
 
 									<div class="input-container">
-										<label for="update-dscCapacity">기가 종류:</label>
-										<input type="text" id="update-dscCapacity">
+										<label for="update-price">기기값:</label>
+										<input type="text" id="update-price">
 									</div>
-
+									
 									<div class="input-container">
-										<label for="update-dscPrice">기기값:</label>
-										<input type="text" id="update-dscPrice">
+										<label for="update-color">색상:</label>
+										<input type="text" id="update-color">
 									</div>
-
+									
 									<div class="input-container">
-										<label for="update-fee">요금제:</label>
-										<input type="text" id="update-fee">
+										<label for="update-image">상품 이미지:</label>
+										<input type="file" id="update-image">
 									</div>
-
+									
 									<div class="input-container">
-										<label for="update-finalPrice">월가격:</label>
-										<input type="text" id="update-finalPrice">
+										<label for="update-imgDetail">상품 상세 이미지:</label>
+										<input type="file" id="update-imageDetail">
 									</div>
 
 									<button class="admin-save" onclick="closeModal()">저장</button>
 								</form>
 							</div>
 						</div>
+						
+						
+						<!--추가 model-->
+						<div id="adminAddModal" class="modal">
+							<div class="admin-modal">
+								<div class="modal-title">
+									<h2>상품 추가</h2>
+									<span class="close" onclick="closeAddModal()">&times;</span>
+								</div>
+								<p>용량, 기기값, 색상 여러 개 등록 시 쉼표로 구분해주세요.</p>
+								<form th:action="@{productAdd}" th:method="POST" enctype="multipart/form-data">
+									<div class="input-container">
+										<label for="update-name">상품명:</label>
+										<input type="text" name="add-name" id="add-name">
+									</div>
+									
+									<div class="input-container">
+										<label for="update-kor">단말기 한글명:</label>
+										<input type="text" name="add-kor" id="add-kor">
+									</div>
+
+									<div class="input-container">
+										<label for="update-capacity">기기 용량:</label>
+										<input type="text" name="add-capacity" id="add-capacity">
+									</div>
+
+									<div class="input-container">
+										<label for="update-price">기기값:</label>
+										<input type="text" name="add-price" id="add-price">
+									</div>
+									
+									<div class="input-container">
+										<label for="update-color">색상:</label>
+										<input type="text" name="add-color" id="add-color">
+									</div>
+									
+									<div class="input-container">
+										<label for="update-image">상품 이미지:</label>
+										<input type="file" name="add-image" id="add-image">
+									</div>
+									
+									<div class="input-container">
+										<label for="update-imgDetail">상품 상세 이미지:</label>
+										<input type="file" name="add-imageDetail" id="add-imageDetail">
+									</div>
+
+									<button class="add-save" onclick="closeAddModal()">확인</button>
+									
+								</form>
+							</div>
+						</div>
+						
 					</div>
+					</div>
+					
+						
+						
 
 					<div class="admin-container" th:if="${#strings.equals(param.tab, 'qna')}">
 						<table>

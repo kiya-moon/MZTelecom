@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.team.mztelecom.domain.PurRevAttachment;
+import com.team.mztelecom.dto.IntmImgDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.repository.PurRevAttachmentRepository;
 import com.team.util.StringUtil;
@@ -22,15 +23,18 @@ import com.team.util.Utiles;
 import jakarta.transaction.Transactional;
 
 @Service
-public class PurRevAttachmentService {
+public class AttachmentService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PurRevAttachmentService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AttachmentService.class);
 	
 	@Autowired
 	private PurRevAttachmentRepository purRevAttachmentRepository;
 	
 	@Value("${file.dir}")
 	private String fileDir;
+	
+	@Value("${img.dir}")
+	private String imgDir;
 	
 	/**
 	 * 첨부파일 저장	- 김시우
@@ -198,5 +202,66 @@ public class PurRevAttachmentService {
 		}
         
         return fileList;
+    }
+    
+    public List<IntmImgDTO> addImages(MultipartFile imgfiles, MultipartFile imgDetailfiles,String addName) {
+    	
+        List<IntmImgDTO> imgesAdd = new ArrayList<>();
+        
+        try {
+        	
+        	if(!Utiles.isNullOrEmpty(imgfiles.getOriginalFilename()) && !Utiles.isNullOrEmpty(imgDetailfiles.getOriginalFilename())) {
+        		// 파일을 저장할 세부 경로 지정
+	            String path = imgDir;
+	    		UUID uuid = UUID.randomUUID();
+	    		File files = new File(path);
+	    		
+	            // 디렉터리가 존재하지 않을 경우
+	            if(!files.exists()) {
+	                boolean wasSuccessful = files.mkdirs();
+		            // 디렉터리 생성에 실패했을 경우
+		            if(!wasSuccessful)
+		            {
+		                logger.debug("file: was not successful");
+		            }
+	            }
+
+                    // 파일명 중복 피하고자 uuid 설정
+                    String new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
+                    String new_imgDetailfiles_name = uuid + "_" + imgDetailfiles.getOriginalFilename();
+                    
+                    IntmImgDTO IntmImgDTOs = IntmImgDTO.builder()
+                    		.intmNm(addName)
+                    		.imgName(imgfiles.getOriginalFilename())
+                    		.imgDetailNm(imgDetailfiles.getOriginalFilename())
+                    		.imgPath(path + new_imgfiles_name)
+                    		.imgDetailPath(path + new_imgDetailfiles_name)
+                    		.build();
+                
+                    // 생성 후 리스트에 추가
+                    imgesAdd.add(IntmImgDTOs);
+  
+                    // 업로드 한 파일 데이터를 지정한 파일에 저장
+                    File imgfile = new File(path, new_imgfiles_name);
+                    imgfiles.transferTo(imgfile);
+                    
+                    // 파일 권한 설정(쓰기, 읽기)
+                    imgfile.setWritable(true);
+                    imgfile.setReadable(true);
+                    
+                    
+                    File imgdetailfile = new File(path, new_imgDetailfiles_name);
+                    imgDetailfiles.transferTo(imgdetailfile);
+                    
+                    // 파일 권한 설정(쓰기, 읽기)
+                    imgdetailfile.setWritable(true);
+                    imgdetailfile.setReadable(true);
+        	}
+			
+		} catch (Exception e) {
+		
+		}
+    	
+    	return imgesAdd;
     }
 }

@@ -30,7 +30,7 @@ import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
 import com.team.mztelecom.service.CustService;
-import com.team.mztelecom.service.PurRevAttachmentService;
+import com.team.mztelecom.service.AttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
@@ -47,7 +47,7 @@ public class PurRevBoardController {
 	PurRevBoardService purRevBoardService;
 	
 	@Autowired
-	PurRevAttachmentService purRevAttachmentService;
+	AttachmentService purRevAttachmentService;
 	
 	@Autowired
 	CustService custService;

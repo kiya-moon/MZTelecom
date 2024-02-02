@@ -79,8 +79,10 @@ public class ProductService {
 	    	IntmImgDTO intmImgDTO = new IntmImgDTO(
 	                intmImg.getId(), 
 	                intmImg.getIntmNm(),
+	                intmImg.getImgDetailNm(),
 	                intmImg.getImgName(),
-	                intmImg.getImgPath()
+	                intmImg.getImgPath(),
+	                intmImg.getImgDetailPath()
 	        );
 	    	
 	        intmImgDTOList.add(intmImgDTO);

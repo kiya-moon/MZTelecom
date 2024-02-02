@@ -45,7 +45,7 @@ public class PurRevBoardService{
 	CustService custService;
 	
 	@Autowired
-	PurRevAttachmentService purRevAttachmentService;
+	AttachmentService purRevAttachmentService;
 	
 	@Autowired
 	PurRevAttachmentRepository purRevAttachmentRepository;

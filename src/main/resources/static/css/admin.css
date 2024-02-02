@@ -20,8 +20,8 @@
 }
 
 
-.admin-container tr.selected {
-    background-color: #000;
+.admin-container tr.select{
+    border:3px solid #FFA200;
     color:#fff;
 }
 
@@ -48,7 +48,7 @@
 	justify-content: end;
 }
 
-.admin-container .admin-btnList button, .admin-container .admin-save {
+.admin-container .admin-btnList button, .admin-container .admin-save, .admin-container .add-save {
     background-color: #fff;
     border: 1px solid #FFA200;
     border-radius: 5px;
@@ -121,8 +121,20 @@
     border-radius: 10px;
 }
 
-.admin-container .admin-save {
+.admin-container .admin-modal p {
+	padding: 10px 0;
+	color: red;
+	text-align: center;
+}
+
+.admin-container .admin-save, .admin-container .add-save {
 	display: flex;
 	margin-left: auto;
 }
 
+
+.admin-container table tbody input {
+	width: 100%;
+	border: none;
+	outline: none;
+}

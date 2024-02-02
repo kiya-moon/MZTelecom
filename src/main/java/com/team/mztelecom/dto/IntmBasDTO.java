@@ -1,5 +1,6 @@
 package com.team.mztelecom.dto;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,8 +16,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class IntmBasDTO {
-	Long   id;						// id
-	Long cartItemId;				// 장바구니 상품 아이디
+	Long	id;						// id
+	Long	cartItemId;				// 장바구니 상품 아이디
 	List<String> intmModelColor;	// 기기색상
 	String intmNm;					// 단말기 이름
 	String intmKorNm;				// 단말기 한글 이름
@@ -25,12 +26,12 @@ public class IntmBasDTO {
 	int wishCnt;					// 찜하기
 	List<IntmImgDTO> intmImgs;		// 상품 이미지
 	String fee;
-	Date createdAt;					// 최신순
+	LocalDate createdAt;					// 최신순
 	
 	
 	@Builder
 	public IntmBasDTO(Long id, Long cartItemId, List<String> intmModelColor, String intmNm,
-			String intmKorNm, List<String> intmGB, List<String> intmPrice, int wishCnt, List<IntmImgDTO> intmImgs, String fee, Date createdAt) {
+			String intmKorNm, List<String> intmGB, List<String> intmPrice, int wishCnt, List<IntmImgDTO> intmImgs, String fee, LocalDate createdAt) {
 		
 		this.id = id;
 		this.cartItemId = cartItemId;

@@ -34,7 +34,7 @@ import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.MypageService;
 import com.team.mztelecom.service.OrderService;
 import com.team.mztelecom.service.ProductService;
-import com.team.mztelecom.service.PurRevAttachmentService;
+import com.team.mztelecom.service.AttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.mztelecom.service.SupportService;
 import com.team.mztelecom.service.SysCdBasService;
@@ -56,7 +56,7 @@ public class HomeController {
 	PurRevBoardService purRevBoardService;
 
 	@Autowired
-	PurRevAttachmentService purRevAttachmentService;
+	AttachmentService purRevAttachmentService;
 
 	@Autowired
 	AdminService adminService;

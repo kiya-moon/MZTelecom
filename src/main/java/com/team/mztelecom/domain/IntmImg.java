@@ -24,22 +24,34 @@ public class IntmImg {
     private String intmNm;
 	
 	@NotNull
+    private String imgKor;
+	
+	@NotNull
     private String imgName;
+	
+	@NotNull
+    private String imgDetailNm;
 
 	@NotNull
     private String imgPath;
+	
+	@NotNull
+    private String imgDetailPath;
 
     @ManyToOne
     private IntmBas intmBas;
 
     @Builder
-	public IntmImg(Long id, String intmNm, String imgName,
-			String imgPath, IntmBas intmBas) {
+	public IntmImg(Long id, String intmNm, String imgKor, String imgName, String imgDetailNm,
+			String imgPath, String imgDetailPath, IntmBas intmBas) {
     	
 		this.id = id;
 		this.intmNm = intmNm;
+		this.imgKor = imgKor;
 		this.imgName = imgName;
+		this.imgName = imgDetailNm;
 		this.imgPath = imgPath;
+		this.imgPath = imgDetailPath;
 		this.intmBas = intmBas;
 	}
 

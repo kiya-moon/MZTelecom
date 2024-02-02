@@ -1,3 +1,8 @@
+function selectRow(row) {
+    row.classList.toggle('select');
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const qnaRows = document.querySelectorAll('.clickQna');
 
@@ -13,12 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function selectRow(row) {
-    row.classList.toggle('selected');
-}
-
-function showModal() {
-    const selectedRows = document.querySelectorAll('.selected');
+function udateModal() {
+    const selectedRows = document.querySelectorAll('.select');
 
     if (selectedRows.length !== 1) {
         alert('하나만 선택해 주세요.');
@@ -27,23 +28,40 @@ function showModal() {
 
 	const selectedRow = selectedRows[0];
     const cells = selectedRow.cells;
-    const modalFields = ['id', 'name', 'image', 'capacity', 'dscCapacity', 'dscPrice', 'fee', 'finalPrice'];
+    const modalFields = ['name', 'kor', 'capacity', 'price', 'color', 'image', 'imageDetail'];
 
     modalFields.forEach((field, index) => {
 		const element = document.getElementById(`update-${field}`);
 		
-		if (field === 'image') {
+		if (field === 'image' || field === 'imageDetail') {
 		    element.value = ''; // 이미지 필드 초기화
+		    
 		} else {
-		    element.value = cells[index].textContent;
+		    const inputElement = cells[index].querySelectorAll('.form_control');
+		    
+		    for (let i = 0; i < inputElement.length; i++) {
+				if (inputElement[i].type == 'text') {
+	                element.value = inputElement[i].value;
+	                break;
+            	}
+			}
 		}
    });
 
    // 모달을 표시합니다.
-   document.getElementById('adminModal').style.display = 'block';
+   document.getElementById('adminUpdateModal').style.display = 'block';
 
 }
 
 function closeModal() {
-    document.getElementById('adminModal').style.display = 'none';
+    document.getElementById('adminUpdateModal').style.display = 'none';
+}
+
+function addProduct() {
+   document.getElementById('adminAddModal').style.display = 'block';
+
+}
+
+function closeAddModal() {
+    document.getElementById('adminAddModal').style.display = 'none';
 }

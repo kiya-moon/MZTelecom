@@ -12,10 +12,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.team.mztelecom.domain.CustBas;
+import com.team.mztelecom.domain.IntmBas;
+import com.team.mztelecom.domain.IntmImg;
 import com.team.mztelecom.domain.QnA;
 import com.team.mztelecom.dto.InquiryCustDTO;
+import com.team.mztelecom.dto.IntmBasDTO;
+import com.team.mztelecom.dto.IntmImgDTO;
 import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.repository.AdminRepository;
+import com.team.mztelecom.repository.ImgRepository;
+import com.team.mztelecom.repository.ProductRepository;
 import com.team.mztelecom.repository.QnARepository;
 import com.team.util.StringUtil;
 
@@ -28,6 +34,10 @@ public class AdminService {
 	private final AdminRepository adminRepository;
 	
 	private final QnARepository qnARepository;
+
+	private final ProductRepository productRepository;
+
+	private final ImgRepository imgRepository;
 
 	// 1. 사용자 정보 담기
 	public List<InquiryCustDTO> getCustInfoList() {
@@ -67,6 +77,35 @@ public class AdminService {
 	}
 
 	// 2. 상품 정보 담기
+	public void addProduct(IntmBasDTO intmBasDTO, List<IntmImgDTO> inList) {
+		logger.debug("상품 담기 서비스 :: ");
+		
+		logger.debug(" inList ::: " + StringUtil.toString(inList.get(0)));
+		
+		for(IntmImgDTO intmImgDTO : inList) {
+			
+			IntmImg IntmImgAdd = IntmImg.builder()
+					.intmNm(intmImgDTO.getIntmNm())
+					.imgKor(intmBasDTO.getIntmKorNm())
+					.imgName(intmImgDTO.getImgName())
+					.imgDetailNm(intmImgDTO.getImgDetailNm())
+					.imgPath(intmImgDTO.getImgPath())
+					.imgDetailPath(intmImgDTO.getImgDetailPath())
+					.build();
+			
+			logger.debug(" inList ::: " + StringUtil.toString(intmImgDTO));
+			
+			logger.debug("addProductNm :: " + IntmImgAdd.getImgDetailNm());
+			logger.debug("addProductPath :: " + IntmImgAdd.getImgDetailPath());
+			
+			imgRepository.save(IntmImgAdd);
+		}
+		
+		IntmBas intmBasAdd =  intmBasDTO.toEntity();
+		
+		productRepository.save(intmBasAdd);
+	}
+	
 	// 3. 문의 정보 담기
 	public void deleteQna(QnADTO inQnADTO) {
 		
@@ -79,5 +118,7 @@ public class AdminService {
 		
 		
 	}
+	
+	
 
 }
