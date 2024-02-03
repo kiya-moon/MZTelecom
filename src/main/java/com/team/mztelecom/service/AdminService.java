@@ -105,10 +105,11 @@ public class AdminService {
 				.intmKorNm(intmBasDTO.getIntmKorNm())
 				.intmGB(intmBasDTO.getIntmGB())
 				.intmPrice(intmBasDTO.getIntmPrice())
-				.intmImgs(outIntmImg)
 				.fee(intmBasDTO.getFee())
 				.createdAt(intmBasDTO.getCreatedAt())
 				.build();
+		
+		intmBasAdd.addIntmImg(outIntmImg.get(0));
 		
 		productRepository.save(intmBasAdd);
 	}

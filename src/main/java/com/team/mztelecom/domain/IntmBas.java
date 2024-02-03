@@ -1,6 +1,7 @@
 package com.team.mztelecom.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +73,15 @@ public class IntmBas {
     
     public void UpdateWishd(int wishCnt) {
     	this.wishCnt = wishCnt;
+    }
+    
+	// 이미지 넣어주는 곳
+	public void addIntmImg(IntmImg intmImg) {
+        if (intmImgs == null) {
+        	intmImgs = new ArrayList<>();
+        }
+        intmImgs.add(intmImg);
+        intmImg.setIntmBas(this);
     }
 
 }
