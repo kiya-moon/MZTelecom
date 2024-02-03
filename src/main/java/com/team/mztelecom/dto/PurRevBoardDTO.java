@@ -30,6 +30,7 @@ public class PurRevBoardDTO {
 	
 	public PurRevBoard toEntity() {
 		PurRevBoard build = PurRevBoard.builder()
+				.id(id)
 				.intmNm(intmNm)
 				.boardTitle(boardTitle)
 				.boardDate(boardDate)
