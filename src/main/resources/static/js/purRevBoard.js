@@ -229,13 +229,12 @@ function deleteImage(imageId) {
 
 // 파일 입력이 변경될 때 이미지 표시
 function displaySelectedImages(input) {
-	console.log("222");
     var imagePreviewContainer = document.getElementById('image-preview-container');
     var imgItem = document.querySelectorAll('.img-item');
     imagePreviewContainer.innerHTML = ''; // 이전에 표시된 이미지 제거
     
     console.log("imgItem ::: " + imgItem.length);
-    var maxFileCount = 3;
+    var maxFileCount = 2;
     var imgCnt = imgItem.length;
     var selectedFileCount = input.files.length;
     var total = imgCnt + selectedFileCount
