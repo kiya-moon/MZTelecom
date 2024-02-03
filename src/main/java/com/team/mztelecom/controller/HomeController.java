@@ -276,6 +276,7 @@ public class HomeController {
 
 	@GetMapping(value = "/admin")
 	public String admin(@RequestParam(name = "keyword", required = false) String keyword,
+			@RequestParam(defaultValue = "createdAt") String sortBy,
 			@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size, Model model) {
 
@@ -291,12 +292,19 @@ public class HomeController {
 		// 문의 내역 조회 - 김시우
 		List<QnADTO> outQnAList =  supportService.getQnA();
 		
+		Page<IntmBasDTO> productPage = productService.getAllProductsWithImages(sortBy, page, size);
+		
 		model.addAttribute("custInfoPage", custInfoPage);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("custInfoList", custInfoList);
 		model.addAttribute("outQnAList", outQnAList);	// 문의 내역
+		
+		model.addAttribute("product", productPage);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("sortBy", sortBy);
 
 		return "admin";
 	}
-
+	
 }

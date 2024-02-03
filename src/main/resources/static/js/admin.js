@@ -33,10 +33,6 @@ function udateModal() {
     modalFields.forEach((field, index) => {
 		const element = document.getElementById(`update-${field}`);
 		
-		if (field === 'image' || field === 'imageDetail') {
-		    element.value = ''; // 이미지 필드 초기화
-		    
-		} else {
 		    const inputElement = cells[index].querySelectorAll('.form_control');
 		    
 		    for (let i = 0; i < inputElement.length; i++) {
@@ -45,7 +41,6 @@ function udateModal() {
 	                break;
             	}
 			}
-		}
    });
 
    // 모달을 표시합니다.

@@ -1,24 +1,36 @@
 package com.team.mztelecom.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.team.mztelecom.domain.IntmBas;
+import com.team.mztelecom.domain.IntmImg;
+import com.team.mztelecom.domain.PurRevAttachment;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.IntmImgDTO;
 import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.service.AdminService;
 import com.team.mztelecom.service.AttachmentService;
+import com.team.mztelecom.service.ProductService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
@@ -34,6 +46,9 @@ public class AdminController {
 
 	@Autowired
 	AttachmentService attachmentService;
+	
+	@Autowired
+	ProductService productService;
 
 	/**
 	 * 문의내역 답변 완료 - 김시우
@@ -109,8 +124,6 @@ public class AdminController {
 
 		List<IntmImgDTO> prodctImages = attachmentService.addImages(addImage, addImageDetail, addName);
 		
-		logger.debug("prodctImages ::: " + StringUtil.toString(prodctImages.get(0)));
-		
 		IntmBasDTO intmBasAdd = IntmBasDTO.builder()
 				.intmNm(addName)
 				.intmModelColor(color)
@@ -129,5 +142,24 @@ public class AdminController {
 		logger.debug("상품" + addColor);
 
 		return "redirect:/admin?tab=product";
+	}
+	
+	@PostMapping("/update/{id}")
+    public String productUpdate(@PathVariable Long id, IntmBasDTO updatedIntmBasDTO, 
+    		@RequestParam("update-image") MultipartFile udateImage,
+			@RequestParam("update-imageDetail") MultipartFile updateImageDetail) {
+        
+		adminService.updateIntmBasDTO(id ,updatedIntmBasDTO, udateImage, updateImageDetail);
+        
+        return "redirect:/admin?tab=product";
+	}
+	
+	@GetMapping("/intmimg/{id}")
+	@ResponseBody
+	public Resource img(@PathVariable Long id, Model model) throws IOException {
+		
+		Optional<IntmImg> intmImgs = productService.findByImgId(id);
+		
+		return new UrlResource("file:" + intmImgs.get().getImgPath());
 	}
 }

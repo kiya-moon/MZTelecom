@@ -204,7 +204,7 @@ public class AttachmentService {
         return fileList;
     }
     
-    public List<IntmImgDTO> addImages(MultipartFile imgfiles, MultipartFile imgDetailfiles,String addName) {
+    public List<IntmImgDTO> addImages(MultipartFile imgfiles, MultipartFile imgDetailfiles, String addName) {
     	
         List<IntmImgDTO> imgesAdd = new ArrayList<>();
         

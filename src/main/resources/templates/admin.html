@@ -104,47 +104,48 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:onclick="selectRow(this)">
-								<!--<tr th:each="product : ${productList}" th:onclick="selectRow(this)">-->
-									<!--<td th:text="${product.name}"></td>
-									<td th:text="${product.image}"></td>
+								<tr th:if="${product != null}" th:each="product : ${product}" th:onclick="selectRow(this)">
 									<td>
-										<span th:each="capacity : ${product.capacities}" th:text="${capacity}"></span>
+							          <input type="text" class="form_control" th:value="${product.IntmNm}" readonly>
+							        </td>
+									<td>
+							          <input type="text" class="form_control" th:value="${product.IntmKorNm}" readonly>
+							        </td>
+									<td>
+										<input th:each="capacity : ${product.IntmGB}" type="text" class="form_control" th:value="${capacity}" readonly>
 									</td>
-									<td th:text="${product.dscCapacity}"></td>
-									<td th:text="${product.dscPrice}"></td>-->
-									
 									<td>
-							          <input type="text" class="form_control" value="김철수" readonly>
-							        </td>
-							        
-							        <td>
-							          <input type="text" class="form_control" value="한국">
-							        </td>
-							        
-							        <td>
-							          <input class="form_control" value="010-1234-1234">
-							        </td>
-							        
-							        <td>
-										<input type="text" class="form_control" value="gkgk">
-							        </td>
-							        
-							        <td>
-										<input type="text" class="form_control" value="gd">
-							        </td>
-							        
-							        <td>
-										<input type="text" class="form_control" value="hd">
-							        </td>
-							        
-							        <td>
-										<input type="text" class="form_control" value="df">
-							        </td>
-							        
+										<input th:each="price : ${product.IntmPrice}" type="text" class="form_control" th:value="${price}" readonly>
+									</td>
+									<td>
+										<input th:each="modelColor : ${product.IntmModelColor}" type="text" class="form_control" th:value="${modelColor}" readonly>
+									</td>
+									<td>
+										<img th:src="|/intmimg/${product.id}|" th:alt="${product.IntmKorNm}">
+									</td>
+									<td>
+										<!--<img th:src="@{'/' + ${product.intmImgs[0].ImgDetailPath}}">-->
+									</td>
 								</tr>
 							</tbody>
 						</table>
+						
+						<div>
+						    <ul class="pagination">
+						        <li th:class="${currentPage == 1 ? 'disabled' : ''}">
+						            <a th:href="@{/admin(tab=${param.tab}, page=${currentPage - 1}, size=${size}, sort=${sortBy})}">&lt;</a>
+						        </li>
+						
+						        <li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage == pageNumber ? 'active' : ''}">
+						            <a th:href="@{/admin(tab=${param.tab}, page=${pageNumber}, size=${size}, sort=${sortBy})}" th:text="${pageNumber}"></a>
+						        </li>
+						
+						        <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
+						            <a th:href="@{/admin(tab=${param.tab}, page=${currentPage + 1}, size=${size}, sort=${sortBy})}">&gt;</a>
+						        </li>
+						    </ul>
+						</div>
+						
 						<div class="admin-btnList">
 							<button class="update-btn" onclick="udateModal(this)">수정</button>
 							<button class="delete-btn" onclick="remove_tr(this)">삭제</button>
@@ -159,7 +160,8 @@
 									<h2>상품 수정</h2>
 									<span class="close" onclick="closeModal()">&times;</span>
 								</div>
-								<form>
+								
+								<form th:action="@{/update/{id}}" method="POST">
 									<div class="input-container">
 										<label for="update-name">상품명:</label>
 										<input type="text"id="update-name">
@@ -194,9 +196,10 @@
 										<label for="update-imgDetail">상품 상세 이미지:</label>
 										<input type="file" id="update-imageDetail">
 									</div>
-
+									
 									<button class="admin-save" onclick="closeModal()">저장</button>
 								</form>
+								
 							</div>
 						</div>
 						

@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
+import com.team.mztelecom.domain.PurRevAttachment;
 import com.team.mztelecom.domain.PurRevBoard;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.IntmImgDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
+import com.team.mztelecom.repository.ImgRepository;
 import com.team.mztelecom.repository.ProductRepository;
 import com.team.util.StringUtil;
 
@@ -29,6 +31,8 @@ public class ProductService {
 	private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
 	private final ProductRepository productRepository;
+
+	private final ImgRepository imgRepository;
 	
 	// 상품
 	public Page<IntmBasDTO> getAllProductsWithImages(String sortBy, int page, int size) {
@@ -89,7 +93,12 @@ public class ProductService {
 	    }
 	    return intmImgDTOList;
 	}
-
+	
+	
+	public Optional<IntmImg> findByImgId(Long id) {
+		
+		return imgRepository.findById(id);
+	}
 
 	// 상품상세 url
 	public IntmBas getProductById(Long productId) {
@@ -110,4 +119,5 @@ public class ProductService {
                 return Sort.by(Sort.Direction.DESC, "createdAt");
         }
     }
+
 }

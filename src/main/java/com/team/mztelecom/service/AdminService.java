@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.team.mztelecom.domain.CustBas;
 import com.team.mztelecom.domain.IntmBas;
@@ -24,7 +25,9 @@ import com.team.mztelecom.repository.ImgRepository;
 import com.team.mztelecom.repository.ProductRepository;
 import com.team.mztelecom.repository.QnARepository;
 import com.team.util.StringUtil;
+import com.team.util.Utiles;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -76,11 +79,10 @@ public class AdminService {
 				.custEmail(custBas.getCustEmail()).intmPurStusYn(custBas.getIntmPurStusYn()).createDate(custBas.getCreateDate()).build();
 	}
 
-	// 2. 상품 정보 담기
+	// 2-1. 상품 정보 담기
+	@Transactional
 	public void addProduct(IntmBasDTO intmBasDTO, List<IntmImgDTO> inList) {
 		logger.debug("상품 담기 서비스 :: ");
-		
-		logger.debug(" inList ::: " + StringUtil.toString(inList.get(0)));
 		
 		for(IntmImgDTO intmImgDTO : inList) {
 			
@@ -111,6 +113,30 @@ public class AdminService {
 		productRepository.save(intmBasAdd);
 	}
 	
+	// 2-2 상품 수정
+	public void updateIntmBasDTO(Long id, IntmBasDTO updatedIntmBasDTO, MultipartFile imageFile, MultipartFile imageDetailFile) {
+		
+		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
+		
+		if(!Utiles.isNullOrEmpty(IntmBasOptional)) {
+			
+			List<IntmImg> outIntmImg = imgRepository.findAll();
+			
+			IntmBas updatedIntmBas = IntmBas.builder()
+	                .intmModelColor(updatedIntmBasDTO.getIntmModelColor())
+	                .intmNm(updatedIntmBasDTO.getIntmNm())
+	                .intmKorNm(updatedIntmBasDTO.getIntmKorNm())
+	                .intmGB(updatedIntmBasDTO.getIntmGB())
+	                .intmPrice(updatedIntmBasDTO.getIntmPrice())
+	                .intmImgs(outIntmImg)
+	                .fee(updatedIntmBasDTO.getFee())
+	                .build();
+			
+			productRepository.save(updatedIntmBas);
+		}
+        
+    }
+	
 	// 3. 문의 정보 담기
 	public void deleteQna(QnADTO inQnADTO) {
 		
@@ -120,7 +146,6 @@ public class AdminService {
 		logger.debug("outQnA :: " + StringUtil.toString(outQnA.get()));
 		
 		qnARepository.deleteById(outQnA.get().getId());
-		
 		
 	}
 	

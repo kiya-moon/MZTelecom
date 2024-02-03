@@ -12,5 +12,5 @@ import com.team.mztelecom.domain.IntmImg;
 
 @Repository
 public interface ImgRepository extends JpaRepository<IntmImg, Long> {
-    List<IntmImg> findAll();
+	List<IntmImg> findAll();
 }
