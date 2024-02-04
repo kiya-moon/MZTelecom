@@ -98,13 +98,57 @@ public class ProductService {
 	
 	public Optional<IntmImg> findByIntmBas(Long id) {
 		
+		logger.debug("확인11");
+		
 		return imgRepository.findById(id);
 	}
 
 	// 상품상세 url
-	public IntmBas getProductById(Long productId) {
+	public IntmBasDTO getProductById(Long productId) {
+		logger.debug("확인2");
+		logger.debug("productId :::  " + productId);
+		
+		IntmBasDTO inDTO = IntmBasDTO.builder()
+							.id(productId)
+							.build();
+		logger.debug("inDTO :: " + inDTO.getId());
+		
+		IntmBas inEntity = inDTO.toEntity();
+		
+		logger.debug("inEntity :: " + inEntity.getId());
+		
+		IntmBas outEntity = productRepository.findById(inEntity.getId()).orElse(null);
+		
+		IntmImg outImg = imgRepository.findByIntmBasId(outEntity.getId());
+		
+		IntmImgDTO outImgDTO = IntmImgDTO.builder()
+								.id(outImg.getId())
+								.imgName(outImg.getImgName())
+								.imgName(outImg.getImgName())
+								.imgPath(outImg.getImgPath())
+								.imgDetailNm(outImg.getImgDetailNm())
+								.imgDetailPath(outImg.getImgDetailPath())
+								.build();
+		
+		logger.debug("images ::: " + outEntity.getIntmImgs().get(0));
+		
+		List<IntmImgDTO> imgList = new ArrayList<>();
+		imgList.add(outImgDTO);
 
-		return productRepository.findById(productId).orElse(null);
+		IntmBasDTO outDTO = IntmBasDTO.builder()
+								.id(outEntity.getId())
+								.intmGB(outEntity.getIntmGB())
+								.intmModelColor(outEntity.getIntmModelColor())
+								.intmKorNm(outEntity.getIntmKorNm())
+								.intmNm(outEntity.getIntmNm())
+								.intmPrice(outEntity.getIntmPrice())
+								.fee(outEntity.getFee())
+								.wishCnt(outEntity.getWishCnt())
+								.createdAt(outEntity.getCreatedAt())
+								.intmImgs(imgList)
+								.build();
+		
+		return outDTO;
 	}
 	
 	

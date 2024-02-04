@@ -2,10 +2,8 @@ package com.team.mztelecom.dto;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.team.mztelecom.domain.IntmBas;
-import com.team.mztelecom.domain.IntmImg;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -47,11 +45,8 @@ public class IntmBasDTO {
 	}
 	
 	public IntmBas toEntity() {
-		List<IntmImg> intmImgList = intmImgs.stream()
-	            .map(IntmImgDTO::toEntity)
-	            .collect(Collectors.toList());
 		
-		return IntmBas.builder()
+		IntmBas build = IntmBas.builder()
 				.id(id)
 				.intmModelColor(intmModelColor)
 				.intmNm(intmNm)
@@ -59,11 +54,11 @@ public class IntmBasDTO {
 				.intmGB(intmGB)
 				.intmPrice(intmPrice)
 				.wishCnt(wishCnt)
-				.intmImgs(intmImgList)
 				.fee(fee)
 				.createdAt(createdAt)
 				.build();
 				
+			return build;
 	}
 
 

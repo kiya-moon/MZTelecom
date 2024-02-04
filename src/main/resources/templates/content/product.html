@@ -22,7 +22,7 @@
 						<li th:each="product : ${product}" class="product-item">
 							<a th:href="@{'/productDetail/' + ${product.id}}">
 								<div class="thumb">
-									<img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
+									<img th:src="|/intmimg/${product.id}|" th:alt="${product.IntmKorNm}">
 								</div>
 								<div class="cont">
 									<div class="title">

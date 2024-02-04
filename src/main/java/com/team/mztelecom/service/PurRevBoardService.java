@@ -169,25 +169,34 @@ public class PurRevBoardService{
 	public PurRevBoardDTO purRevView(Long id) {
 		logger.debug("구매후기 상세페이지 서비스");
 		
-		Optional<PurRevBoard> outPurRevBoard = purRevBoardRepository.findById(id);
+		PurRevBoardDTO inBoardDTO = PurRevBoardDTO.builder()
+										.id(id)
+										.build();
+		
+		PurRevBoard inBoard = inBoardDTO.toEntity();
+		
+		Optional<PurRevBoard> outPurRevBoard = purRevBoardRepository.findById(inBoard.getId());
 		
 		PurRevAttachmentDTO purRevAttachmentDTO = new PurRevAttachmentDTO();
 		List<PurRevAttachmentDTO> inPurRevAttachmentDTO = new ArrayList<PurRevAttachmentDTO>();
 		
-		CustBasDTO inCustBasDTO = CustBasDTO.builder()
+		CustBasDTO inCustDTO = CustBasDTO.builder()
 				.custId(outPurRevBoard.get().getCustBas().getCustId())
 				.build();
 		List<CustBasDTO> inCustBasDTOList = new ArrayList<>();
-		inCustBasDTOList.add(inCustBasDTO);
+		inCustBasDTOList.add(inCustDTO);
 		
 		if(!Utiles.isNullOrEmpty(outPurRevBoard.get().getPurRevAttachments())) 
 		{
 			for(int i = 0; i < outPurRevBoard.get().getPurRevAttachments().size(); i++) 
 			{
-				purRevAttachmentDTO.setId(outPurRevBoard.get().getPurRevAttachments().get(i).getId());
-				purRevAttachmentDTO.setFileName(outPurRevBoard.get().getPurRevAttachments().get(i).getFileName());
-				purRevAttachmentDTO.setOrigFileName(outPurRevBoard.get().getPurRevAttachments().get(i).getOrigFileName());
-				purRevAttachmentDTO.setFilePath(outPurRevBoard.get().getPurRevAttachments().get(i).getFilePath());
+				
+				purRevAttachmentDTO = PurRevAttachmentDTO.builder()
+										.id(outPurRevBoard.get().getPurRevAttachments().get(i).getId())
+										.fileName(outPurRevBoard.get().getPurRevAttachments().get(i).getFileName())
+										.origFileName(outPurRevBoard.get().getPurRevAttachments().get(i).getOrigFileName())
+										.filePath(outPurRevBoard.get().getPurRevAttachments().get(i).getFilePath())
+										.build();
 				
 				inPurRevAttachmentDTO.add(purRevAttachmentDTO);
 			}

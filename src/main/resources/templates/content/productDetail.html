@@ -8,7 +8,7 @@
 			<div class="productDetail-container">
 				<form th:action="@{/authenticate}" method="POST">
 					<div class="image-content">
-						<img th:src="@{'/' + ${product.intmImgs[0].ImgPath}}" th:alt="${product.IntmKorNm}">
+						<img th:src="|/intmimg/${product.id}|" th:alt="${product.IntmKorNm}">
 					</div>
 	
 					<div class="info-content">
@@ -57,7 +57,7 @@
 				
 				</form>
 				<div class="info-detail">
-					
+					<img th:src="|/intmDetailimg/${product.id}|" th:alt="${product.IntmKorNm}">
 				</div>
 			</div>
 		</article>

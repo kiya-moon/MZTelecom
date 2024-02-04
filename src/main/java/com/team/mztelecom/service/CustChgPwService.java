@@ -44,14 +44,19 @@ public class CustChgPwService {
         mailInfo.put("message", "안녕하세요. MZTelecom 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
                 + tempPw + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
         
-        updatePassword(tempPw, temp.get("cust_email"), temp.get("custId"));
+        updatePassword(tempPw, temp.get("custId"));
         
         mailSend(mailInfo);
         
     }
     
-    //임시 비밀번호로 업데이트
-    public void updatePassword(String tempPassWord, String custEmail, String custId)
+    /**
+     * 임시 비밀번호로 업데이트 - 김시우
+     * 
+     * @param tempPassWord
+     * @param custId
+     */
+    public void updatePassword(String tempPassWord, String custId)
     {
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     	

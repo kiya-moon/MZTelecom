@@ -82,13 +82,13 @@ public class CustService {
 	 * 구매후기 작성자에 넣을 이름 - 김시우
 	 * 
 	 */
-	public String findName(String str){
+	public String findName(String inWriter){
 		
-		CustBasDTO inCustBasDTO = CustBasDTO.builder()
-				.custId(str)
+		CustBasDTO inCustDTO = CustBasDTO.builder()
+				.custId(inWriter)
 				.build();
 		
-		CustBas inCustBas = inCustBasDTO.toEntity();
+		CustBas inCustBas = inCustDTO.toEntity();
 		
 		List<CustBas> outList = new ArrayList<CustBas>();
 		outList = custRepository.findByDynamicQuery(inCustBas.getCustId(), inCustBas.getCustNm(), inCustBas.getCustBirth(), inCustBas.getCustEmail());
@@ -101,6 +101,7 @@ public class CustService {
 	
 	/**
 	 * 아이디 찾기 service - 김시우
+	 * 
 	 */
 	public Map<String, String> findId(Map<String, String> info) 
 	{
@@ -117,7 +118,6 @@ public class CustService {
 
         // DTO -> entity
         CustBas custBasEntity = custBasDTO.toEntity();
-        logger.debug(StringUtil.toString(custBasEntity));
         
         List<CustBas> listRes = new ArrayList<CustBas>();
         // repository 전달
@@ -138,15 +138,19 @@ public class CustService {
         	listEmpYn = "N";
         	
         	// entity -> DTO
-        	CustBasDTO outCustBas = new CustBasDTO();
+        	CustBasDTO outDTO = new CustBasDTO();
         	
         	for(int i =0; i < listRes.size(); i++) {
-        		outCustBas.setCustId(listRes.get(i).getCustId());
-        		outCustBas.setCustNm(listRes.get(i).getCustNm());
+        		
+        		outDTO = CustBasDTO.builder()
+        				.custId(listRes.get(i).getCustId())
+						.custNm(listRes.get(i).getCustNm())
+						.build();
+        		
         	}
         	
-        	mapReq.put("custId", outCustBas.getCustId());
-        	mapReq.put("custNm", outCustBas.getCustNm());
+        	mapReq.put("custId", outDTO.getCustId());
+        	mapReq.put("custNm", outDTO.getCustNm());
         }
         
         mapReq.put("listEmpYn", listEmpYn);
@@ -158,6 +162,7 @@ public class CustService {
 	
 	/**
 	 * 비밀번호 찾기 service - 김시우
+	 * 
 	 */
 	public Map<String, String> findPw(Map<String, String> info) 
 	{
@@ -174,7 +179,6 @@ public class CustService {
                 .custBirth(info.get("cust_birth"))
                 .custEmail(info.get("cust_email"))
                 .build();
-        logger.debug("확인"+StringUtil.toString(custBasDTO));
 
         // DTO -> entity
         CustBas custBasEntity = custBasDTO.toEntity();
@@ -199,15 +203,18 @@ public class CustService {
         	listEmpYn = "N";
         	
         	// entity -> DTO
-        	CustBasDTO outCustBas = new CustBasDTO();
+        	CustBasDTO outDTO = new CustBasDTO();
         	
         	for(int i =0; i < listRes.size(); i++) {
-        		outCustBas.setCustEmail(listRes.get(i).getCustEmail());
-        		outCustBas.setCustId(listRes.get(i).getCustId());
+        		
+        		outDTO = CustBasDTO.builder()
+        						.custEmail(listRes.get(i).getCustEmail())
+        						.custId(listRes.get(i).getCustId())
+        						.build();
         	}
         	
-        	mapReq.put("cust_email", outCustBas.getCustEmail());	// 이메일 전송 및 화면에서 사용하기 위해
-        	mapReq.put("custId", outCustBas.getCustId());
+        	mapReq.put("cust_email", outDTO.getCustEmail());	// 이메일 전송 및 화면에서 사용하기 위해
+        	mapReq.put("custId", outDTO.getCustId());
         }
         
         
@@ -332,7 +339,6 @@ public class CustService {
 		CustBasDTO custBasDTO = CustBasDTO.builder()
 		        .custNm(inCustNm)
 		        .build();
-		logger.debug("확인"+StringUtil.toString(custBasDTO));
 
 		// DTO -> entity
 		CustBas custBasEntity = custBasDTO.toEntity();

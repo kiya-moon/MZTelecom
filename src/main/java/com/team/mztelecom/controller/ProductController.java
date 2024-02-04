@@ -21,6 +21,7 @@ import com.team.mztelecom.dto.SysCdDTO;
 import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.SysCdBasService;
+import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;
@@ -71,7 +72,7 @@ public class ProductController {
 		int wishCnt;
 		boolean isLiked = false;	
 		
-		IntmBas product = productService.getProductById(productId);
+		IntmBasDTO outDTO = productService.getProductById(productId);
 		
 		if(!Utiles.isNullOrEmpty(principal)) 
 		{
@@ -87,7 +88,7 @@ public class ProductController {
 		}
 		
 		
-		model.addAttribute("product", product);
+		model.addAttribute("product", outDTO);
 
 	    return "content/productDetail";
 	}

@@ -79,7 +79,7 @@ public class AttachmentService {
 		} 
 		catch (Exception e) 
 		{
-			// TODO: handle exception
+			logger.debug("에러 발생 : " + e);
 		}
 		
 		return outPurRevAttachment;
@@ -93,8 +93,15 @@ public class AttachmentService {
 	 */
 	public List<PurRevAttachmentDTO> getAttachment(Long id) 
 	{
-		List<PurRevAttachment> purRevAttachment = purRevAttachmentRepository.findByPurRevBoardId(id);
+		logger.debug("첨부파일 조회 Start");
 		
+		PurRevAttachmentDTO inDTO = PurRevAttachmentDTO.builder()
+										.id(id)
+										.build();
+		
+		PurRevAttachment inEntity = inDTO.toEntity();
+		
+		List<PurRevAttachment> purRevAttachment = purRevAttachmentRepository.findByPurRevBoardId(inEntity.getId());
 		List<PurRevAttachmentDTO> outPurRevAttachmentDTO = new ArrayList<>();
 		
 		for(PurRevAttachment inPurRevAttachment : purRevAttachment) 
@@ -114,7 +121,7 @@ public class AttachmentService {
 	}
 	
 	/**
-	 * 첨부파일 불러오기 - 김시우
+	 * html에 첨부파일 이미지 경로를 위해 첨부파일 조회 - 김시우
 	 * 
 	 * @param id
 	 * @return
@@ -122,8 +129,13 @@ public class AttachmentService {
 	public Optional<PurRevAttachment> findById(Long id) {
 		
 		logger.debug("파일 조회 id :: " + id);
+		
+		PurRevAttachmentDTO inDTO = PurRevAttachmentDTO.builder()
+										.id(id)
+										.build();
+		PurRevAttachment inEntity = inDTO.toEntity();
     
-		return purRevAttachmentRepository.findById(id);
+		return purRevAttachmentRepository.findById(inEntity.getId());
 	}
 	
 	/**
@@ -135,7 +147,12 @@ public class AttachmentService {
 		
 		logger.debug("파일 삭제 id :: " + id);
 		
-		purRevAttachmentRepository.deleteById(id);
+		PurRevAttachmentDTO inDTO = PurRevAttachmentDTO.builder()
+									.id(id)
+									.build();
+		PurRevAttachment inEntity = inDTO.toEntity();
+		
+		purRevAttachmentRepository.deleteById(inEntity.getId());
 	}
 
 	
@@ -201,7 +218,7 @@ public class AttachmentService {
         }
         catch (Exception e) 
         {
-			// TODO: handle exception
+			logger.debug("에러 발생 :: " + e);
 		}
         
         return fileList;
@@ -262,12 +279,12 @@ public class AttachmentService {
         	}
 			
 		} catch (Exception e) {
-		
+			logger.debug("에러 발생 :: " + e );
 		}
     	
     	return imgesAdd;
     }
-    
+	    
     public void deleteFile(String filePath) {
         try {
             // 주어진 파일 경로에 있는 파일을 삭제

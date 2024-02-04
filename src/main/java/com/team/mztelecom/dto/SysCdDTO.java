@@ -2,7 +2,6 @@ package com.team.mztelecom.dto;
 
 import java.time.LocalDateTime;
 
-import com.team.mztelecom.domain.CustBas;
 import com.team.mztelecom.domain.SysCdBas;
 
 import lombok.Builder;

@@ -12,6 +12,7 @@ import com.team.mztelecom.domain.CustBas;
 import com.team.mztelecom.domain.CustWish;
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.CustBasDTO;
+import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.repository.CustWishRepository;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.mztelecom.repository.ProductRepository;
@@ -47,9 +48,11 @@ public class CustWishService {
 		logger.debug("저장처리");
 		
 		// 고객데이터
-		CustBas inCustEntity = CustBas.builder()
+		CustBasDTO inCustDTO = CustBasDTO.builder()
 							.custId(custId)
 							.build();
+		
+		CustBas inCustEntity = inCustDTO.toEntity();
 		
 		List<CustBas> outCustBas = 
 				custRepository.findByDynamicQuery(inCustEntity.getCustId(), inCustEntity.getCustNm(), inCustEntity.getCustBirth(), inCustEntity.getCustEmail());
@@ -69,9 +72,11 @@ public class CustWishService {
 				.build();
 		
 		// 상품데이터 조회
-		IntmBas inIntmEntity = IntmBas.builder()
+		IntmBasDTO inIntmDTO = IntmBasDTO.builder()
 								.id(productId)
 								.build();
+		
+		IntmBas inIntmEntity = inIntmDTO.toEntity();
 		
 		Optional<IntmBas> outIntmBas = productRepository.findById(inIntmEntity.getId());
 		
@@ -106,24 +111,24 @@ public class CustWishService {
 	public void removeWish(String custId, Long productId) {
 		
 		// 고객데이터
-		CustBasDTO inDTO = CustBasDTO.builder()
+		CustBasDTO inCustDTO = CustBasDTO.builder()
 							.custId(custId)
 							.build();
 		
-		CustBas inCustEntity = CustBas.builder()
-							.custId(inDTO.getCustId())
-							.build();
+		CustBas inCustEntity = inCustDTO.toEntity();
 		
 		// 고객 id 조회
 		List<CustBas> outCustBas  
 			= custRepository.findByDynamicQuery(inCustEntity.getCustId(), inCustEntity.getCustNm(), inCustEntity.getCustBirth(), inCustEntity.getCustEmail());
 		
-		IntmBas outIntm = IntmBas.builder()
+		IntmBasDTO inIntmDTO = IntmBasDTO.builder()
 							.id(productId)
 							.build();
 		
+		IntmBas inIntm = inIntmDTO.toEntity();
+		
 		// 상품 데이터
-		Optional<IntmBas> inIntmBas = productRepository.findById(outIntm.getId());
+		Optional<IntmBas> inIntmBas = productRepository.findById(inIntm.getId());
 		
 		// 찜하기 취소
 		custWishRepository.deleteByCustandIntm(inIntmBas.get().getId(), outCustBas.get(0).getId());
@@ -142,16 +147,20 @@ public class CustWishService {
 		int wishCnt;
 		logger.debug("inCustId 레파지토리 전 :: " + inCustId);
 		
-		IntmBas outIntmEntity = IntmBas.builder()
-				.id(inProductId)
-				.build();
+		CustBasDTO inCustDTO = CustBasDTO.builder()
+								.custId(inCustId)
+								.build();
+		
+		IntmBasDTO inIntmDTO = IntmBasDTO.builder()
+								.id(inProductId)
+								.build();
+		
+		IntmBas outIntmEntity = inIntmDTO.toEntity();
 		
 		// 상품 id 조회
 		Optional<IntmBas> inIntmBas = productRepository.findById(outIntmEntity.getId());
 		
-		CustBas outCustEntity = CustBas.builder()
-				.custId(inCustId)
-				.build();
+		CustBas outCustEntity = inCustDTO.toEntity();
 		
 		// 고객 id 조회
 		List<CustBas> inCustBas  = custRepository.findByDynamicQuery(outCustEntity.getCustId(), outCustEntity.getCustNm(), outCustEntity.getCustBirth(), outCustEntity.getCustEmail());
@@ -169,11 +178,13 @@ public class CustWishService {
 	 */
 	public void increaseWish(Long inProductId) {
 		
-		IntmBas inIntmEntity = IntmBas.builder()
+		IntmBasDTO inDTO = IntmBasDTO.builder()
 				.id(inProductId)
 				.build();
 		
-		custWishRepository.increaseLike(inIntmEntity.getId());
+		IntmBas inIntm = inDTO.toEntity();
+		
+		custWishRepository.increaseLike(inIntm.getId());
 	}
 	
 	/**
@@ -183,11 +194,13 @@ public class CustWishService {
 	 */
 	public void reduceWish(Long inProductId) {
 		
-		IntmBas inIntmEntity = IntmBas.builder()
+		IntmBasDTO inDTO = IntmBasDTO.builder()
 				.id(inProductId)
 				.build();
 		
-		custWishRepository.reduceLike(inIntmEntity.getId());
+		IntmBas inIntm = inDTO.toEntity();
+		
+		custWishRepository.reduceLike(inIntm.getId());
 	}
 	
 	/**
@@ -200,18 +213,22 @@ public class CustWishService {
 	public int getWish(Long inIntmId, String inCustId) {
 		
 		// 고객데이터
-		CustBas inCustEntity = CustBas.builder()
+		CustBasDTO inCustDTO = CustBasDTO.builder()
 							.custId(inCustId)
 							.build();
+		
+		CustBas inCustEntity = inCustDTO.toEntity();
 		
 		List<CustBas> outCustBas = 
 				custRepository.findByDynamicQuery(inCustEntity.getCustId(), inCustEntity.getCustNm(), inCustEntity.getCustBirth(), inCustEntity.getCustEmail());
 		
 		
 		// 상품데이터 조회
-		IntmBas inIntmEntity = IntmBas.builder()
+		IntmBasDTO inIntmDTO = IntmBasDTO.builder()
 								.id(inIntmId)
 								.build();
+		
+		IntmBas inIntmEntity = inIntmDTO.toEntity();
 		
 		Optional<IntmBas> outIntmBas = productRepository.findById(inIntmEntity.getId());
 		

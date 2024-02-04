@@ -18,7 +18,6 @@ import lombok.Setter;
  */
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class InquiryCustDTO {
 	String custId;

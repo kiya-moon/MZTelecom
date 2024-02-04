@@ -85,13 +85,12 @@ public class PurRevBoardController {
 		logger.debug("첨부파일까지 세팅 확인");
 		
 		// 구매후기 저장 처리
-		PurRevBoardDTO purRevBoardDTO = new PurRevBoardDTO();
-		
-		purRevBoardDTO.setIntmNm(selectedCategory);								// 상품카테고리
-		purRevBoardDTO.setBoardTitle(title);									// 글제목
-		purRevBoardDTO.setBoardDetail(contents);								// 글내용
-		purRevBoardDTO.setPurRevAttachmentDTO(inAttachmentDTO);					// 첨부파일
-		purRevBoardDTO.setWriter(writer);										// 작성자
+		PurRevBoardDTO purRevBoardDTO = PurRevBoardDTO.builder()
+										.intmNm(selectedCategory)
+										.boardTitle(title)
+										.purRevAttachmentDTO(inAttachmentDTO)
+										.writer(writer)
+										.build();
 		
 		// 글작성 페이지 저장 서비스
 		purRevBoardService.writePurRev(purRevBoardDTO);
@@ -188,7 +187,7 @@ public class PurRevBoardController {
 	 */
 	@GetMapping("/files/{id}")
 	@ResponseBody
-	public Resource img(@PathVariable("id") Long id, Model model) throws IOException {
+	public Resource attachment(@PathVariable("id") Long id, Model model) throws IOException {
 		logger.debug("id :: " + id);
 		Optional<PurRevAttachment> outPurRevAttachmentDTO = purRevAttachmentService.findById(id);
 		logger.debug("outDTO :: " + outPurRevAttachmentDTO.get().getFilePath());
