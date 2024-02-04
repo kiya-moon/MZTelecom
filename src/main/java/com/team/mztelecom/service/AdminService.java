@@ -27,6 +27,7 @@ import com.team.mztelecom.repository.QnARepository;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -41,6 +42,8 @@ public class AdminService {
 	private final ProductRepository productRepository;
 
 	private final ImgRepository imgRepository;
+	
+	private final AttachmentService attachmentService;
 
 	// 1. 사용자 정보 담기
 	public List<InquiryCustDTO> getCustInfoList() {
@@ -84,59 +87,100 @@ public class AdminService {
 	public void addProduct(IntmBasDTO intmBasDTO, List<IntmImgDTO> inList) {
 		logger.debug("상품 담기 서비스 :: ");
 		
-		for(IntmImgDTO intmImgDTO : inList) {
-			
-			IntmImg IntmImgAdd = IntmImg.builder()
-					.intmNm(intmImgDTO.getIntmNm())
-					.imgName(intmImgDTO.getImgName())
-					.imgDetailNm(intmImgDTO.getImgDetailNm())
-					.imgPath(intmImgDTO.getImgPath())
-					.imgDetailPath(intmImgDTO.getImgDetailPath())
-					.build();
-			
-			imgRepository.save(IntmImgAdd);
-		}
-		
-		List<IntmImg> outIntmImg = imgRepository.findAll();
-		
-		IntmBas intmBasAdd =  IntmBas.builder()
-				.intmModelColor(intmBasDTO.getIntmModelColor())
-				.intmNm(intmBasDTO.getIntmNm())
-				.intmKorNm(intmBasDTO.getIntmKorNm())
-				.intmGB(intmBasDTO.getIntmGB())
-				.intmPrice(intmBasDTO.getIntmPrice())
-				.fee(intmBasDTO.getFee())
-				.createdAt(intmBasDTO.getCreatedAt())
-				.build();
-		
-		intmBasAdd.addIntmImg(outIntmImg.get(0));
-		
-		productRepository.save(intmBasAdd);
+		// IntmBas 엔터티 생성
+	    IntmBas intmBasAdd = IntmBas.builder()
+	            .intmModelColor(intmBasDTO.getIntmModelColor())
+	            .intmNm(intmBasDTO.getIntmNm())
+	            .intmKorNm(intmBasDTO.getIntmKorNm())
+	            .intmGB(intmBasDTO.getIntmGB())
+	            .intmPrice(intmBasDTO.getIntmPrice())
+	            .fee(intmBasDTO.getFee())
+	            .createdAt(intmBasDTO.getCreatedAt())
+	            .build();
+
+	    productRepository.save(intmBasAdd);
+
+	    for (IntmImgDTO intmImgDTO : inList) {
+	        IntmImg intmImgAdd = IntmImg.builder()
+	                .intmNm(intmImgDTO.getIntmNm())
+	                .imgName(intmImgDTO.getImgName())
+	                .imgDetailNm(intmImgDTO.getImgDetailNm())
+	                .imgPath(intmImgDTO.getImgPath())
+	                .imgDetailPath(intmImgDTO.getImgDetailPath())
+	                .intmBas(intmBasAdd) 
+	                .build();
+
+	        imgRepository.save(intmImgAdd);
+	    }
 	}
 	
 	// 2-2 상품 수정
-	public void updateIntmBasDTO(Long id, IntmBasDTO updatedIntmBasDTO, MultipartFile imageFile, MultipartFile imageDetailFile) {
-		
+	@Transactional
+	public void updateIntmBasDTO(Long id, String productName, String productKorName, List<String> productCapacity,
+			List<String> productPrice, List<String> productColor, MultipartFile productImage,
+            MultipartFile productImageDetail) {
+		logger.debug("상품 수정 서비스 :: ");
 		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
 		
 		if(!Utiles.isNullOrEmpty(IntmBasOptional)) {
 			
-			List<IntmImg> outIntmImg = imgRepository.findAll();
+			IntmBas intmBasGet = IntmBasOptional.get();
 			
-			IntmBas updatedIntmBas = IntmBas.builder()
-	                .intmModelColor(updatedIntmBasDTO.getIntmModelColor())
-	                .intmNm(updatedIntmBasDTO.getIntmNm())
-	                .intmKorNm(updatedIntmBasDTO.getIntmKorNm())
-	                .intmGB(updatedIntmBasDTO.getIntmGB())
-	                .intmPrice(updatedIntmBasDTO.getIntmPrice())
+			List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, productImageDetail, productName);
+			
+			logger.debug("수정 uploadedImages :: " + StringUtil.toString(uploadedImages));
+			
+			List<IntmImg> outIntmImg = new ArrayList<>();
+			
+			for (IntmImgDTO imgDTO : uploadedImages) {
+	            IntmImg img = IntmImg.builder()
+	                    .intmNm(imgDTO.getIntmNm())
+	                    .imgName(imgDTO.getImgName())
+	                    .imgDetailNm(imgDTO.getImgDetailNm())
+	                    .imgPath(imgDTO.getImgPath())
+	                    .imgDetailPath(imgDTO.getImgDetailPath())
+	                    .build();
+	            outIntmImg.add(img);
+	        }
+			
+			if(!productImage.isEmpty()) {
+				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+				
+				if(Utiles.isNullOrEmpty(savedImg.getImgName())) {
+					attachmentService.deleteFile(savedImg.getImgPath());
+				}
+				
+			}
+			
+			if(!productImageDetail.isEmpty()) {
+				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+				
+				if(Utiles.isNullOrEmpty(savedImg.getImgDetailNm())) {
+					attachmentService.deleteFile(savedImg.getImgDetailPath());
+				}
+			}
+			
+			intmBasGet = IntmBas.builder()
+	                .intmModelColor(productColor)
+	                .intmNm(productName)
+	                .intmKorNm(productKorName)
+	                .intmGB(productCapacity)
+	                .intmPrice(productPrice)
 	                .intmImgs(outIntmImg)
-	                .fee(updatedIntmBasDTO.getFee())
 	                .build();
-			
-			productRepository.save(updatedIntmBas);
+
+	        productRepository.save(intmBasGet);
 		}
-        
+		
     }
+	
+	// 2-3 상품 삭제
+	@Transactional
+	public void deleteProduct(List<Long> ids) {
+		for (Long id : ids) {
+            productRepository.deleteById(id);
+        }
+	}
 	
 	// 3. 문의 정보 담기
 	public void deleteQna(QnADTO inQnADTO) {

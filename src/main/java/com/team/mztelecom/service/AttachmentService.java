@@ -1,6 +1,9 @@
 package com.team.mztelecom.service;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -263,5 +266,14 @@ public class AttachmentService {
 		}
     	
     	return imgesAdd;
+    }
+    
+    public void deleteFile(String filePath) {
+        try {
+            // 주어진 파일 경로에 있는 파일을 삭제
+            Files.delete(Path.of(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException("파일 삭제 실패: " + filePath, e);
+        }
     }
 }

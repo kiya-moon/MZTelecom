@@ -2,36 +2,32 @@ package com.team.mztelecom.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
-import com.team.mztelecom.domain.PurRevAttachment;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.IntmImgDTO;
 import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.service.AdminService;
 import com.team.mztelecom.service.AttachmentService;
 import com.team.mztelecom.service.ProductService;
-import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 import ch.qos.logback.core.model.Model;
@@ -144,22 +140,62 @@ public class AdminController {
 		return "redirect:/admin?tab=product";
 	}
 	
-	@PostMapping("/update/{id}")
-    public String productUpdate(@PathVariable Long id, IntmBasDTO updatedIntmBasDTO, 
-    		@RequestParam("update-image") MultipartFile udateImage,
-			@RequestParam("update-imageDetail") MultipartFile updateImageDetail) {
+	@PutMapping("/update/{id}")
+    public ResponseEntity<String> productUpdate(@RequestParam("id") Long productId,
+            @RequestParam("productName") String productName,
+            @RequestParam("productKorName") String productKorName,
+            @RequestParam("productCapacity") List<String> productCapacity,
+            @RequestParam("productPrice") List<String> productPrice,
+            @RequestParam("productColor") List<String> productColor,
+            @RequestParam("productImage") MultipartFile productImage,
+            @RequestParam("productImageDetail") MultipartFile productImageDetail) {
         
-		adminService.updateIntmBasDTO(id ,updatedIntmBasDTO, udateImage, updateImageDetail);
+		logger.debug("상품 수정 컨트롤러");
+		
+		try {
+            // 상품 수정 로직 추가
+            adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
+
+            return ResponseEntity.ok("Selected products update success");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         
-        return "redirect:/admin?tab=product";
 	}
+	
+	@DeleteMapping(value = "/delete-multiple")
+	public ResponseEntity<String> deleteMultipleProducts(@RequestBody Map<String, List<Long>> requestBody) {
+	    List<Long> ids = requestBody.get("ids");
+	    if (ids == null) {
+	        return ResponseEntity.badRequest().body("Missing 'ids' parameter");
+	    }
+
+	    adminService.deleteProduct(ids);
+
+	    return ResponseEntity.ok("Selected products deleted successfully");
+	}
+
 	
 	@GetMapping("/intmimg/{id}")
 	@ResponseBody
 	public Resource img(@PathVariable Long id, Model model) throws IOException {
 		
-		Optional<IntmImg> intmImgs = productService.findByImgId(id);
+		logger.debug("상품 이미지 url 컨트롤러");
+		
+		Optional<IntmImg> intmImgs = productService.findByIntmBas(id);
 		
 		return new UrlResource("file:" + intmImgs.get().getImgPath());
 	}
+	
+	@GetMapping("/intmDetailimg/{id}")
+	@ResponseBody
+	public Resource imgDetail(@PathVariable Long id, Model model) throws IOException {
+		
+		logger.debug("상품 이미지 url 컨트롤러");
+		
+		Optional<IntmImg> intmImgs = productService.findByIntmBas(id);
+		
+		return new UrlResource("file:" + intmImgs.get().getImgDetailPath());
+	}
+	
 }

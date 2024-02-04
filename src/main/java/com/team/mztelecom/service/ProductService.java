@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
@@ -95,7 +96,7 @@ public class ProductService {
 	}
 	
 	
-	public Optional<IntmImg> findByImgId(Long id) {
+	public Optional<IntmImg> findByIntmBas(Long id) {
 		
 		return imgRepository.findById(id);
 	}
@@ -119,5 +120,6 @@ public class ProductService {
                 return Sort.by(Sort.Direction.DESC, "createdAt");
         }
     }
+
 
 }

@@ -105,6 +105,7 @@
 							</thead>
 							<tbody>
 								<tr th:if="${product != null}" th:each="product : ${product}" th:onclick="selectRow(this)">
+									<input type="hidden" class="form_control" name="id" th:value="${product.id}" readonly>
 									<td>
 							          <input type="text" class="form_control" th:value="${product.IntmNm}" readonly>
 							        </td>
@@ -124,13 +125,13 @@
 										<img th:src="|/intmimg/${product.id}|" th:alt="${product.IntmKorNm}">
 									</td>
 									<td>
-										<!--<img th:src="@{'/' + ${product.intmImgs[0].ImgDetailPath}}">-->
+										<img th:src="|/intmDetailimg/${product.id}|" th:alt="${product.IntmKorNm}">
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						
-						<div>
+						<div th:if="${!product.isEmpty()}">
 						    <ul class="pagination">
 						        <li th:class="${currentPage == 1 ? 'disabled' : ''}">
 						            <a th:href="@{/admin(tab=${param.tab}, page=${currentPage - 1}, size=${size}, sort=${sortBy})}">&lt;</a>
@@ -147,12 +148,12 @@
 						</div>
 						
 						<div class="admin-btnList">
-							<button class="update-btn" onclick="udateModal(this)">수정</button>
-							<button class="delete-btn" onclick="remove_tr(this)">삭제</button>
+							<button class="update-btn" onclick="updateModal(this)">수정</button>
+							<button class="delete-btn" th:onclick="deleteProduct()">삭제</button>
 							<button class="add-btn" onclick="addProduct()">추가</button>
 						</div>
 						
-						
+					
 						<!--수정 model-->
 						<div id="adminUpdateModal" class="modal">
 							<div class="admin-modal">
@@ -161,7 +162,7 @@
 									<span class="close" onclick="closeModal()">&times;</span>
 								</div>
 								
-								<form th:action="@{/update/{id}}" method="POST">
+								<form>
 									<div class="input-container">
 										<label for="update-name">상품명:</label>
 										<input type="text"id="update-name">
@@ -197,7 +198,7 @@
 										<input type="file" id="update-imageDetail">
 									</div>
 									
-									<button class="admin-save" onclick="closeModal()">저장</button>
+									<button class="admin-save" onclick="updateSave()">저장</button>
 								</form>
 								
 							</div>

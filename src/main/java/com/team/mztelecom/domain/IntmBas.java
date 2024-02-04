@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -44,7 +46,7 @@ public class IntmBas {
 
     private int wishCnt;					// 찜한 갯수
 
-    @OneToMany(mappedBy = "intmBas")	
+    @OneToMany(mappedBy = "intmBas", orphanRemoval = true)	
     private List<IntmImg> intmImgs;			// 상품 이미지
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "intmBas")
@@ -73,6 +75,16 @@ public class IntmBas {
     
     public void UpdateWishd(int wishCnt) {
     	this.wishCnt = wishCnt;
+    }
+    
+    public void updateProduct(Long id, String intmNm, String intmKorNm, List<String> intmGB,
+			List<String> intmPrice, List<String> intmModelColor) {
+    	this.id = id;
+		this.intmModelColor = intmModelColor;
+		this.intmNm = intmNm;
+		this.intmKorNm = intmKorNm;
+		this.intmGB = intmGB;
+		this.intmPrice = intmPrice;
     }
     
 	// 이미지 넣어주는 곳
