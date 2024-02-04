@@ -320,20 +320,24 @@ public class PurRevBoardService{
 				.id(inPurRevBoardDTO.getId())
 				.boardTitle(inPurRevBoardDTO.getBoardTitle())
 				.boardDetail(inPurRevBoardDTO.getBoardDetail())
-				.purRevAttachmentDTO(addAtcmDTOList)
 				.build();
 		
-		PurRevBoard inPurRevBoard = purRevBoardRepository.findById(outPurRevBoardDTO.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-		logger.debug("inPurRevBoard::  " + StringUtil.toString(inPurRevBoard));
-		
+		PurRevBoard inPurRevBoard = outPurRevBoardDTO.toEntity();
 		for (PurRevAttachment inAttachment : addAtcmList) 
 		{
 			inPurRevBoard.addPurRevAttachment(inAttachment);
 		}
-			
-		inPurRevBoard.updatePurRev(outPurRevBoardDTO.getBoardTitle(), outPurRevBoardDTO.getBoardDetail(), addAtcmList);
 		
-	    purRevBoardRepository.save(inPurRevBoard);
+		logger.debug("inPurRevBoard ::: " + StringUtil.toString(inPurRevBoard));
+		
+		
+		
+		PurRevBoard outPurRevBoard = purRevBoardRepository.findById(inPurRevBoard.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+		logger.debug("inPurRevBoard::  " + StringUtil.toString(inPurRevBoard));
+		
+		outPurRevBoard.updatePurRev(outPurRevBoardDTO.getBoardTitle(), outPurRevBoardDTO.getBoardDetail(), addAtcmList);
+		
+	    purRevBoardRepository.save(outPurRevBoard);
 	}
 	
 	/**

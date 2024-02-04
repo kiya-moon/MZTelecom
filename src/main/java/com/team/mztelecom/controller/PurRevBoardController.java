@@ -189,8 +189,10 @@ public class PurRevBoardController {
 	@GetMapping("/files/{id}")
 	@ResponseBody
 	public Resource img(@PathVariable("id") Long id, Model model) throws IOException {
-	   Optional<PurRevAttachment> outPurRevAttachmentDTO = purRevAttachmentService.findById(id);
-	   return new UrlResource("file:" + outPurRevAttachmentDTO.get().getFilePath());
+		logger.debug("id :: " + id);
+		Optional<PurRevAttachment> outPurRevAttachmentDTO = purRevAttachmentService.findById(id);
+		logger.debug("outDTO :: " + outPurRevAttachmentDTO.get().getFilePath());
+		return new UrlResource("file:" + outPurRevAttachmentDTO.get().getFilePath());
 	}
 
 }
