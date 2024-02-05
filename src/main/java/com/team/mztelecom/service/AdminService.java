@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class AdminService {
-	private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AdminService.class);
 	private final AdminRepository adminRepository;
 	
 	private final QnARepository qnARepository;
@@ -124,55 +124,56 @@ public class AdminService {
 		
 		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
 		
-		if (!Utiles.isNullOrEmpty(IntmBasOptional)) {
+	     if (!Utiles.isNullOrEmpty(productImage)) {
+	         IntmImg savedImg = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
+	         
+	         logger.debug("수정 savedImg :: " + StringUtil.toString(savedImg));
+	         
+	         if(!Utiles.isNullOrEmpty(savedImg.getImgName())) {
+	             deleteImage(savedImg);
+	         }
+	     }
 
-	        if (!Utiles.isNullOrEmpty(productImage)) {
-	            IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-	            
-	            if(!Utiles.isNullOrEmpty(savedImg.getImgName())) {
-	                deleteImage(savedImg);
-	            }
-	        }
+	     if (!Utiles.isNullOrEmpty(productImageDetail)) {
+	         IntmImg savedImgDetail = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
+	         
+	         logger.debug("수정 savedImg :: " + StringUtil.toString(savedImgDetail));
+	         
+	         if(!Utiles.isNullOrEmpty(savedImgDetail.getImgName())) {
+	             deleteImage(savedImgDetail);
+	         }
+	     }
 
-	        if (!Utiles.isNullOrEmpty(productImageDetail)) {
-	            IntmImg savedImgDetail = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-	            
-	            if(!Utiles.isNullOrEmpty(savedImgDetail.getImgName())) {
-	                deleteImage(savedImgDetail);
-	            }
-	        }
+	
+		IntmBas intmBasGet = IntmBasOptional.get();
+	
+		List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, productImageDetail, productName);
+	
+		logger.debug("수정 uploadedImages :: " + StringUtil.toString(uploadedImages));
+	
+		List<IntmImg> outIntmImg = new ArrayList<>();
+	
+		for (IntmImgDTO imgDTO : uploadedImages) {
+	         IntmImg img = IntmImg.builder()
+	                 .intmNm(imgDTO.getIntmNm())
+	                 .imgName(imgDTO.getImgName())
+	                 .imgDetailNm(imgDTO.getImgDetailNm())
+	                 .imgPath(imgDTO.getImgPath())
+	                 .imgDetailPath(imgDTO.getImgDetailPath())
+	                 .build();
+	         outIntmImg.add(img);
+	         
+	         imgRepository.save(img);
 
-			
-			IntmBas intmBasGet = IntmBasOptional.get();
-			
-			List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, productImageDetail, productName);
-			
-			logger.debug("수정 uploadedImages :: " + StringUtil.toString(uploadedImages));
-			
-			List<IntmImg> outIntmImg = new ArrayList<>();
-			
-			for (IntmImgDTO imgDTO : uploadedImages) {
-	            IntmImg img = IntmImg.builder()
-	                    .intmNm(imgDTO.getIntmNm())
-	                    .imgName(imgDTO.getImgName())
-	                    .imgDetailNm(imgDTO.getImgDetailNm())
-	                    .imgPath(imgDTO.getImgPath())
-	                    .imgDetailPath(imgDTO.getImgDetailPath())
-	                    .build();
-	            outIntmImg.add(img);
-	            
-	            imgRepository.save(img);
+	         logger.debug("수정 outIntmImg :: " + StringUtil.toString(outIntmImg));
+	     }
+	
+		intmBasGet.updateProduct(id, productName, productKorName, productCapacity, productPrice, productColor);
+		intmBasGet.updateIntmImg(outIntmImg);
 
-	            logger.debug("수정 outIntmImg :: " + StringUtil.toString(outIntmImg));
-	        }
-			
-			intmBasGet.updateProduct(id, productName, productKorName, productCapacity, productPrice, productColor);
-			intmBasGet.updateIntmImg(outIntmImg);
-
-	        productRepository.save(intmBasGet);
-		}
+	     productRepository.save(intmBasGet);
+	}
 		
-    }
 	
 	@Transactional
 	public void deleteImage(IntmImg img) {
@@ -182,7 +183,7 @@ public class AdminService {
             attachmentService.deleteFile(img.getImgDetailPath());
 
             // 이미지 엔티티 삭제
-            imgRepository.delete(img);
+            imgRepository.deleteById(img.getId());
         }
     }
 	

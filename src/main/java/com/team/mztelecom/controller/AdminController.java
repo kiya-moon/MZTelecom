@@ -141,7 +141,7 @@ public class AdminController {
 	}
 	
 	@PutMapping("/update/{id}")
-    public ResponseEntity<String> productUpdate(@RequestParam("id") Long productId,
+    public String productUpdate(@RequestParam("id") Long productId,
             @RequestParam("productName") String productName,
             @RequestParam("productKorName") String productKorName,
             @RequestParam("productCapacity") List<String> productCapacity,
@@ -152,15 +152,9 @@ public class AdminController {
         
 		logger.debug("상품 수정 컨트롤러");
 		
-		try {
-            // 상품 수정 로직 추가
-            adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
+        adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
 
-            return ResponseEntity.ok("Selected products update success");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        
+        return "redirect:/admin?tab=product";
 	}
 	
 	@DeleteMapping(value = "/delete-multiple")

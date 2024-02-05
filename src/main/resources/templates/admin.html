@@ -148,9 +148,9 @@
 						</div>
 						
 						<div class="admin-btnList">
-							<button class="update-btn" onclick="updateModal(this)">수정</button>
+							<button class="update-btn" th:onclick="updateModal(this)">수정</button>
 							<button class="delete-btn" th:onclick="deleteProduct()">삭제</button>
-							<button class="add-btn" onclick="addProduct()">추가</button>
+							<button class="add-btn" th:onclick="addProduct()">추가</button>
 						</div>
 						
 					
@@ -162,7 +162,6 @@
 									<span class="close" onclick="closeModal()">&times;</span>
 								</div>
 								
-								<form>
 									<div class="input-container">
 										<label for="update-name">상품명:</label>
 										<input type="text"id="update-name">
@@ -208,7 +207,6 @@
 									</div>
 									
 									<button class="admin-save" onclick="updateSave()">저장</button>
-								</form>
 								
 							</div>
 						</div>
@@ -222,6 +220,7 @@
 									<span class="close" onclick="closeAddModal()">&times;</span>
 								</div>
 								<p>용량, 기기값, 색상 여러 개 등록 시 쉼표로 구분해주세요.</p>
+								
 								<form th:action="@{productAdd}" th:method="POST" enctype="multipart/form-data">
 									<div class="input-container">
 										<label for="update-name">상품명:</label>

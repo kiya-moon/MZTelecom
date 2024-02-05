@@ -22,10 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateModal() {
     const selectedRows = document.querySelectorAll('.select');
-
+	
     if (selectedRows.length !== 1) {
         alert('하나만 선택해 주세요.');
-        return;
     }
 
     const selectedRow = selectedRows[0];
@@ -90,10 +89,15 @@ function closeAddModal() {
 
 // 상품수정
 function updateSave() {
+	
+	const selectedRows = document.querySelectorAll('.select');
+	
 	const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
     const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-	
-	var productId = document.querySelector('[name="id"]').value;
+    
+	const selectedRow = selectedRows[0];
+    const productId = selectedRow.querySelector('[name="id"]').value;
+    
     var productName = document.getElementById('update-name').value;
     var productKorName = document.getElementById('update-kor').value;
     var productCapacity = document.getElementById('update-capacity').value;
@@ -101,7 +105,7 @@ function updateSave() {
     var productColor = document.getElementById('update-color').value;
     var productImage = document.getElementById('update-image').files[0];
     var productImageDetail = document.getElementById('update-imageDetail').files[0];
-
+    
     var formData = new FormData();
     formData.append('id', productId);
     formData.append('productName', productName);
