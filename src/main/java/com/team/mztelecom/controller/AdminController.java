@@ -72,14 +72,41 @@ public class AdminController {
 
 		logger.debug("상품 등록 시작");
 		logger.debug("addImageDetail : " + addImageDetail.getOriginalFilename());
-
-		if (Utiles.isNullOrEmpty(addImage)) {
-			addImage = null;
+		
+		int filesChk = 0;	// 0 : 둘다 없을 때 / 1: addImage만 있을 때 / 2: addImageDetail만 있을 때 / 3 : 둘다 있을 때
+		List<IntmImgDTO> prodctImages = new ArrayList<>();
+		
+		if(!Utiles.isNullOrEmpty(addImage) && !Utiles.isNullOrEmpty(addImageDetail))	// 둘 다 존재 할때
+		{
+			filesChk = 3;
+			prodctImages = attachmentService.addImages(addImage, addImageDetail, addName, filesChk); // addImage 파일 형식으로 세팅
 		}
-
-		if (Utiles.isNullOrEmpty(addImageDetail)) {
+		else if(!Utiles.isNullOrEmpty(addImage) && Utiles.isNullOrEmpty(addImageDetail)) // addImage만 존재 할때
+		{
+			addImageDetail = null;
+			filesChk = 1;
+			prodctImages = attachmentService.addImages(addImage, addImageDetail, addName, filesChk); // addImage 파일 형식으로 세팅
+		}
+		else if(Utiles.isNullOrEmpty(addImage) && !Utiles.isNullOrEmpty(addImageDetail)) // addImageDetail만 존재 할때
+		{
+			addImage = null;
+			filesChk = 2;
+			prodctImages = attachmentService.addImages(addImage, addImageDetail, addName, filesChk); // addImageDetail 파일 형식으로 세팅
+		}
+		else
+		{
+			filesChk = 0;
+			addImage = null;
 			addImageDetail = null;
 		}
+
+//		if (Utiles.isNullOrEmpty(addImage)) {
+//			addImage = null;
+//		}
+//
+//		if (Utiles.isNullOrEmpty(addImageDetail)) {
+//			addImageDetail = null;
+//		}
 
 		List<String> capacity = new ArrayList<>();
 		List<String> price = new ArrayList<>();
@@ -118,7 +145,8 @@ public class AdminController {
 			color.add(addColor);
 		}
 
-		List<IntmImgDTO> prodctImages = attachmentService.addImages(addImage, addImageDetail, addName);
+//		List<IntmImgDTO> outAddImage = attachmentService.addImages(addImage, addName, filesChk); // addImage 파일 형식으로 세팅
+//		List<IntmImgDTO> outAddImageDetail = attachmentService.addImages(addImageDetail, addName, filesChk); // addImageDetail 파일 형식으로 세팅
 		
 		IntmBasDTO intmBasAdd = IntmBasDTO.builder()
 				.intmNm(addName)
@@ -154,7 +182,7 @@ public class AdminController {
 		
 		try {
             // 상품 수정 로직 추가
-            adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
+ //           adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
 
             return ResponseEntity.ok("Selected products update success");
         } catch (Exception e) {

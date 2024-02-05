@@ -115,64 +115,65 @@ public class AdminService {
 	}
 	
 	// 2-2 상품 수정
-	@Transactional
-	public void updateIntmBasDTO(Long id, String productName, String productKorName, List<String> productCapacity,
-			List<String> productPrice, List<String> productColor, MultipartFile productImage,
-            MultipartFile productImageDetail) {
-		logger.debug("상품 수정 서비스 :: ");
-		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
-		
-		if(!Utiles.isNullOrEmpty(IntmBasOptional)) {
-			
-			IntmBas intmBasGet = IntmBasOptional.get();
-			
-			List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, productImageDetail, productName);
-			
-			logger.debug("수정 uploadedImages :: " + StringUtil.toString(uploadedImages));
-			
-			List<IntmImg> outIntmImg = new ArrayList<>();
-			
-			for (IntmImgDTO imgDTO : uploadedImages) {
-	            IntmImg img = IntmImg.builder()
-	                    .intmNm(imgDTO.getIntmNm())
-	                    .imgName(imgDTO.getImgName())
-	                    .imgDetailNm(imgDTO.getImgDetailNm())
-	                    .imgPath(imgDTO.getImgPath())
-	                    .imgDetailPath(imgDTO.getImgDetailPath())
-	                    .build();
-	            outIntmImg.add(img);
-	        }
-			
-			if(!productImage.isEmpty()) {
-				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-				
-				if(Utiles.isNullOrEmpty(savedImg.getImgName())) {
-					attachmentService.deleteFile(savedImg.getImgPath());
-				}
-				
-			}
-			
-			if(!productImageDetail.isEmpty()) {
-				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-				
-				if(Utiles.isNullOrEmpty(savedImg.getImgDetailNm())) {
-					attachmentService.deleteFile(savedImg.getImgDetailPath());
-				}
-			}
-			
-			intmBasGet = IntmBas.builder()
-	                .intmModelColor(productColor)
-	                .intmNm(productName)
-	                .intmKorNm(productKorName)
-	                .intmGB(productCapacity)
-	                .intmPrice(productPrice)
-	                .intmImgs(outIntmImg)
-	                .build();
-
-	        productRepository.save(intmBasGet);
-		}
-		
-    }
+//	@Transactional
+//	public void updateIntmBasDTO(Long id, String productName, String productKorName, List<String> productCapacity,
+//			List<String> productPrice, List<String> productColor, MultipartFile productImage,
+//            MultipartFile productImageDetail) {
+//		logger.debug("상품 수정 서비스 :: ");
+//		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
+//		int filesChk = 0;
+//		
+//		if(!Utiles.isNullOrEmpty(IntmBasOptional)) {
+//			
+//			IntmBas intmBasGet = IntmBasOptional.get();
+//			
+//			List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, productImageDetail, productName);
+//			
+//			logger.debug("수정 uploadedImages :: " + StringUtil.toString(uploadedImages));
+//			
+//			List<IntmImg> outIntmImg = new ArrayList<>();
+//			
+//			for (IntmImgDTO imgDTO : uploadedImages) {
+//	            IntmImg img = IntmImg.builder()
+//	                    .intmNm(imgDTO.getIntmNm())
+//	                    .imgName(imgDTO.getImgName())
+//	                    .imgDetailNm(imgDTO.getImgDetailNm())
+//	                    .imgPath(imgDTO.getImgPath())
+//	                    .imgDetailPath(imgDTO.getImgDetailPath())
+//	                    .build();
+//	            outIntmImg.add(img);
+//	        }
+//			
+//			if(!productImage.isEmpty()) {
+//				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+//				
+//				if(Utiles.isNullOrEmpty(savedImg.getImgName())) {
+//					attachmentService.deleteFile(savedImg.getImgPath());
+//				}
+//				
+//			}
+//			
+//			if(!productImageDetail.isEmpty()) {
+//				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+//				
+//				if(Utiles.isNullOrEmpty(savedImg.getImgDetailNm())) {
+//					attachmentService.deleteFile(savedImg.getImgDetailPath());
+//				}
+//			}
+//			
+//			intmBasGet = IntmBas.builder()
+//	                .intmModelColor(productColor)
+//	                .intmNm(productName)
+//	                .intmKorNm(productKorName)
+//	                .intmGB(productCapacity)
+//	                .intmPrice(productPrice)
+//	                .intmImgs(outIntmImg)
+//	                .build();
+//
+//	        productRepository.save(intmBasGet);
+//		}
+//		
+//    }
 	
 	// 2-3 상품 삭제
 	@Transactional
@@ -183,6 +184,12 @@ public class AdminService {
 	}
 	
 	// 3. 문의 정보 담기
+	/**
+	 * 관리자 페이지 문의 내역 답변 완료 - 김시우
+	 * 이메일로 답변 완료한 문의 내역 삭제.
+	 * 
+	 * @param inQnADTO
+	 */
 	public void deleteQna(QnADTO inQnADTO) {
 		
 		QnA inQnA = inQnADTO.toEntity();
