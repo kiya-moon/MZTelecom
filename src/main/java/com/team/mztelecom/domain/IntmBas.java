@@ -3,9 +3,7 @@ package com.team.mztelecom.domain;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
@@ -85,6 +83,14 @@ public class IntmBas {
 		this.intmKorNm = intmKorNm;
 		this.intmGB = intmGB;
 		this.intmPrice = intmPrice;
+    }
+    
+    public void updateIntmImg(List<IntmImg> intmImgs) {
+    	this.intmImgs.clear();
+    	this.intmImgs.addAll(intmImgs);
+        for (IntmImg img : intmImgs) {
+            img.setIntmBas(this);
+        }
     }
     
 	// 이미지 넣어주는 곳

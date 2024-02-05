@@ -39,7 +39,7 @@ public class IntmImg {
 
     @ManyToOne
     private IntmBas intmBas;
-
+    
     @Builder
 	public IntmImg(Long id, String intmNm, String imgName, String imgDetailNm,
 			String imgPath, String imgDetailPath, IntmBas intmBas) {

@@ -119,11 +119,29 @@ public class AdminService {
 	public void updateIntmBasDTO(Long id, String productName, String productKorName, List<String> productCapacity,
 			List<String> productPrice, List<String> productColor, MultipartFile productImage,
             MultipartFile productImageDetail) {
-		logger.debug("상품 수정 서비스 :: ");
-		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
-		int filesChk = 0;
 		
-		if(!Utiles.isNullOrEmpty(IntmBasOptional)) {
+		logger.debug("상품 수정 서비스 :: ");
+		
+		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
+		
+		if (!Utiles.isNullOrEmpty(IntmBasOptional)) {
+
+	        if (!Utiles.isNullOrEmpty(productImage)) {
+	            IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+	            
+	            if(!Utiles.isNullOrEmpty(savedImg.getImgName())) {
+	                deleteImage(savedImg);
+	            }
+	        }
+
+	        if (!Utiles.isNullOrEmpty(productImageDetail)) {
+	            IntmImg savedImgDetail = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+	            
+	            if(!Utiles.isNullOrEmpty(savedImgDetail.getImgName())) {
+	                deleteImage(savedImgDetail);
+	            }
+	        }
+
 			
 			IntmBas intmBasGet = IntmBasOptional.get();
 			
@@ -142,37 +160,30 @@ public class AdminService {
 	                    .imgDetailPath(imgDTO.getImgDetailPath())
 	                    .build();
 	            outIntmImg.add(img);
+	            
+	            imgRepository.save(img);
+
+	            logger.debug("수정 outIntmImg :: " + StringUtil.toString(outIntmImg));
 	        }
 			
-			if(!productImage.isEmpty()) {
-				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-				
-				if(Utiles.isNullOrEmpty(savedImg.getImgName())) {
-					attachmentService.deleteFile(savedImg.getImgPath());
-				}
-				
-			}
-			
-			if(!productImageDetail.isEmpty()) {
-				IntmImg savedImg = imgRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-				
-				if(Utiles.isNullOrEmpty(savedImg.getImgDetailNm())) {
-					attachmentService.deleteFile(savedImg.getImgDetailPath());
-				}
-			}
-			
-			intmBasGet = IntmBas.builder()
-	                .intmModelColor(productColor)
-	                .intmNm(productName)
-	                .intmKorNm(productKorName)
-	                .intmGB(productCapacity)
-	                .intmPrice(productPrice)
-	                .intmImgs(outIntmImg)
-	                .build();
+			intmBasGet.updateProduct(id, productName, productKorName, productCapacity, productPrice, productColor);
+			intmBasGet.updateIntmImg(outIntmImg);
 
 	        productRepository.save(intmBasGet);
 		}
 		
+    }
+	
+	@Transactional
+	public void deleteImage(IntmImg img) {
+        if (img != null) {
+            // 이미지 파일 삭제
+            attachmentService.deleteFile(img.getImgPath());
+            attachmentService.deleteFile(img.getImgDetailPath());
+
+            // 이미지 엔티티 삭제
+            imgRepository.delete(img);
+        }
     }
 	
 	// 2-3 상품 삭제

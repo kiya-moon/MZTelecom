@@ -138,3 +138,28 @@
 	border: none;
 	outline: none;
 }
+
+.input-container .file-box {
+	display: flex;
+	align-items: center;
+}
+
+.input-container .file-box label {
+	padding: 6px 10px;
+	font-weight: normal;
+    color: #fff;
+    background-color: #33A188;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+#update-imageDetail, #update-image {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}

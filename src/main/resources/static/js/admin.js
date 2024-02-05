@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+
 function updateModal() {
     const selectedRows = document.querySelectorAll('.select');
 
@@ -26,35 +28,52 @@ function updateModal() {
         return;
     }
 
-	const selectedRow = selectedRows[0];
+    const selectedRow = selectedRows[0];
     const cells = selectedRow.cells;
     const modalFields = ['name', 'kor', 'capacity', 'price', 'color', 'image', 'imageDetail'];
 
     modalFields.forEach((field, index) => {
-		const element = document.getElementById(`update-${field}`);
-		const inputElements = cells[index].querySelectorAll('.form_control');
-		    
-		if (field === 'image' || field === 'imageDetail') {
-            element.value = ''; // 파일 입력 필드를 초기화합니다.
+        const element = document.getElementById(`update-${field}`);
+        const inputElements = cells[index].querySelectorAll('.form_control');
+
+        if (field === 'image' || field === 'imageDetail') {
+            const fileInput = document.getElementById(`update-${field}`);
+            
+            // 이미지의 alt 값을 가져오도록 수정
+            const altValue = document.getElementById(`image${field === 'image' ? '' : '-detail'}`).getAttribute("alt");
+
+            const uploadNameClass = `upload-name${field === 'image' ? '1' : '2'}`;
+            document.querySelector(`.${uploadNameClass}`).value = altValue;
+
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0) {
+                    // 파일이 선택되었을 때 파일 이름을 가져와서 표시
+                    const fileName = fileInput.files[0].name;
+
+                    // 동적으로 생성된 클래스에 대한 upload-name 처리
+                    document.querySelector(`.${uploadNameClass}`).value = fileName;
+                } else {
+                    // 파일이 선택되지 않았을 때의 처리
+                    document.querySelector(`.${uploadNameClass}`).value = '';
+                }
+            });
         } else {
-            // 해당하는 필드의 모든 값을 가져와서 설정합니다.
+            // 해당하는 필드의 모든 값을 가져와서 설정
             let values = [];
             inputElements.forEach(inputElement => {
                 if (inputElement.type === 'text') {
                     values.push(inputElement.value);
                 }
             });
-            
-        	element.value = values.length > 1 ? values : values[0];
+
+            element.value = values.length > 1 ? values : values[0];
         }
-        
+    });
 
-   });
-
-   // 모달을 표시합니다.
-   document.getElementById('adminUpdateModal').style.display = 'block';
-
+    // 모달을 표시합니다.
+    document.getElementById('adminUpdateModal').style.display = 'block';
 }
+
 
 function closeModal() {
     document.getElementById('adminUpdateModal').style.display = 'none';

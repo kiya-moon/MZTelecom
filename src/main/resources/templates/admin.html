@@ -122,10 +122,10 @@
 										<input th:each="modelColor : ${product.IntmModelColor}" type="text" class="form_control" th:value="${modelColor}" readonly>
 									</td>
 									<td>
-										<img th:src="|/intmimg/${product.id}|" th:alt="${product.IntmKorNm}">
+										<img th:src="|/intmimg/${product.id}|" id="image" th:alt="${product.IntmKorNm}">
 									</td>
 									<td>
-										<img th:src="|/intmDetailimg/${product.id}|" th:alt="${product.IntmKorNm}">
+										<img th:src="|/intmDetailimg/${product.id}|" id="image-detail" th:alt="${product.IntmKorNm}">
 									</td>
 								</tr>
 							</tbody>
@@ -190,12 +190,21 @@
 									
 									<div class="input-container">
 										<label for="update-image">상품 이미지:</label>
-										<input type="file" id="update-image">
+										<input type="file"  id="update-image" >
+										
+										<div class="file-box">
+											<label for="update-image">파일 찾기</label>
+											<input class="upload-name1" placeholder="첨부파일" readonly>
+										</div>
 									</div>
 									
 									<div class="input-container">
 										<label for="update-imgDetail">상품 상세 이미지:</label>
 										<input type="file" id="update-imageDetail">
+										<div class="file-box">
+											<label for="update-imageDetail">파일 찾기</label>
+											<input type="text" class="upload-name2" readonly>
+										</div>
 									</div>
 									
 									<button class="admin-save" onclick="updateSave()">저장</button>
