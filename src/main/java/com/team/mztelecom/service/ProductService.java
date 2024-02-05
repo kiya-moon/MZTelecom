@@ -97,10 +97,7 @@ public class ProductService {
 	
 	
 	public Optional<IntmImg> findByIntmBas(Long id) {
-		
-		logger.debug("확인11");
-		
-		return imgRepository.findById(id);
+		return imgRepository.findByIntmBasId(id);
 	}
 
 	// 상품상세 url
@@ -119,7 +116,7 @@ public class ProductService {
 		
 		IntmBas outEntity = productRepository.findById(inEntity.getId()).orElse(null);
 		
-		IntmImg outImg = imgRepository.findByIntmBasId(outEntity.getId());
+		IntmImg outImg = imgRepository.findByIntmBasId(outEntity.getId()).orElse(null);
 		
 		IntmImgDTO outImgDTO = IntmImgDTO.builder()
 								.id(outImg.getId())

@@ -16,5 +16,5 @@ public interface ImgRepository extends JpaRepository<IntmImg, Long> {
 	
 	Optional<IntmImg> findByIntmBas(IntmBas intmBas);
 	
-	IntmImg findByIntmBasId(Long intmBasId);
+	Optional<IntmImg> findByIntmBasId(Long intmBasId);
 }
