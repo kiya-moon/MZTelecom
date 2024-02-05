@@ -224,15 +224,13 @@ public class AttachmentService {
         return fileList;
     }
     
-    public List<IntmImgDTO> addImages(MultipartFile imgfiles, MultipartFile imgDetailfiles, String addName, int filesChk) {
+    public List<IntmImgDTO> addImages(MultipartFile imgfiles, MultipartFile imgDetailfiles, String addName) {
     	
         List<IntmImgDTO> imgesAdd = new ArrayList<>();
         
         try {
         	
         	if(!Utiles.isNullOrEmpty(imgfiles.getOriginalFilename()) || !Utiles.isNullOrEmpty(imgDetailfiles.getOriginalFilename())) {
-//        	if(!Utiles.isNullOrEmpty(imgfiles.getOriginalFilename()) && !Utiles.isNullOrEmpty(imgDetailfiles.getOriginalFilename())) {
-//        	if(!Utiles.isNullOrEmpty(imgfiles.getOriginalFilename())) {
         		// 파일을 저장할 세부 경로 지정
 	            String path = imgDir;
 	    		UUID uuid = UUID.randomUUID();
@@ -258,7 +256,7 @@ public class AttachmentService {
                     /*
                      * 들어온 값에 따라 IntmImgDTO 세팅 - 김시우 
                      */
-                    if(filesChk == 1) 		// addImage만 존재
+                    if(!Utiles.isNullOrEmpty(imgfiles) && Utiles.isNullOrEmpty(imgDetailfiles))			// addImage만 존재
                     {
                     	new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
                     	
@@ -277,7 +275,7 @@ public class AttachmentService {
                         imgfile.setReadable(true);
                     	
                     }
-                    else if(filesChk == 2)	// addImageDetail만 존재
+                   	else if(Utiles.isNullOrEmpty(imgfiles) && !Utiles.isNullOrEmpty(imgDetailfiles))	// addImageDetail만 존재
                     {
                     	new_imgDetailfiles_name = uuid + "_" + imgDetailfiles.getOriginalFilename();
                     	
@@ -296,7 +294,7 @@ public class AttachmentService {
                         imgdetailfile.setReadable(true);
                     	
                     }
-                    else if(filesChk == 3)	//	둘다 존재
+                   	else if(!Utiles.isNullOrEmpty(imgfiles) && !Utiles.isNullOrEmpty(imgDetailfiles))	//	둘다 존재
                     {
                     	
                     	new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
@@ -332,7 +330,6 @@ public class AttachmentService {
                     	return imgesAdd;
                     }
                     
-                
                     // 생성 후 리스트에 추가
                     imgesAdd.add(IntmImgDTOs);
   
