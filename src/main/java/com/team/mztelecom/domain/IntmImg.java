@@ -1,5 +1,7 @@
 package com.team.mztelecom.domain;
 
+import com.team.mztelecom.dto.IntmImgDTO;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -52,6 +54,32 @@ public class IntmImg {
 		this.imgDetailPath = imgDetailPath;
 		this.intmBas = intmBas;
 	}
+    
+    
+    public void updateImage(String intmNm, String imgName,
+			String imgPath, String imgDetailNm, String imgDetailPath) {
+    	
+		this.intmNm = intmNm;
+		this.imgName = imgName;
+		this.imgPath = imgPath;
+		this.imgDetailNm = imgDetailNm;
+		this.imgDetailPath = imgDetailPath;
+	}
+    
+    public void updateImg (String intmNm, String imgName, String imgPath) {
+    	
+		this.intmNm = intmNm;
+		this.imgName = imgName;
+		this.imgPath = imgPath;
+	}
+    
+    public void updateImgDetail (String intmNm, String imgDetailNm, String imgDetailPath) {
+    	
+		this.intmNm = intmNm;
+		this.imgDetailNm = imgDetailNm;
+		this.imgDetailPath = imgDetailPath;
+	}
 
 
+    
 }

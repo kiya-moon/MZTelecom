@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -140,21 +141,24 @@ public class AdminController {
 		return "redirect:/admin?tab=product";
 	}
 	
-	@PutMapping("/update/{id}")
-    public String productUpdate(@RequestParam("id") Long productId,
+	@PostMapping("/update/{id}")
+    public ResponseEntity<String> productUpdate(@RequestParam("id") Long productId,
             @RequestParam("productName") String productName,
             @RequestParam("productKorName") String productKorName,
             @RequestParam("productCapacity") List<String> productCapacity,
             @RequestParam("productPrice") List<String> productPrice,
             @RequestParam("productColor") List<String> productColor,
-            @RequestParam("productImage") MultipartFile productImage,
-            @RequestParam("productImageDetail") MultipartFile productImageDetail) {
+            @RequestParam(value = "productImage", required = false) MultipartFile productImage,
+            @RequestParam(value = "productImageDetail", required = false) MultipartFile productImageDetail) {
         
 		logger.debug("상품 수정 컨트롤러");
 		
-        adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
-
-        return "redirect:/admin?tab=product";
+		try {
+	        adminService.updateIntmBasDTO(productId, productName, productKorName, productCapacity, productPrice, productColor, productImage, productImageDetail);
+	        return ResponseEntity.ok().body("{\"message\": \"상품 수정이 완료되었습니다.\"}");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"message\": \"상품 수정 중 오류가 발생했습니다.\"}");
+	    }
 	}
 	
 	@DeleteMapping(value = "/delete-multiple")

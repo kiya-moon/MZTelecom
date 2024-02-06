@@ -3,9 +3,11 @@ package com.team.mztelecom.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class AdminService {
 	private final ImgRepository imgRepository;
 	
 	private final AttachmentService attachmentService;
-
+	
 	// 1. 사용자 정보 담기
 	public List<InquiryCustDTO> getCustInfoList() {
 		logger.debug("Admin 서비스");
@@ -117,75 +119,98 @@ public class AdminService {
 	// 2-2 상품 수정
 	@Transactional
 	public void updateIntmBasDTO(Long id, String productName, String productKorName, List<String> productCapacity,
-			List<String> productPrice, List<String> productColor, MultipartFile productImage,
-            MultipartFile productImageDetail) {
-		
-		logger.debug("상품 수정 서비스 :: ");
-		
-		Optional<IntmBas> IntmBasOptional = productRepository.findById(id);
-		
-	     if (!Utiles.isNullOrEmpty(productImage)) {
-	         IntmImg savedImg = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
-	         
-	         logger.debug("수정 savedImg :: " + StringUtil.toString(savedImg));
-	         
-	         if(!Utiles.isNullOrEmpty(savedImg.getImgName())) {
-	             deleteImage(savedImg);
-	         }
-	     }
+	        List<String> productPrice, List<String> productColor, MultipartFile productImage,
+	        MultipartFile productImageDetail) {
 
-	     if (!Utiles.isNullOrEmpty(productImageDetail)) {
-	         IntmImg savedImgDetail = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
-	         
-	         logger.debug("수정 savedImg :: " + StringUtil.toString(savedImgDetail));
-	         
-	         if(!Utiles.isNullOrEmpty(savedImgDetail.getImgName())) {
-	             deleteImage(savedImgDetail);
-	         }
-	     }
+	    logger.debug("상품 수정 서비스 :: ");
+	    
+	    Optional<IntmBas> intmBasOptional = productRepository.findById(id);
+	    
+	    if (!Utiles.isNullOrEmpty(productImage) && !Utiles.isNullOrEmpty(productImageDetail)) {
+	        // 상품 이미지가 업로드되었다면
+	        IntmImg savedImgs = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
 
-	
-		IntmBas intmBasGet = IntmBasOptional.get();
-	
-		List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, productImageDetail, productName);
-	
-		logger.debug("수정 uploadedImages :: " + StringUtil.toString(uploadedImages));
-	
-		List<IntmImg> outIntmImg = new ArrayList<>();
-	
-		for (IntmImgDTO imgDTO : uploadedImages) {
-	         IntmImg img = IntmImg.builder()
-	                 .intmNm(imgDTO.getIntmNm())
-	                 .imgName(imgDTO.getImgName())
-	                 .imgDetailNm(imgDTO.getImgDetailNm())
-	                 .imgPath(imgDTO.getImgPath())
-	                 .imgDetailPath(imgDTO.getImgDetailPath())
-	                 .build();
-	         outIntmImg.add(img);
-	         
-	         imgRepository.save(img);
+	        logger.debug("수정 savedImgs :: " + StringUtil.toString(savedImgs));
 
-	         logger.debug("수정 outIntmImg :: " + StringUtil.toString(outIntmImg));
-	     }
-	
-		intmBasGet.updateProduct(id, productName, productKorName, productCapacity, productPrice, productColor);
-		intmBasGet.updateIntmImg(outIntmImg);
+	        if (!Utiles.isNullOrEmpty(savedImgs.getImgName())) {
+	        	attachmentService.deleteFile(savedImgs.getImgPath());
+	        }
+	        
+	        if (!Utiles.isNullOrEmpty(savedImgs.getImgDetailNm())) {
+	        	attachmentService.deleteFile(savedImgs.getImgDetailPath());
+	        }
 
-	     productRepository.save(intmBasGet);
+	        // 상품 이미지 업로드 및 저장
+			List<IntmImgDTO> uploadedImagesAll = attachmentService.addImages(productImage, productImageDetail, productName);
+			
+			logger.debug("상품 수정 uploadedImages :: " + StringUtil.toString(uploadedImagesAll));
+			
+			for (IntmImgDTO imgDTO : uploadedImagesAll) {
+		        savedImgs.updateImage(
+		        		imgDTO.getIntmNm(), 
+		        		imgDTO.getImgName(), 
+		        		imgDTO.getImgPath(), 
+		        		imgDTO.getImgDetailNm(),
+		                imgDTO.getImgDetailPath());
+		        
+		            imgRepository.save(savedImgs);
+	        }
+
+	    } else if (!Utiles.isNullOrEmpty(productImage)) {
+	        // 상품 이미지가 업로드되었다면
+	        IntmImg savedImg = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
+
+	        logger.debug("수정 savedImg :: " + StringUtil.toString(savedImg));
+
+	        if (!Utiles.isNullOrEmpty(savedImg.getImgName())) {
+	        	attachmentService.deleteFile(savedImg.getImgPath());
+	        }
+
+	        // 상품 이미지 업로드 및 저장
+			List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, null, productName);
+			
+			for (IntmImgDTO imgDTO : uploadedImages) {
+				savedImg.updateImg(
+		        		imgDTO.getIntmNm(), 
+		        		imgDTO.getImgName(), 
+		        		imgDTO.getImgPath()
+		        );
+		        
+		        imgRepository.save(savedImg);
+		    }
+			
+			
+	    } else if (!Utiles.isNullOrEmpty(productImageDetail)) {
+	        // 상품 상세 이미지가 업로드되었다면
+	        IntmImg savedImgDetail = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
+
+	        logger.debug("수정 savedImgDetail :: " + StringUtil.toString(savedImgDetail));
+
+	        if (!Utiles.isNullOrEmpty(savedImgDetail.getImgName())) {
+	        	attachmentService.deleteFile(savedImgDetail.getImgDetailPath());
+	        }
+
+	        // 상품 상세 이미지 업로드 및 저장
+	        List<IntmImgDTO> uploadedImagesDetail = attachmentService.addImages(null, productImageDetail, productName);
+			
+	        for (IntmImgDTO imgDTO : uploadedImagesDetail) {
+	            savedImgDetail.updateImgDetail(
+	            		imgDTO.getIntmNm(), 
+	            		imgDTO.getImgDetailNm(), 
+	            		imgDTO.getImgDetailPath()
+	            );
+	            
+	            imgRepository.save(savedImgDetail);
+	        }
+	    }
+	    
+	    // 기존 상품 정보 업데이트
+	    IntmBas intmBasGet = intmBasOptional.get();
+	    intmBasGet.updateProduct(id, productName, productKorName, productCapacity, productPrice, productColor);
+	    
+	    productRepository.save(intmBasGet);
 	}
-		
-	
-	@Transactional
-	public void deleteImage(IntmImg img) {
-        if (img != null) {
-            // 이미지 파일 삭제
-            attachmentService.deleteFile(img.getImgPath());
-            attachmentService.deleteFile(img.getImgDetailPath());
 
-            // 이미지 엔티티 삭제
-            imgRepository.deleteById(img.getId());
-        }
-    }
 	
 	// 2-3 상품 삭제
 	@Transactional

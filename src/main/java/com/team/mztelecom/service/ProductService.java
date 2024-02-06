@@ -121,7 +121,6 @@ public class ProductService {
 		IntmImgDTO outImgDTO = IntmImgDTO.builder()
 								.id(outImg.getId())
 								.imgName(outImg.getImgName())
-								.imgName(outImg.getImgName())
 								.imgPath(outImg.getImgPath())
 								.imgDetailNm(outImg.getImgDetailNm())
 								.imgDetailPath(outImg.getImgDetailPath())

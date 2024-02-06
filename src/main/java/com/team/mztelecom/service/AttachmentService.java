@@ -230,7 +230,8 @@ public class AttachmentService {
         
         try {
         	
-        	if(!Utiles.isNullOrEmpty(imgfiles.getOriginalFilename()) || !Utiles.isNullOrEmpty(imgDetailfiles.getOriginalFilename())) {
+        	if ((imgfiles != null && !Utiles.isNullOrEmpty(imgfiles.getOriginalFilename())) || 
+        		    (imgDetailfiles != null && !Utiles.isNullOrEmpty(imgDetailfiles.getOriginalFilename()))) {
         		// 파일을 저장할 세부 경로 지정
 	            String path = imgDir;
 	    		UUID uuid = UUID.randomUUID();
@@ -256,48 +257,9 @@ public class AttachmentService {
                     /*
                      * 들어온 값에 따라 IntmImgDTO 세팅 - 김시우 
                      */
-                    if(!Utiles.isNullOrEmpty(imgfiles) && Utiles.isNullOrEmpty(imgDetailfiles))			// addImage만 존재
+                    if(!Utiles.isNullOrEmpty(imgfiles) && !Utiles.isNullOrEmpty(imgDetailfiles))
                     {
-                    	new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
-                    	
-                    	IntmImgDTOs = IntmImgDTO.builder()
-                    			.intmNm(addName)
-                    			.imgName(imgfiles.getOriginalFilename())
-                    			.imgPath(path + new_imgfiles_name)
-                    			.build();
-                    	
-                        // 업로드 한 파일 데이터를 지정한 파일에 저장
-                        imgfile = new File(path, new_imgfiles_name);
-                        imgfiles.transferTo(imgfile);
-                        
-                        // 파일 권한 설정(쓰기, 읽기)
-                        imgfile.setWritable(true);
-                        imgfile.setReadable(true);
-                    	
-                    }
-                   	else if(Utiles.isNullOrEmpty(imgfiles) && !Utiles.isNullOrEmpty(imgDetailfiles))	// addImageDetail만 존재
-                    {
-                    	new_imgDetailfiles_name = uuid + "_" + imgDetailfiles.getOriginalFilename();
-                    	
-                    	IntmImgDTOs = IntmImgDTO.builder()
-                    			.intmNm(addName)
-                    			.imgDetailNm(imgDetailfiles.getOriginalFilename())
-                    			.imgDetailPath(path + new_imgDetailfiles_name)
-                    			.build();
-                    	
-                    	// 업로드 한 파일 데이터를 지정한 파일에 저장
-                        imgdetailfile = new File(path, new_imgDetailfiles_name);
-                        imgDetailfiles.transferTo(imgdetailfile);
-                        
-                        // 파일 권한 설정(쓰기, 읽기)
-                        imgdetailfile.setWritable(true);
-                        imgdetailfile.setReadable(true);
-                    	
-                    }
-                   	else if(!Utiles.isNullOrEmpty(imgfiles) && !Utiles.isNullOrEmpty(imgDetailfiles))	//	둘다 존재
-                    {
-                    	
-                    	new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
+                        new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
                     	new_imgDetailfiles_name = uuid + "_" + imgDetailfiles.getOriginalFilename();
                     			
                     	IntmImgDTOs = IntmImgDTO.builder()
@@ -325,6 +287,46 @@ public class AttachmentService {
                         imgdetailfile.setReadable(true);
                     	
                     }
+                   	else if(!Utiles.isNullOrEmpty(imgfiles))	// addImageDetail만 존재
+                    {
+                    	new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
+                    	
+                    	IntmImgDTOs = IntmImgDTO.builder()
+                    			.intmNm(addName)
+                    			.imgName(imgfiles.getOriginalFilename())
+                    			.imgPath(path + new_imgfiles_name)
+                    			.build();
+                    	
+                        // 업로드 한 파일 데이터를 지정한 파일에 저장
+                        imgfile = new File(path, new_imgfiles_name);
+                        imgfiles.transferTo(imgfile);
+                        
+                        // 파일 권한 설정(쓰기, 읽기)
+                        imgfile.setWritable(true);
+                        imgfile.setReadable(true);
+                    }
+                   	else if(!Utiles.isNullOrEmpty(imgDetailfiles))	//	둘다 존재
+                    {
+                    	
+                        
+                    	new_imgDetailfiles_name = uuid + "_" + imgDetailfiles.getOriginalFilename();
+                    	
+                    	IntmImgDTOs = IntmImgDTO.builder()
+                    			.intmNm(addName)
+                    			.imgDetailNm(imgDetailfiles.getOriginalFilename())
+                    			.imgDetailPath(path + new_imgDetailfiles_name)
+                    			.build();
+                    	
+                    	// 업로드 한 파일 데이터를 지정한 파일에 저장
+                        imgdetailfile = new File(path, new_imgDetailfiles_name);
+                        imgDetailfiles.transferTo(imgdetailfile);
+                        
+                        // 파일 권한 설정(쓰기, 읽기)
+                        imgdetailfile.setWritable(true);
+                        imgdetailfile.setReadable(true);
+
+                    	
+                    }
                     else
                     {
                     	return imgesAdd;
@@ -346,6 +348,7 @@ public class AttachmentService {
         try {
             // 주어진 파일 경로에 있는 파일을 삭제
             Files.delete(Path.of(filePath));
+            logger.info("파일을 삭제하였습니다.");
         } catch (IOException e) {
             throw new RuntimeException("파일 삭제 실패: " + filePath, e);
         }

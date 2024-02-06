@@ -224,40 +224,40 @@
 								<form th:action="@{productAdd}" th:method="POST" enctype="multipart/form-data">
 									<div class="input-container">
 										<label for="update-name">상품명:</label>
-										<input type="text" name="add-name" id="add-name">
+										<input type="text" name="add-name" id="add-name" required>
 									</div>
 									
 									<div class="input-container">
 										<label for="update-kor">단말기 한글명:</label>
-										<input type="text" name="add-kor" id="add-kor">
+										<input type="text" name="add-kor" id="add-kor" required>
 									</div>
 
 									<div class="input-container">
 										<label for="update-capacity">기기 용량:</label>
-										<input type="text" name="add-capacity" id="add-capacity">
+										<input type="text" name="add-capacity" id="add-capacity" required>
 									</div>
 
 									<div class="input-container">
 										<label for="update-price">기기값:</label>
-										<input type="text" name="add-price" id="add-price">
+										<input type="text" name="add-price" id="add-price" required>
 									</div>
 									
 									<div class="input-container">
 										<label for="update-color">색상:</label>
-										<input type="text" name="add-color" id="add-color">
+										<input type="text" name="add-color" id="add-color" required>
 									</div>
 									
 									<div class="input-container">
 										<label for="update-image">상품 이미지:</label>
-										<input type="file" name="add-image" id="add-image">
+										<input type="file" name="add-image" id="add-image" required>
 									</div>
 									
 									<div class="input-container">
 										<label for="update-imgDetail">상품 상세 이미지:</label>
-										<input type="file" name="add-imageDetail" id="add-imageDetail">
+										<input type="file" name="add-imageDetail" id="add-imageDetail" required>
 									</div>
 
-									<button class="add-save" onclick="closeAddModal()">확인</button>
+									<button class="add-save" onclick="addModal()">확인</button>
 									
 								</form>
 							</div>

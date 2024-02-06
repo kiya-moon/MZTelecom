@@ -87,6 +87,21 @@ function closeAddModal() {
     document.getElementById('adminAddModal').style.display = 'none';
 }
 
+function addModal() {
+	const nameInput = document.getElementById('add-name');
+    const korNameInput = document.getElementById('add-kor');
+    const capacityInput = document.getElementById('add-capacity');
+    const priceInput = document.getElementById('add-price');
+    const colorInput = document.getElementById('add-color');
+    const imageInput = document.getElementById('add-image');
+    const imageDetailInput = document.getElementById('add-imageDetail');
+
+    if (!nameInput.value || !korNameInput.value || !capacityInput.value || !priceInput.value || !colorInput.value || !imageInput.files[0] || !imageDetailInput.files[0]) {
+        alert('모든 필드를 입력해주세요.');
+        return;
+    }
+}
+
 // 상품수정
 function updateSave() {
 	
@@ -118,7 +133,7 @@ function updateSave() {
 
     // Fetch를 이용한 서버에 데이터 전송
     fetch('/update/' + productId, {
-        method: 'PUT', // 또는 다른 HTTP 메소드 사용
+        method: 'POST',
         headers: {
             [csrfHeader]: csrfToken,
         },
@@ -127,11 +142,11 @@ function updateSave() {
     .then(response => response.json())
     .then(data => {
         console.log('상품 수정 완료:', data);
+        alert(data.message);
         location.href = '/admin?tab=product';
     })
     .catch(error => {
-        console.error('상품 수정 에러:', error);
-        // 오류 발생 시 에러 처리
+        console.error('상품 수정 에러:', error.message);
     });
 }
 

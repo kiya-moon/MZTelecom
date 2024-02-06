@@ -85,14 +85,6 @@ public class IntmBas {
 		this.intmPrice = intmPrice;
     }
     
-    public void updateIntmImg(List<IntmImg> intmImgs) {
-    	this.intmImgs.clear();
-    	this.intmImgs.addAll(intmImgs);
-        for (IntmImg img : intmImgs) {
-            img.setIntmBas(this);
-        }
-    }
-    
 	// 이미지 넣어주는 곳
 	public void addIntmImg(IntmImg intmImg) {
         if (intmImgs == null) {
