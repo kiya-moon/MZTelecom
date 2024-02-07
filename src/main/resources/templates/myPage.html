@@ -141,22 +141,6 @@
 					
 					<!-- 주문내역 탭 -->
 					<div class="content_3" id="content_3" th:if="${#strings.equals(param.tab, 'orderDetail')}">
-						<div class="filter-box">
-							<h4>기간별 주문내역 조회</h4>
-							<!-- form 형태로 변경해야  -->
-							<input type="date" name="startDate" id="startDate" /> 
-							<label for="wave-sign"> ~ </label> 
-							<input type="date" name="endDate" id="endDate" />
-									
-							<button type="button" class="date_btn" onclick="setThreeMonth()">3개월</button>
-							<button type="button" class="date_btn" onclick="setSixMonth()"
-								id="sixMonth">6개월</button>
-							<button type="button" class="date_btn" onclick="setOneYear()"
-								id="oneYear">1년</button>
-							<button class="date_btn" id="filter_button">조회</button>
-							<!-- <input type="submit" value="조회"> -->
-	
-						</div>
 						<div class="result">
 							<table>
 								<thead>

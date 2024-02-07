@@ -6,6 +6,7 @@ let isDuplicateChecked = false // 중복 확인 여부 저장하는 변수
 // 이메일 인증 여부 확인
 let isCheckEmailCert = false
 
+var errMsg = document.getElementById('err-msg').value;
 
 document.addEventListener('DOMContentLoaded', function() {
 	const signupForm = document.getElementById('signup-form')
@@ -241,4 +242,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	        alert('전체 동의해주세요.');
 	    }
 		})
+		
+	if(!isNull(errMsg))
+	{
+		alert(errMsg);
+	}
 })

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.service.CustChgPwService;
@@ -146,21 +147,34 @@ public class CustController {
 			@RequestParam("custPassword") String custPassword,
 			@RequestParam("custPasswordCheck") String custPasswordCheck, @RequestParam("custIdfyNo") String custIdfyNo,
 			@RequestParam("custNo") String custNo, @RequestParam("custEmail") String custEmail,
-			@RequestParam("emailDomain") String emailDomain) {
+			@RequestParam("emailDomain") String emailDomain,
+			RedirectAttributes redirectAttributes) {
 
 		logger.debug("컨트롤러 도착 확인");
-
+		
+		String idfyChk =custService.IdfyNoVrfct(custIdfyNo); // 입력받은 주민번호랑 기존 회원의 주민번호 비교
+		
 		CustBasDTO request = new CustBasDTO();
-		request.setCustId(custId);
-		request.setCustNm(custNm);
-		request.setCustPassword(custPassword);
-		request.setCustPasswordCheck(custPasswordCheck);
-		request.setCustIdfyNo(custIdfyNo);
-		request.setCustNo(custNo);
-		request.setCustEmail(custEmail);
-		request.setEmailDomain(emailDomain);
+		
+		if(idfyChk.equals("Y")) 
+		{
+			request.setCustId(custId);
+			request.setCustNm(custNm);
+			request.setCustPassword(custPassword);
+			request.setCustPasswordCheck(custPasswordCheck);
+			request.setCustIdfyNo(custIdfyNo);
+			request.setCustNo(custNo);
+			request.setCustEmail(custEmail);
+			request.setEmailDomain(emailDomain);
+			
+			custService.save(request);
+		}
+		else
+		{
+	        redirectAttributes.addFlashAttribute("errorMessage", "주민번호를 다시 확인해주세요."); // 리다이렉트 시 에러 메시지 전달
+	        return "redirect:/signup"; // 다시 회원가입 페이지로 리다이렉트
+		}
 
-		custService.save(request);
 
 		return "redirect:/login";
 	}
