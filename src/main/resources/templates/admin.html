@@ -221,7 +221,7 @@
 								</div>
 								<p>용량, 기기값, 색상 여러 개 등록 시 쉼표로 구분해주세요.</p>
 								
-								<form th:action="@{productAdd}" th:method="POST" enctype="multipart/form-data">
+								<form id="addForm" th:action="@{productAdd}" th:method="POST" enctype="multipart/form-data">
 									<div class="input-container">
 										<label for="update-name">상품명:</label>
 										<input type="text" name="add-name" id="add-name" required>
@@ -257,17 +257,14 @@
 										<input type="file" name="add-imageDetail" id="add-imageDetail" required>
 									</div>
 
-									<button class="add-save" onclick="addModal()">확인</button>
+									<button class="add-save" onclick="addModal(event)">확인</button>
 									
 								</form>
 							</div>
 						</div>
 						
 					</div>
-					</div>
-					
-						
-						
+				</div>
 
 					<div class="admin-container" th:if="${#strings.equals(param.tab, 'qna')}">
 						<table>

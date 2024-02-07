@@ -87,7 +87,9 @@ function closeAddModal() {
     document.getElementById('adminAddModal').style.display = 'none';
 }
 
-function addModal() {
+function addModal(event) {
+	event.preventDefault(); 
+	
 	const nameInput = document.getElementById('add-name');
     const korNameInput = document.getElementById('add-kor');
     const capacityInput = document.getElementById('add-capacity');
@@ -95,11 +97,20 @@ function addModal() {
     const colorInput = document.getElementById('add-color');
     const imageInput = document.getElementById('add-image');
     const imageDetailInput = document.getElementById('add-imageDetail');
-
+    
     if (!nameInput.value || !korNameInput.value || !capacityInput.value || !priceInput.value || !colorInput.value || !imageInput.files[0] || !imageDetailInput.files[0]) {
         alert('모든 필드를 입력해주세요.');
         return;
     }
+    
+    if (isNaN(priceInput.value) || parseInt(priceInput.value) <= 1000) {
+
+	    alert('가격은 네 자리 수 이상이어야 합니다.');
+		return;
+	}
+    
+    
+    document.getElementById('addForm').submit();
 }
 
 // 상품수정
