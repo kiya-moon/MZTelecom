@@ -360,4 +360,35 @@ public class CustService {
         logger.debug("이메일 죽복확인 서비스 도착. custEmail :: " + existingCustEmail);
         return existingCustEmail.isPresent();
 	}
+	
+	
+	/**
+	 * 기존 회원의 주민번호와 회원가입하는 회원의 주민번호가 일치하는 것이 있는지 확인 - 김시우
+	 * 
+	 * @param inCustIdFyNo
+	 * @return
+	 */
+	public String IdfyNoVrfct(String inCustIdFyNo) {
+		
+		List<CustBas> outList = custRepository.findAll();
+		String idfyChk = "Y";	// 일치하는 주민번호 유무 체크 ==>  N: 일치하는 주민번호 o / Y: 일치하는 주민번호 x
+		
+    	String[] custIdfyNoArr = inCustIdFyNo.split(",");
+		
+    	if (custIdfyNoArr.length >= 2) 
+    	{
+    		// 주민번호 '-' 삽입
+    		String custIdFyNo = custIdfyNoArr[0] + "-" + custIdfyNoArr[1];
+    		
+    		for(int i = 0 ; i < outList.size(); i ++) 
+    		{
+    			if(outList.get(i).getCustIdfyNo().equals(custIdFyNo)) 
+    			{
+    				idfyChk = "N";
+    			}
+    		}
+		
+    	}
+		return idfyChk;
+	}
 }
