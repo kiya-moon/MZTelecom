@@ -10,7 +10,6 @@
 					<div class="image-content">
 						<img th:src="|/intmimg/${product.id}|" th:alt="${product.IntmKorNm}">
 					</div>
-	
 					<div class="info-content">
 						<h2 th:text="${product.IntmKorNm}" name="intmKorNm"></h2>
 						<input type="hidden" th:value="${product.IntmKorNm}" name="intmKorNm">
@@ -23,24 +22,18 @@
 						        <span th:text="${color}"></span>
 						    </label>
 						</div>
-	
-	
 						<p>저장공간</p>
-						
 						<div class="info-capacities">
 							<label th:each="capacity, option : ${product.IntmGB}">
 							    <input type="radio" class ="option" name="option" th:value="${option.index == 0 ? '128GB' : '256GB'}" th:checked="${option.index == 0}">
 							    <span th:text="${capacity}"></span>
 							</label>
 						</div>
-	
 						<div class="info-plan">
 							<h2 class="priceDisplay" th:each="price, priceList : ${product.IntmPrice}" th:data-value="${priceList.index}" 
 	        					th:text="'월 ' + ${#numbers.formatDecimal(price, 0, 'COMMA', 0, 'POINT')} + '원'"></h2>
-	        					
 	        				<input type="hidden" id="selectedPriceList" name="priceList" th:value="'월 ' + ${#numbers.formatDecimal(product.IntmPrice[0], 0, 'COMMA', 0, 'POINT')} + '원'">
 						</div>
-	
 						<div class="detail-btn">
 							<button type="button" class="cart" th:onclick="|addCart(${product.id})|">장바구니</button>
 							<button type="button"  th:if="${isLiked != null && isLiked == true}" class="btnLike red" th:attr="data-product-id=${product.id}" th:onclick="|clickLiked(event, ${product.id})|")>
@@ -54,7 +47,6 @@
 						</div>
 						<button class="order">온라인 주문</button>
 					</div>
-				
 				</form>
 				<div class="info-detail">
 					<img th:src="|/intmDetailimg/${product.id}|" th:alt="${product.IntmKorNm}">

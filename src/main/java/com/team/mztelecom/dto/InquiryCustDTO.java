@@ -1,6 +1,7 @@
 package com.team.mztelecom.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.team.mztelecom.domain.CustBas;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class InquiryCustDTO {
+	Long id;
 	String custId;
 	String custNm;
 	String custBirth;
@@ -29,10 +31,11 @@ public class InquiryCustDTO {
 	String custEmail;
 	String intmPurStusYn;
 	LocalDateTime createDate;
-
+	
 	@Builder
-	public InquiryCustDTO(String custId, String custNm,String custBirth, String custNo, String custSex, 
+	public InquiryCustDTO(Long id, String custId, String custNm,String custBirth, String custNo, String custSex, 
 			String custAddress, String custEmail, String intmPurStusYn, LocalDateTime createDate) {
+		this.id = id;
 		this.custId = custId;
 		this.custNm = custNm;
 		this.custBirth = custBirth;
@@ -45,7 +48,7 @@ public class InquiryCustDTO {
 	}
 
 	public CustBas toEntity() {
-		return CustBas.builder().custId(custId).custNm(custNm).custBirth(custBirth).custNo(custNo).custSex(custSex)
+		return CustBas.builder().id(id).custId(custId).custNm(custNm).custBirth(custBirth).custNo(custNo).custSex(custSex)
 				.custAddress(custAddress).custEmail(custEmail).intmPurStusYn(intmPurStusYn).createDate(createDate).build();
 	}
 }

@@ -73,6 +73,10 @@ public class CustBas implements UserDetails {
 	@Convert(converter = LocalDateTimeConverter.class)
 	private LocalDateTime createDate;	// 가입
 	
+	public CustBas(Long id) {
+        this.id = id;
+    }
+	
 	// DTO <-> Entity
 	@Builder
 	public CustBas(Long id, String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, 

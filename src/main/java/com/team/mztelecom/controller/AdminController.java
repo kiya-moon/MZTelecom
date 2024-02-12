@@ -2,7 +2,10 @@ package com.team.mztelecom.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,17 +14,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.team.mztelecom.domain.AllStatus;
 import com.team.mztelecom.domain.IntmImg;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.IntmImgDTO;
@@ -33,7 +37,7 @@ import com.team.util.Utiles;
 
 import ch.qos.logback.core.model.Model;
 
-@Controller
+@RestController
 public class AdminController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
@@ -43,7 +47,7 @@ public class AdminController {
 
 	@Autowired
 	AttachmentService attachmentService;
-	
+
 	@Autowired
 	ProductService productService;
 
@@ -140,7 +144,7 @@ public class AdminController {
 
 		return "redirect:/admin?tab=product";
 	}
-	
+
 	@PostMapping("/update/{id}")
     public ResponseEntity<String> productUpdate(@RequestParam("id") Long productId,
             @RequestParam("productName") String productName,
@@ -195,5 +199,33 @@ public class AdminController {
 		
 		return new UrlResource("file:" + intmImgs.get().getImgDetailPath());
 	}
-	
+
+	/**	
+	 * 회원삭제 - 문기연
+	 * @param custIdList
+	 * @return
+	 */
+	@DeleteMapping("/admin/delete-cust")
+	public ResponseEntity<String> deleteCustomers(@RequestBody List<Long> custIds) {
+		logger.debug("회원삭제 컨트롤러");
+		logger.debug("custIds :: " + custIds);
+		
+        try {
+            adminService.deleteCust(custIds);
+            return ResponseEntity.ok("선택한 회원이 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("삭제에 실패했습니다. : " + e.getMessage());
+        }
+    }
+
+	@PatchMapping("/admin/patch-order/{id}")
+	public ResponseEntity<?> patchResource(@PathVariable Long id, @RequestParam("status") AllStatus status) throws Exception {
+		
+		logger.debug("주문현황 업데이트 컨트롤러");
+		logger.debug("status :: " + status);
+		
+		adminService.updateOrderStatus(id, status);
+		
+		return ResponseEntity.ok().body("{\"message\": \"주문 상태가 업데이트되었습니다.\"}");
+	}
 }

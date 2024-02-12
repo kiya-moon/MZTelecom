@@ -30,11 +30,11 @@ import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.dto.SysCdDTO;
 import com.team.mztelecom.service.AdminService;
+import com.team.mztelecom.service.AttachmentService;
 import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.MypageService;
 import com.team.mztelecom.service.OrderService;
 import com.team.mztelecom.service.ProductService;
-import com.team.mztelecom.service.AttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.mztelecom.service.SupportService;
 import com.team.mztelecom.service.SysCdBasService;
@@ -282,12 +282,19 @@ public class HomeController {
 
 		logger.debug("관리자페이지 진입");
 
+		// 회원 관리 - 문기연
 		Pageable pageable = PageRequest.of(page, size, Sort.by("custId"));
 		logger.debug("keyword :: " + keyword);
 		Page<InquiryCustDTO> custInfoPage = adminService.getCustInfoPage(keyword, pageable);
 		logger.debug("custInfoPage :: " + custInfoPage);
 		
 		List<InquiryCustDTO> custInfoList = adminService.getCustInfoList();
+		
+		// 상품현황 - 문기연
+		List<OrdersDTO> ordersList = adminService.getOrdersList();
+		
+		Pageable ordersPage = PageRequest.of(page, size, Sort.by("paymentDate"));
+		Page<OrdersDTO> ordersPage2 = adminService.getOrdersPage(ordersPage);
 		
 		// 문의 내역 조회 - 김시우
 		List<QnADTO> outQnAList =  supportService.getQnA();
@@ -297,6 +304,10 @@ public class HomeController {
 		model.addAttribute("custInfoPage", custInfoPage);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("custInfoList", custInfoList);
+		
+		model.addAttribute("ordersList", ordersList);
+		model.addAttribute("ordersPage", ordersPage2);
+		
 		model.addAttribute("outQnAList", outQnAList);	// 문의 내역
 		
 		model.addAttribute("product", productPage);
