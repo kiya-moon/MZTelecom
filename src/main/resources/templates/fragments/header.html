@@ -60,7 +60,11 @@
 							<i data-feather="user"></i>
 						</a>
 
-						<a sec:authorize="isAuthenticated()" th:href="@{/myPage}">
+						<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">
+							<i data-feather="user"></i>
+						</a>
+		
+						<a sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')" th:href="@{/myPage}">
 							<i data-feather="user"></i>
 						</a>
 
