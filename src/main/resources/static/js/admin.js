@@ -170,11 +170,17 @@ function addModal(event) {
         return;
     }
     
-    if (isNaN(priceInput.value) || parseInt(priceInput.value) <= 1000) {
-
-	    alert('가격은 네 자리 수 이상이어야 합니다.');
-		return;
-	}
+    const priceList = priceInput.value.split(",");
+    
+    for (var i = 0; i < priceList.length; i++) {
+        var priceValue = parseInt(priceList[i].trim());
+        if (priceValue >= 1000) {
+            console.log("가격 " + priceValue + "이(가) 추가되었습니다.");
+        } else {
+            alert("가격은 1000 이상이어야 합니다.");
+            return;
+        }
+    }
     
     
     document.getElementById('addForm').submit();

@@ -218,6 +218,19 @@ public class AdminService {
 	@Transactional
 	public void deleteProduct(List<Long> ids) {
 		for (Long id : ids) {
+			
+			IntmImg savedImgs = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
+			
+			logger.debug("수정 savedImgs :: " + StringUtil.toString(savedImgs));
+			
+			if (!Utiles.isNullOrEmpty(savedImgs.getImgName())) {
+				attachmentService.deleteFile(savedImgs.getImgPath());
+			}
+			
+			if (!Utiles.isNullOrEmpty(savedImgs.getImgDetailNm())) {
+				attachmentService.deleteFile(savedImgs.getImgDetailPath());
+			}
+			
             productRepository.deleteById(id);
         }
 	}
