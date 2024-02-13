@@ -22,34 +22,34 @@ import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
+import com.team.mztelecom.repository.AdminRepository;
+import com.team.mztelecom.repository.ImgRepository;
+import com.team.mztelecom.repository.OrderRepository;
+import com.team.mztelecom.repository.ProductRepository;
 import com.team.mztelecom.repository.PurRevAttachmentRepository;
 import com.team.mztelecom.repository.PurRevBoardRepository;
+import com.team.mztelecom.repository.QnARepository;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Service
 public class PurRevBoardService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(PurRevBoardService.class);
 	
-	@Autowired
-	TemporarySaveDTO temporarySaveDTO;
+	private final TemporarySaveDTO temporarySaveDTO;
 	
-	@Autowired
-	PurRevBoardRepository purRevBoardRepository;
+	private final CustService custService;
 	
-	@Autowired
-	CustService custService;
+	private final AttachmentService purRevAttachmentService;
 	
-	@Autowired
-	AttachmentService purRevAttachmentService;
+	private final PurRevBoardRepository purRevBoardRepository;
 	
-	@Autowired
-	PurRevAttachmentRepository purRevAttachmentRepository;
-
 	/**
 	 * 검색 안했을 시 목록 보여주는 서비스 - 김시우
 	 * 

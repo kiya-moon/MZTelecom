@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,37 +40,31 @@ import com.team.mztelecom.service.SysCdBasService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	@Autowired
-	ProductService productService;
+	private final ProductService productService;
 
-	@Autowired
-	CustService custService;
+	private final CustService custService;
 
-	@Autowired
-	PurRevBoardService purRevBoardService;
+	private final PurRevBoardService purRevBoardService;
 
-	@Autowired
-	AttachmentService purRevAttachmentService;
+	private final AttachmentService purRevAttachmentService;
 
-	@Autowired
-	AdminService adminService;
+	private final AdminService adminService;
 	
-	@Autowired
-	MypageService mypageService;
+	private final MypageService mypageService;
 	
-	@Autowired
-	SupportService supportService;
+	private final SupportService supportService;
 	
-	@Autowired
-	OrderService orderService;
+	private final OrderService orderService;
 	
-	@Autowired
-	SysCdBasService sysCdBasService;
+	private final SysCdBasService sysCdBasService;
 	
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {

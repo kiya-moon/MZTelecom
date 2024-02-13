@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,18 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team.mztelecom.dto.TemporarySaveDTO;
-import com.team.mztelecom.service.OrderService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class OrderController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	
-	@Autowired
-	OrderService orderService;
-	
-	@Autowired
-	TemporarySaveDTO temporarySaveDTO;
+	private final TemporarySaveDTO temporarySaveDTO;
 	
 	@GetMapping(value = "/order")
 	public String order(Locale locale, Model model) {

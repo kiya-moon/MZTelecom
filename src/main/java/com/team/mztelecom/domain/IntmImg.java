@@ -1,7 +1,5 @@
 package com.team.mztelecom.domain;
 
-import com.team.mztelecom.dto.IntmImgDTO;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

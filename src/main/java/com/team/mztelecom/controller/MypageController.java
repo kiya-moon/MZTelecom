@@ -2,7 +2,6 @@ package com.team.mztelecom.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +10,15 @@ import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.service.MypageService;
 import com.team.util.StringUtil;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class MypageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MypageController.class);
 
-	@Autowired
-	MypageService mypageService;
+	private final MypageService mypageService;
 	
 	/**
 	 * 회원정보 수정 컨트롤러 - 김시우

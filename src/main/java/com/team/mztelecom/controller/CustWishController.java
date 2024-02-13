@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +16,17 @@ import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.CustService;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class CustWishController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustWishController.class);
 	
-	@Autowired
-	CustWishService custWishService;
+	private final CustWishService custWishService;
 	
-	@Autowired
-	CustService custService;
+	private final CustService custService;
 	
 	/**
 	 * 찜하기 기능

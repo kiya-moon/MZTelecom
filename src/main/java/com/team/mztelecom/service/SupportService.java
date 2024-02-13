@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.FAQ;
@@ -15,16 +14,17 @@ import com.team.mztelecom.dto.QnADTO;
 import com.team.mztelecom.repository.FAQRepository;
 import com.team.mztelecom.repository.QnARepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class SupportService {
 
 	private static final Logger logger = LoggerFactory.getLogger(SupportService.class);
 	
-	@Autowired
-	QnARepository supportRepository;
+	private final QnARepository supportRepository;
 	
-	@Autowired
-	FAQRepository fAQRepository;
+	private final FAQRepository fAQRepository;
 	
 	/**
 	 * 문의하기 등록 - 김시우

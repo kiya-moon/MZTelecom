@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team.mztelecom.dto.CustBasDTO;
@@ -19,17 +18,15 @@ import com.team.mztelecom.service.CustChgPwService;
 import com.team.mztelecom.service.CustService;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class CustController {
 
 	private final CustService custService;
 	
 	private final CustChgPwService custChgPwService;
-
-	public CustController(CustService custService, CustChgPwService custChgPwService) {
-		this.custService = custService;
-		this.custChgPwService = custChgPwService;
-	}
 
 	private static final Logger logger = LoggerFactory.getLogger(CustController.class);
 

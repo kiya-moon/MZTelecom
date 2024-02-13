@@ -12,8 +12,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.team.mztelecom.repository.AdminRepository;
 import com.team.mztelecom.repository.CustRepository;
+import com.team.mztelecom.repository.ImgRepository;
+import com.team.mztelecom.repository.OrderRepository;
+import com.team.mztelecom.repository.ProductRepository;
+import com.team.mztelecom.repository.QnARepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class CustChgPwService {
 

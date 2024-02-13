@@ -1,14 +1,12 @@
 package com.team.mztelecom.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.team.mztelecom.domain.CustBas;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * 

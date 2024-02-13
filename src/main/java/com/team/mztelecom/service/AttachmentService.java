@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,14 +23,15 @@ import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Service
 public class AttachmentService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentService.class);
 	
-	@Autowired
-	private PurRevAttachmentRepository purRevAttachmentRepository;
+	private final PurRevAttachmentRepository purRevAttachmentRepository;
 	
 	@Value("${file.dir}")
 	private String fileDir;

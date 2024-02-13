@@ -6,22 +6,17 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.SysCdDTO;
 import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.SysCdBasService;
-import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;

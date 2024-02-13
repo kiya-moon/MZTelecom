@@ -14,28 +14,26 @@ import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.repository.CustWishRepository;
+import com.team.mztelecom.repository.ImgRepository;
+import com.team.mztelecom.repository.OrderRepository;
+import com.team.mztelecom.repository.AdminRepository;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.mztelecom.repository.ProductRepository;
+import com.team.mztelecom.repository.QnARepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class CustWishService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CustWishService.class);
 	
-	@Autowired
-	CustService custService;
+	private final CustRepository custRepository;
 	
-	@Autowired
-	CustRepository custRepository;
+	private final CustWishRepository custWishRepository;
 	
-	@Autowired
-	CustWishRepository custWishRepository;
-	
-	@Autowired
-	ProductService productService;
-	
-	@Autowired
-	ProductRepository productRepository;
+	private final ProductRepository productRepository;
 	
 	/**
 	 * 찜하기 저장처리 - 김시우

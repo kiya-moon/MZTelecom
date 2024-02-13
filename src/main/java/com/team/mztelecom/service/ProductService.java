@@ -10,15 +10,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
-import com.team.mztelecom.domain.PurRevAttachment;
-import com.team.mztelecom.domain.PurRevBoard;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.IntmImgDTO;
-import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.repository.ImgRepository;
 import com.team.mztelecom.repository.ProductRepository;
 import com.team.util.StringUtil;

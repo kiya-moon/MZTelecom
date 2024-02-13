@@ -30,22 +30,21 @@ public class OrderService {
 
 	private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
+	private final TemporarySaveDTO temporarySaveDTO;
+	
+	private final CustService custService;
+	
 	private final OrderRepository orderRepository;
 	
 	private final IntmProductRepository intmProductRepository;
 
 	private final CustRepository custRepository;
 	
-	private final TemporarySaveDTO temporarySaveDTO;
-	
-	private final CustService custService;
-
 	public void setIntmProduct() {
 		
 		String intmKorNm = temporarySaveDTO.getOrderTmp().get(0);
 		String cliColor = temporarySaveDTO.getOrderTmp().get(1);
 		String cliCpcty = temporarySaveDTO.getOrderTmp().get(2);
-		String cliPrice = temporarySaveDTO.getOrderTmp().get(3);
 		
 		String intmModelId="";
 		
