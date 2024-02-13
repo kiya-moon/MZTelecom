@@ -24,7 +24,7 @@ public class IntmBasDTO {
 	int wishCnt;					// 찜하기
 	List<IntmImgDTO> intmImgs;		// 상품 이미지
 	String fee;
-	LocalDate createdAt;					// 최신순
+	LocalDate createdAt;			// 최신순
 	
 	
 	@Builder

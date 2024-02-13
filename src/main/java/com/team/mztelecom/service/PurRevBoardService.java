@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +21,7 @@ import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
-import com.team.mztelecom.repository.AdminRepository;
-import com.team.mztelecom.repository.ImgRepository;
-import com.team.mztelecom.repository.OrderRepository;
-import com.team.mztelecom.repository.ProductRepository;
-import com.team.mztelecom.repository.PurRevAttachmentRepository;
 import com.team.mztelecom.repository.PurRevBoardRepository;
-import com.team.mztelecom.repository.QnARepository;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
@@ -46,7 +39,7 @@ public class PurRevBoardService{
 	
 	private final CustService custService;
 	
-	private final AttachmentService purRevAttachmentService;
+	private final AttachmentService attachmentService;
 	
 	private final PurRevBoardRepository purRevBoardRepository;
 	
@@ -122,9 +115,11 @@ public class PurRevBoardService{
 		inCustBas = custService.getId(inPurRevBoardDTO.getWriter());
 		
 		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getIntmNm());
+		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getBoardTitle());
+		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getBoardDetail());
 		
 		// 첨부파일 저장 및 조회
-		List<PurRevAttachment> outPurRevAttachment = purRevAttachmentService.saveAttachment(inPurRevBoardDTO.getPurRevAttachmentDTO());
+		List<PurRevAttachment> outPurRevAttachment = attachmentService.saveAttachment(inPurRevBoardDTO.getPurRevAttachmentDTO());
 		
 		if (!Utiles.isNullOrEmpty(outPurRevAttachment)) {
 		    inpurRevBoard = PurRevBoard.builder()
@@ -232,7 +227,7 @@ public class PurRevBoardService{
 		try 
 		{
 			// DB에 저장 되어 있는 파일 불러오기 
-			List<PurRevAttachmentDTO> dbFilesList = purRevAttachmentService.getAttachment(id);
+			List<PurRevAttachmentDTO> dbFilesList = attachmentService.getAttachment(id);
 
 			for(int i = 0 ; i < dbFilesList.size(); i++) 
 			{
@@ -244,7 +239,7 @@ public class PurRevBoardService{
 					// 저장되어 있는 파일과 삭제할 파일 비교
 					if(dbFilesList.get(i).getId().equals(temporarySaveDTO.getDeleteFileId().get(j))) 
 					{
-						purRevAttachmentService.deledById(dbFilesList.get(i).getId());
+						attachmentService.deledById(dbFilesList.get(i).getId());
 						break;
 					}
 				}
@@ -256,7 +251,7 @@ public class PurRevBoardService{
 		}
 		
         // DB에 저장되어있는 파일 불러오기 
-        List<PurRevAttachmentDTO> dbAttachmentList = purRevAttachmentService.getAttachment(id);
+        List<PurRevAttachmentDTO> dbAttachmentList = attachmentService.getAttachment(id);
         
         for(int i = 0; i < dbAttachmentList.size(); i++) {
         	logger.debug("dbAttachmentList :: " + StringUtil.toString(dbAttachmentList.get(i)));
@@ -272,7 +267,7 @@ public class PurRevBoardService{
         	// 새로 전달되어온 파일이 하나라도 존재
             if(!Utiles.isNullOrEmpty(inFile)) 
             { 
-            	convertFileList = purRevAttachmentService.convertFile(inFile);
+            	convertFileList = attachmentService.convertFile(inFile);
             }
             else
             {
@@ -295,7 +290,7 @@ public class PurRevBoardService{
                     // dbOrigFileName 이 객체가 inFile 리스트에 포함이 되어 있는지, 포함이 안 되어 있는지 확인
                     if(!inFile.contains(dbOrigFileName))
                     {
-                    	convertFileList = purRevAttachmentService.convertFile(inFile);
+                    	convertFileList = attachmentService.convertFile(inFile);
                     }
                 }
             }
@@ -311,7 +306,7 @@ public class PurRevBoardService{
         PurRevBoardDTO outPurRevBoardDTO = null;
         
         	
-		addAtcmList = purRevAttachmentService.saveAttachment(convertFileList);
+		addAtcmList = attachmentService.saveAttachment(convertFileList);
 		
 		// 첨부파일 저장처리
 		for(int i = 0; i < addAtcmList.size(); i++)
@@ -354,10 +349,24 @@ public class PurRevBoardService{
 	 * 
 	 * @param id
 	 */
-    public void removePurRev(Long id) {
+    public void removePurRev(PurRevBoardDTO inDTO) {
     	
-    	logger.debug("구매후기 삭제 id :: " + id);
-    	purRevBoardRepository.deleteById(id);
+    	PurRevBoard inEntity = inDTO.toEntity();
+    	
+    	Optional<PurRevBoard> outList = purRevBoardRepository.findById(inEntity.getId());
+    	
+    	PurRevBoard outEntity = outList.get();
+    	
+    	for(int i = 0; i < outEntity.getPurRevAttachments().size(); i++) {
+    		
+    		// 게시물의 첨부파일 폴더에서 삭제
+    		attachmentService.deleteFile(outEntity.getPurRevAttachments().get(i).getFilePath());
+    		
+    	}
+    	
+    	logger.debug("구매후기 삭제 id :: " + outEntity.getId());
+    	
+    	purRevBoardRepository.deleteById(outEntity.getId());
     	
     }
     

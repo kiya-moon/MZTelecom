@@ -152,6 +152,14 @@ public class AttachmentService {
 									.build();
 		PurRevAttachment inEntity = inDTO.toEntity();
 		
+		Optional<PurRevAttachment> outList = purRevAttachmentRepository.findById(inEntity.getId());
+		
+		PurRevAttachment outEntity = outList.get();
+		
+		// 폴더에 저장된 이미지 삭제
+		deleteFile(outEntity.getFilePath());
+		
+		// 폴더에 저장된 이미지 삭제 후 DB에서 삭제
 		purRevAttachmentRepository.deleteById(inEntity.getId());
 	}
 

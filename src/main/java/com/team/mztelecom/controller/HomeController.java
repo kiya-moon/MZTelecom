@@ -54,7 +54,7 @@ public class HomeController {
 
 	private final PurRevBoardService purRevBoardService;
 
-	private final AttachmentService purRevAttachmentService;
+	private final AttachmentService attachmentService;
 
 	private final AdminService adminService;
 	
@@ -220,8 +220,11 @@ public class HomeController {
 
 		// 현재 로그인한 사용자의 이름
 		String custNm = custService.findName(principal.getName());
+		
+		List<IntmBasDTO> outIntmDTO= productService.getAllIntmList();
 
 		model.addAttribute("custNm", custNm);
+		model.addAttribute("intm", outIntmDTO);
 
 		return "content/purRevWrite";
 	}
@@ -246,7 +249,7 @@ public class HomeController {
 		purRevBoardDTO = purRevBoardService.purRevView(id);
 
 		// 작성된 게시물에 있는 첨부파일 조회
-		outPurRevAttachmentDTO = purRevAttachmentService.getAttachment(id);
+		outPurRevAttachmentDTO = attachmentService.getAttachment(id);
 
 		for (int i = 0; i < outPurRevAttachmentDTO.size(); i++) {
 			logger.debug("outPurRevAttachmentDTO :: " + outPurRevAttachmentDTO.get(i).getFilePath());

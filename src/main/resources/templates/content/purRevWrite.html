@@ -23,15 +23,10 @@
 							    <div class="rev-select-wrapper">
 							        <select id="category" name="category" required>
 							            <option value="placeholder" disabled selected>카테고리 선택</option>
-							            <option value="option1">갤럭시 플립5</option>
-							            <option value="option2">갤럭시 폴드5</option>
-							            <option value="option3">아이폰15</option>
 							        </select>
 							        <div class="rev-select-selected">카테고리 선택</div>
 							        <div class="rev-select-items">
-							            <div>갤럭시 플립5</div>
-							            <div>갤럭시 폴드5</div>
-							            <div>아이폰15</div>
+							            <div th:each="intm : ${intm}" th:text="${intm.intmKorNm}"></div>
 							        </div>
 							   </div>
 							</div>

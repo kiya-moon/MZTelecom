@@ -18,6 +18,7 @@ import com.team.mztelecom.dto.IntmImgDTO;
 import com.team.mztelecom.repository.ImgRepository;
 import com.team.mztelecom.repository.ProductRepository;
 import com.team.util.StringUtil;
+import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +31,34 @@ public class ProductService {
 	private final ProductRepository productRepository;
 
 	private final ImgRepository imgRepository;
+	
+	/**
+	 * 구매후기 카테고리용 상품 조회 - 김시우
+	 * 
+	 * @return
+	 */
+	public List<IntmBasDTO> getAllIntmList(){
+		
+		List<IntmBasDTO> outDTOList = new ArrayList<>();
+		
+		List<IntmBas> outList = productRepository.findAll();
+		
+		// 상품 조회 후 상품이 있을 경우 상품 한글명 세팅
+		if(!Utiles.isNullOrEmpty(outList)) 
+		{
+			for(IntmBas outEntity : outList) 
+			{
+				IntmBasDTO inDTO = IntmBasDTO.builder()
+						.id(outEntity.getId())
+						.intmKorNm(outEntity.getIntmKorNm())
+						.build();
+				
+				outDTOList.add(inDTO);
+			}
+		}
+		
+		return outDTOList;
+	}
 	
 	// 상품
 	public Page<IntmBasDTO> getAllProductsWithImages(String sortBy, int page, int size) {

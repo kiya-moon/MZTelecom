@@ -44,7 +44,7 @@ public class PurRevBoardController {
 	
 	private final PurRevBoardService purRevBoardService;
 	
-	private final AttachmentService purRevAttachmentService;
+	private final AttachmentService attachmentService;
 	
 	/**
 	 * 글 작성 페이지 - 김시우
@@ -73,7 +73,7 @@ public class PurRevBoardController {
 		}
 		else
 		{
-			inAttachmentDTO = purRevAttachmentService.convertFile(files);
+			inAttachmentDTO = attachmentService.convertFile(files);
 		}
 		
 		logger.debug("첨부파일까지 세팅 확인");
@@ -82,6 +82,7 @@ public class PurRevBoardController {
 		PurRevBoardDTO purRevBoardDTO = PurRevBoardDTO.builder()
 										.intmNm(selectedCategory)
 										.boardTitle(title)
+										.boardDetail(contents)
 										.purRevAttachmentDTO(inAttachmentDTO)
 										.writer(writer)
 										.build();
@@ -132,12 +133,15 @@ public class PurRevBoardController {
 	 * @return
 	 */
 	@PostMapping(value="/purRevView/{id}/remove")
-	public String removePurRev(Model model, @PathVariable Long id
-								, @ModelAttribute PurRevBoardDTO inPurRevBoardDTO) {
+	public String removePurRev(Model model, @PathVariable Long id) {
 		
 		logger.debug("삭제 확인");
 		
-		purRevBoardService.removePurRev(inPurRevBoardDTO.getId());
+		PurRevBoardDTO inPurRevBoardDTO = PurRevBoardDTO.builder()
+												.id(id)
+												.build();
+		
+		purRevBoardService.removePurRev(inPurRevBoardDTO);
 		
 		return "redirect:/purRevBoard";
 	}
@@ -183,7 +187,7 @@ public class PurRevBoardController {
 	@ResponseBody
 	public Resource attachment(@PathVariable("id") Long id, Model model) throws IOException {
 		logger.debug("id :: " + id);
-		Optional<PurRevAttachment> outPurRevAttachmentDTO = purRevAttachmentService.findById(id);
+		Optional<PurRevAttachment> outPurRevAttachmentDTO = attachmentService.findById(id);
 		logger.debug("outDTO :: " + outPurRevAttachmentDTO.get().getFilePath());
 		return new UrlResource("file:" + outPurRevAttachmentDTO.get().getFilePath());
 	}
