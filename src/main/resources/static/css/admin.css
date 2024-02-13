@@ -116,6 +116,11 @@
 	float: right;
 }
 
+.admin-container .img-detail-td {
+	max-height: 150px;
+    overflow-y: auto;
+}
+
 .admin-container .modal-title {
 	display: flex;
 	align-items: center;

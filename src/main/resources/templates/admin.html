@@ -126,7 +126,9 @@
 										<img th:src="|/intmimg/${product.id}|" id="image" th:alt="${product.IntmKorNm}">
 									</td>
 									<td>
-										<img th:src="|/intmDetailimg/${product.id}|" id="image-detail" th:alt="${product.IntmKorNm}">
+										<div class="img-detail-td">
+											<img th:src="|/intmDetailimg/${product.id}|" id="image-detail" th:alt="${product.IntmKorNm}">
+										</div>
 									</td>
 								</tr>
 							</tbody>
