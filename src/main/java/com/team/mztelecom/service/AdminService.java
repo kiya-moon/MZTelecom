@@ -42,11 +42,16 @@ import lombok.RequiredArgsConstructor;
 public class AdminService {
 	private static final Logger logger = LoggerFactory.getLogger(AdminService.class);
 	
-	private final AdminRepository adminRepository;
-	private final QnARepository qnARepository;
-	private final ProductRepository productRepository;
-	private final ImgRepository imgRepository;
 	private final AttachmentService attachmentService;
+	
+	private final AdminRepository adminRepository;
+	
+	private final QnARepository qnARepository;
+	
+	private final ProductRepository productRepository;
+	
+	private final ImgRepository imgRepository;
+	
 	private final OrderRepository orderRepository;
 
 	// 1. 사용자 정보 담기

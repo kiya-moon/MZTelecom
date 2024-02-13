@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -36,20 +35,19 @@ import com.team.mztelecom.service.ProductService;
 import com.team.util.Utiles;
 
 import ch.qos.logback.core.model.Model;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class AdminController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
-	@Autowired
-	AdminService adminService;
+	private final AdminService adminService;
 
-	@Autowired
-	AttachmentService attachmentService;
+	private final AttachmentService attachmentService;
 
-	@Autowired
-	ProductService productService;
+	private final ProductService productService;
 
 	/**
 	 * 문의내역 답변 완료 - 김시우

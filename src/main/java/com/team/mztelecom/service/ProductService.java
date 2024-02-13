@@ -10,18 +10,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.domain.IntmImg;
-import com.team.mztelecom.domain.PurRevAttachment;
-import com.team.mztelecom.domain.PurRevBoard;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.IntmImgDTO;
-import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.repository.ImgRepository;
 import com.team.mztelecom.repository.ProductRepository;
 import com.team.util.StringUtil;
+import com.team.util.Utiles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +31,34 @@ public class ProductService {
 	private final ProductRepository productRepository;
 
 	private final ImgRepository imgRepository;
+	
+	/**
+	 * 구매후기 카테고리용 상품 조회 - 김시우
+	 * 
+	 * @return
+	 */
+	public List<IntmBasDTO> getAllIntmList(){
+		
+		List<IntmBasDTO> outDTOList = new ArrayList<>();
+		
+		List<IntmBas> outList = productRepository.findAll();
+		
+		// 상품 조회 후 상품이 있을 경우 상품 한글명 세팅
+		if(!Utiles.isNullOrEmpty(outList)) 
+		{
+			for(IntmBas outEntity : outList) 
+			{
+				IntmBasDTO inDTO = IntmBasDTO.builder()
+						.id(outEntity.getId())
+						.intmKorNm(outEntity.getIntmKorNm())
+						.build();
+				
+				outDTOList.add(inDTO);
+			}
+		}
+		
+		return outDTOList;
+	}
 	
 	// 상품
 	public Page<IntmBasDTO> getAllProductsWithImages(String sortBy, int page, int size) {

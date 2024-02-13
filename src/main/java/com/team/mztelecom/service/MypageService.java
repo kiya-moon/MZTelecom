@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,26 +20,23 @@ import com.team.mztelecom.repository.ProductRepository;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class MypageService {
 
 	private static final Logger logger = LoggerFactory.getLogger(MypageService.class);
 	
-	@Autowired
-	CustRepository custRepository;
+	private final ProductService productService;
 	
-	@Autowired
-	CustWishRepository custWishRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	private final CustRepository custRepository;
 	
-	@Autowired
-	ProductRepository productRepository;
+	private final CustWishRepository custWishRepository;
 	
-	@Autowired
-	ProductService productService;
-	
-	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+	private final ProductRepository productRepository;
 	
 	/**
 	 * 회원정보 수정 - 김시우

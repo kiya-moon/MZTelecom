@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.SysCdBas;
@@ -12,13 +11,15 @@ import com.team.mztelecom.dto.SysCdDTO;
 import com.team.mztelecom.repository.SysCdRepository;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class SysCdBasService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SysCdBasService.class);
 	
-	@Autowired
-	SysCdRepository sysCdRepository;
+	private final SysCdRepository sysCdRepository;
 	
 	/**
 	 * 시스템 코드 조회 - 김시우

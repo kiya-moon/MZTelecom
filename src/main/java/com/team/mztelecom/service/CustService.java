@@ -24,12 +24,11 @@ public class CustService {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustService.class);
 	
-	private final CustRepository custRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	private final CustChgPwService custChgPwService;
 	
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+	private final CustRepository custRepository;
 	
 	// 로그인 확인
 	public boolean isLoggedIn() {

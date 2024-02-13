@@ -1,7 +1,6 @@
 package com.team.mztelecom.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -29,28 +27,24 @@ import com.team.mztelecom.domain.PurRevAttachment;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
-import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.AttachmentService;
 import com.team.mztelecom.service.PurRevBoardService;
 import com.team.util.StringUtil;
 import com.team.util.Utiles;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class PurRevBoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PurRevBoardController.class);
 	
-	@Autowired
-	TemporarySaveDTO temporarySaveDTO;
+	private final TemporarySaveDTO temporarySaveDTO;
 	
-	@Autowired
-	PurRevBoardService purRevBoardService;
+	private final PurRevBoardService purRevBoardService;
 	
-	@Autowired
-	AttachmentService purRevAttachmentService;
-	
-	@Autowired
-	CustService custService;
+	private final AttachmentService attachmentService;
 	
 	/**
 	 * 글 작성 페이지 - 김시우
@@ -79,7 +73,7 @@ public class PurRevBoardController {
 		}
 		else
 		{
-			inAttachmentDTO = purRevAttachmentService.convertFile(files);
+			inAttachmentDTO = attachmentService.convertFile(files);
 		}
 		
 		logger.debug("첨부파일까지 세팅 확인");
@@ -88,6 +82,7 @@ public class PurRevBoardController {
 		PurRevBoardDTO purRevBoardDTO = PurRevBoardDTO.builder()
 										.intmNm(selectedCategory)
 										.boardTitle(title)
+										.boardDetail(contents)
 										.purRevAttachmentDTO(inAttachmentDTO)
 										.writer(writer)
 										.build();
@@ -138,12 +133,15 @@ public class PurRevBoardController {
 	 * @return
 	 */
 	@PostMapping(value="/purRevView/{id}/remove")
-	public String removePurRev(Model model, @PathVariable Long id
-								, @ModelAttribute PurRevBoardDTO inPurRevBoardDTO) {
+	public String removePurRev(Model model, @PathVariable Long id) {
 		
 		logger.debug("삭제 확인");
 		
-		purRevBoardService.removePurRev(inPurRevBoardDTO.getId());
+		PurRevBoardDTO inPurRevBoardDTO = PurRevBoardDTO.builder()
+												.id(id)
+												.build();
+		
+		purRevBoardService.removePurRev(inPurRevBoardDTO);
 		
 		return "redirect:/purRevBoard";
 	}
@@ -189,7 +187,7 @@ public class PurRevBoardController {
 	@ResponseBody
 	public Resource attachment(@PathVariable("id") Long id, Model model) throws IOException {
 		logger.debug("id :: " + id);
-		Optional<PurRevAttachment> outPurRevAttachmentDTO = purRevAttachmentService.findById(id);
+		Optional<PurRevAttachment> outPurRevAttachmentDTO = attachmentService.findById(id);
 		logger.debug("outDTO :: " + outPurRevAttachmentDTO.get().getFilePath());
 		return new UrlResource("file:" + outPurRevAttachmentDTO.get().getFilePath());
 	}
