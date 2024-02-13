@@ -216,6 +216,13 @@ public class AdminController {
         }
     }
 
+	/**	
+	 * 주문현황 업데이트 - 문기
+	 * @param id
+	 * @param status
+	 * @return
+	 * @throws Exception
+	 */
 	@PatchMapping("/admin/patch-order/{id}")
 	public ResponseEntity<?> patchResource(@PathVariable Long id, @RequestParam("status") AllStatus status) throws Exception {
 		

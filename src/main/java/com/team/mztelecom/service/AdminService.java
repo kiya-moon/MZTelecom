@@ -54,7 +54,7 @@ public class AdminService {
 	
 	private final OrderRepository orderRepository;
 
-	// 1. 사용자 정보 담기
+	// 1-1. 사용자 정보 담기
 	public List<InquiryCustDTO> getCustInfoList() {
 		logger.debug("Admin 서비스");
 
@@ -77,6 +77,7 @@ public class AdminService {
 		return inquiryCustDTO;
 	}
 
+	// 1-2. 사용자 정보 검색 및 페이징 처리
 	public Page<InquiryCustDTO> getCustInfoPage(String keyword, Pageable pageable) {
 		if (StringUtils.hasText(keyword)) {
 			return adminRepository.findByCustNmContaining(keyword, pageable).map(this::mapToDTO);
@@ -85,6 +86,9 @@ public class AdminService {
 		}
 	}
 
+	// 1-3. 사용자 정보 매핑
+	// CustBas 엔티티를 InquiryCustDTO로 매핑
+	// DTO와 엔티티 간의 분리 역할. 시스템의 유지보수성 및 확장성 향상
 	private InquiryCustDTO mapToDTO(CustBas custBas) {
 		return InquiryCustDTO.builder().id(custBas.getId()).custId(custBas.getCustId()).custNm(custBas.getCustNm()).custBirth(custBas.getCustBirth())
 				.custNo(custBas.getCustNo()).custSex(custBas.getCustSex()).custAddress(custBas.getCustAddress())
@@ -307,7 +311,7 @@ public class AdminService {
         }	
 	}
 	
-	// 6. 주문현황 업데이트
+	// 6-1. 주문현황 업데이트
 	@Transactional
 	public void updateOrderStatus(Long id, AllStatus status) throws Exception {
 		logger.debug("주문현황 업데이트 서비스");
@@ -327,22 +331,24 @@ public class AdminService {
         }
 	}
 
+	// 6-2. 주문현황 페이징 처리
 	public Page<OrdersDTO> getOrdersPage(Pageable ordersPage) {
 		
 		return orderRepository.findAll(ordersPage).map(this::mapToDTO);
 	}
 
+	// 6-3. 주문현황 매
+	// Orders 엔티티를 OrdersDTO로 매핑
+	// DTO와 엔티티 간의 분리 역할. 시스템의 유지보수성 및 확장성 향상
+	// DTO 형태 조절. 엔티티의 일부만을 가져오거나 가공하여 제공 가능
 	private OrdersDTO mapToDTO(Orders orders) {
 		return OrdersDTO.builder()
 				.id(orders.getId())
 				.intmKorNm(orders.getIntmKorNm())
-				.price(orders.getPrice())
                 .orderUid(orders.getOrderUid())
                 .custBas(orders.getCustBas())
                 .intmProduct(orders.getIntmProduct())
                 .status(orders.getStatus())
-                .paymentUid(orders.getPaymentUid())
-                .paymentDate(orders.getPaymentDate())
                 .build();
 	}
 }
