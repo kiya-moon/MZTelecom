@@ -60,22 +60,28 @@ public class ProductService {
 		return outDTOList;
 	}
 	
-	// 상품
+	// 페이지네이션, 상품, 상품 이미지
 	public Page<IntmBasDTO> getAllProductsWithImages(String sortBy, int page, int size) {
+		
+		// 페이지 및 정렬 정보 생성
         Pageable pageable = PageRequest.of(page, size, getSort(sortBy));
 		
 	    logger.debug("product 서비스");
 	    
+	    // 모든 상품을 페이지네이션해서 가져오기
 	    Page<IntmBas> intmBasPage = productRepository.findAll(pageable);
-
+	    
+	    // 상품 목록을 담을 리스트 생성
 	    List<IntmBasDTO> intmDTOList = new ArrayList<>();
-
+	    
+	    // 가져온 상품들을 반복, DTO로 변환
 	    for (IntmBas intmBas : intmBasPage.getContent()) {
 	    	
 	    	List<IntmImgDTO> intmImgDTOList = IntmImgListToDTO(intmBas.getIntmImgs());
 	    	
 	        logger.debug("intmImgDTOList :: " + StringUtil.toString(intmImgDTOList));
-
+	        
+	        // 상품 DTO 생성 리스트에 추가
 	        IntmBasDTO intmDTO = new IntmBasDTO(
 	            intmBas.getId(), 
 	            null,
@@ -96,6 +102,7 @@ public class ProductService {
 	    
 	    logger.debug("intmDTOList :: " + StringUtil.toString(intmDTOList));
 	    
+	    // DTO 리스트와 페이지 정보를 포함한 페이지 객체 반환
 	    return new PageImpl<>(intmDTOList, pageable, intmBasPage.getTotalElements());
 	}
 	
@@ -120,29 +127,32 @@ public class ProductService {
 	    return intmImgDTOList;
 	}
 	
-	
+	// 상품 이미지 조회
 	public Optional<IntmImg> findByIntmBas(Long id) {
 		return imgRepository.findByIntmBasId(id);
 	}
 
-	// 상품상세 url
+	// 상품상세
 	public IntmBasDTO getProductById(Long productId) {
-		logger.debug("확인2");
 		logger.debug("productId :::  " + productId);
 		
 		IntmBasDTO inDTO = IntmBasDTO.builder()
 							.id(productId)
 							.build();
+		
 		logger.debug("inDTO :: " + inDTO.getId());
 		
 		IntmBas inEntity = inDTO.toEntity();
 		
 		logger.debug("inEntity :: " + inEntity.getId());
 		
+		// 상품 ID로 상품 엔티티 조회
 		IntmBas outEntity = productRepository.findById(inEntity.getId()).orElse(null);
 		
+		// 상품에 연결된 이미지를 조회
 		IntmImg outImg = imgRepository.findByIntmBasId(outEntity.getId()).orElse(null);
 		
+		// 조회된 이미지 DTO로 변환
 		IntmImgDTO outImgDTO = IntmImgDTO.builder()
 								.id(outImg.getId())
 								.imgName(outImg.getImgName())
@@ -172,7 +182,7 @@ public class ProductService {
 		return outDTO;
 	}
 	
-	
+	// 상품 정렬
 	private Sort getSort(String sortBy) {
         switch (sortBy) {
             case "createdAt":

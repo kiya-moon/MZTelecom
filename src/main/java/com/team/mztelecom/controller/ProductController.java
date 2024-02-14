@@ -33,6 +33,7 @@ public class ProductController {
 	
 	private final SysCdBasService sysCdBasService;
 	
+	// 상품페이지
 	@GetMapping(value = "/product")
 	public String product(Locale locale, Model model,
 			@RequestParam(defaultValue = "createdAt") String sortBy,
@@ -60,7 +61,7 @@ public class ProductController {
 		return "content/product";
 	}
 	
-	
+	// 상품 디테일 페이지
 	@GetMapping(value = "/productDetail/{productId}")
 	public String productDetail(@PathVariable Long productId, Model model, Principal principal) {
 		

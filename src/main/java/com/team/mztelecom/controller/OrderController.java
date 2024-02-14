@@ -23,6 +23,8 @@ public class OrderController {
 	
 	private final TemporarySaveDTO temporarySaveDTO;
 	
+	
+	// 결제할 상품 정보 보여주기
 	@GetMapping(value = "/order")
 	public String order(Locale locale, Model model) {
 		
@@ -41,6 +43,7 @@ public class OrderController {
 		return "content/order";
 	}
 	
+	// 본인인증
 	@PostMapping(value = "/postOrder")
 	public String order(Model model, 
 			@RequestParam("ChName") String ChName,
@@ -49,8 +52,6 @@ public class OrderController {
 			@RequestParam("ChAddress1") String ChAddress1,
 			@RequestParam("ChAddress2") String ChAddress2 ) {
 		
-		logger.debug("결제 시작");
-
 		temporarySaveDTO.getOrderTmp().add(ChName);
 		temporarySaveDTO.getOrderTmp().add(AllPhone);
 		temporarySaveDTO.getOrderTmp().add(ChZip);

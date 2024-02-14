@@ -40,6 +40,7 @@ public class OrderService {
 
 	private final CustRepository custRepository;
 	
+	// 임시 저장된 주문 정보를 바탕으로 상품 모델 ID를 설정
 	public void setIntmProduct() {
 		
 		String intmKorNm = temporarySaveDTO.getOrderTmp().get(0);
@@ -48,6 +49,8 @@ public class OrderService {
 		
 		String intmModelId="";
 		
+		
+		// 상품 이름과 색상, 용량에 따라 상품 모델 ID를 결정
 		if(intmKorNm.equals("갤럭시Z플립5")) {
 			
 			if(cliColor.equals("black")) {
@@ -85,15 +88,17 @@ public class OrderService {
 		temporarySaveDTO.setTmpIntmModelId(intmModelId);
 	}
 	
-
+	// 사용자 주소 업데이트
 	public void updateCustAddress(String address, Principal principal) {
-
+		
+		// 현재 사용자의 아이디
 		String userId = principal.getName();
 		
 		logger.debug("아이디 확인 :: " + userId);
 
 		Optional<CustBas> custBas = custRepository.findByCustId(userId);
-
+		
+		// 고객 정보가 존재하는 경우 주소 업데이트
 		if (!Utiles.isNullOrEmpty(custBas)) {
 			
 			CustBas custBasEntity = custBas.get();
@@ -104,11 +109,12 @@ public class OrderService {
 		}
 	}
 	
-	// 주문 add
+	// 주문 저장
 	public void ordersSave(String userId, OrdersDTO ordersDTO) {
 		
 		logger.debug("주문 save 확인 :: " + userId);
 		
+		// 사용자 아이디로 고객 정보 조회
 		CustBas inCustEntity = CustBas.builder()
                 .custId(userId)
                 .build();
@@ -131,7 +137,7 @@ public class OrderService {
 		    .intmPurStusYn(outCustBas.get(0).getIntmPurStusYn())
 		    .build();
 		
-		
+		// 임시 저장된 상품 모델 ID로 상품 조회
 		IntmProductDTO intmProductDTO = IntmProductDTO.builder()
 				.intmModelId(temporarySaveDTO.getTmpIntmModelId())
 				.build();
@@ -146,12 +152,18 @@ public class OrderService {
 		IntmProduct outIntmProduct = null;
 		
 		logger.debug("intmProductList.size ::" + intmProductList.size());
+		
+		// 조회된 상품이 존재하는지 확인
 		if(intmProductList.size() > 0) {
+			// 각 상품의 판매 상태를 확인
 			for(int i = 0; i < intmProductList.size(); i++) {
+				// 현재 상품 판매 상태가 "N"인지 확인
 				if(intmProductList.get(i).getIntmSalesStatus().equals("N")) {
+					// 해당 상품을 outIntmProduct에 담기
 					outIntmProduct = intmProductList.get(i);
 					logger.debug("outIntmProduct if문 안쪽 ::: " + StringUtil.toString(outIntmProduct));
 					
+					// 선택된 상품을 사용
 					break;
 				}
 			}
@@ -159,6 +171,7 @@ public class OrderService {
 		
 		logger.debug("outIntmProduct ::: " + StringUtil.toString(outIntmProduct));
 		
+		// 주문 DTO 생성, 주문 저장
 		OrdersDTO ordersDto = OrdersDTO.builder()
 				.intmKorNm(ordersDTO.getIntmKorNm())
 				.price(ordersDTO.getPrice())
@@ -176,6 +189,7 @@ public class OrderService {
 		
 		orderRepository.save(orders);
 		
+		// 주문한 상품의 판매 상태 변경
 		if (orders.getIntmProduct() != null) {
 		    orders.getIntmProduct().setIntmSalesStatus("Y");
 		    intmProductRepository.save(orders.getIntmProduct());

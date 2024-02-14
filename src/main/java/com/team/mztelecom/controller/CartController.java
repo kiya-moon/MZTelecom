@@ -31,7 +31,8 @@ public class CartController {
 	private static final Logger logger = LoggerFactory.getLogger(CartController.class);
 
 	private final CartService cartService;
-
+	
+	// 장바구니에 상품 담기
 	@PostMapping(value = "/cart/add")
     public @ResponseBody ResponseEntity cart(@ModelAttribute CartItemDTO cartItemDTO, Principal principal){
 		
@@ -62,6 +63,7 @@ public class CartController {
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
 	
+	// 장바구니에 담겨있는 상품 보여주기
 	@GetMapping(value = "/cart")
 	public String getCart(Principal principal, Model model) {
 		
@@ -76,6 +78,7 @@ public class CartController {
 		return "cart"; 
 	}
 	
+	// 장바구니에 있는 상품 삭제
 	@DeleteMapping(value = "/cart/{id}")
     public @ResponseBody ResponseEntity deleteCartItem(@PathVariable("id") Long cartItemId, Principal principal) {
 		

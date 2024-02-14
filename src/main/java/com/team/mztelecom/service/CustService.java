@@ -289,24 +289,28 @@ public class CustService {
         return custRepository.save(custBas);
 	}
 	
-	// id 중복확인
+	// ID 중복확인
 	public boolean isIdDuplicate(String custId) {
+		// 고객 ID로 이미 존재하는 고객 정보 찾기
         Optional<CustBas> existingCustomer = custRepository.findByCustId(custId);
+        
+        // 고객 정보가 존재하면 true를 반환 아니라면 false
         return existingCustomer.isPresent();
     }
 	
 	
-	/* 로그인 - 박지윤 */
-	
+	/* 소셜 로그인 - 박지윤 */
 	@Transactional
 	public CustBas whenSocialLogin(String providerTypeCode, String custId, String custNm, String custEmail) {
 		Optional<CustBas> opCustBas = findByCustId(custId);
 		
+		// 존재하는 고객인 경우, 해당 고객 정보 반환
 		if (opCustBas.isPresent()) { return opCustBas.get(); }
-			
-		// 소셜 로그인를 통한 가입시 비번 X
+		
+		// 새로운 고객 등록을 위해 고객 정보 설정
 		CustBasDTO request = new CustBasDTO();
 		request.setCustId(custId);
+		// 소셜 로그인를 통한 가입시 비번 X
 	    request.setCustPassword("");
 	    request.setCustNm(custNm);
 	    request.setCustEmail(custEmail);
@@ -314,10 +318,11 @@ public class CustService {
 	    
 	    String uniqueIdfyNo = UUID.randomUUID().toString();
 	    request.setCustIdfyNo(uniqueIdfyNo);
-	        
+	       
 	    return save(request);
 	}
 	
+	// 로그인
 	public Optional<CustBas> findByCustId(String custId) {
 		return custRepository.findByCustId(custId);
 	}

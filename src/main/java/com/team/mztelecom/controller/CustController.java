@@ -218,10 +218,12 @@ public class CustController {
 	}
 	
 
-	// id 중복확인
+	// ID 중복확인
 	@GetMapping(value = "/checkDuplicate")
 	public ResponseEntity<String> checkDuplicate(@RequestParam("custId") String custId) {
 		boolean isDuplicate = custService.isIdDuplicate(custId);
+		
+		// 입력한 아이디가 있는지 확인
 		if (isDuplicate) {
 			return ResponseEntity.badRequest().body("사용 중인 아이디 입니다.");
 		} else {

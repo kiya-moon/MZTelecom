@@ -66,7 +66,9 @@ public class AdminController {
 
 		return "redirect:/admin?tab=qna";
 	}
-
+	
+	
+	// 상품 등록
 	@PostMapping(value = "/productAdd")
 	public String productAdd(@RequestParam("add-name") String addName, @RequestParam("add-kor") String addKor,
 			@RequestParam("add-capacity") String addCapacity, @RequestParam("add-price") String addPrice,
@@ -142,7 +144,8 @@ public class AdminController {
 
 		return "redirect:/admin?tab=product";
 	}
-
+	
+	// 상품 수정
 	@PostMapping("/update/{id}")
     public ResponseEntity<String> productUpdate(@RequestParam("id") Long productId,
             @RequestParam("productName") String productName,
@@ -163,6 +166,7 @@ public class AdminController {
 	    }
 	}
 	
+	// 상품 다중 삭제
 	@DeleteMapping(value = "/delete-multiple")
 	public ResponseEntity<String> deleteMultipleProducts(@RequestBody Map<String, List<Long>> requestBody) {
 	    List<Long> ids = requestBody.get("ids");
@@ -175,7 +179,7 @@ public class AdminController {
 	    return ResponseEntity.ok("Selected products deleted successfully");
 	}
 
-	
+	// 상품 이미지 경로
 	@GetMapping("/intmimg/{id}")
 	@ResponseBody
 	public Resource img(@PathVariable Long id, Model model) throws IOException {
@@ -187,6 +191,7 @@ public class AdminController {
 		return new UrlResource("file:" + intmImgs.get().getImgPath());
 	}
 	
+	// 상품 상세 이미지 경로
 	@GetMapping("/intmDetailimg/{id}")
 	@ResponseBody
 	public Resource imgDetail(@PathVariable Long id, Model model) throws IOException {

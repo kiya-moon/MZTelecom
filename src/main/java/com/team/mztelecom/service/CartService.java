@@ -40,6 +40,7 @@ public class CartService {
 
 	private final CartItemRepository cartItemRepository;
 	
+	// 장바구니에 상품 담기
 	public Long addCart(CartItemDTO cartItemDTO, String custId){
 		
 		// 장바구니에 담을 상품 조회
@@ -100,16 +101,22 @@ public class CartService {
     	
     	logger.debug("장바구니 조회 서비스");
     	
+    	// 장바구니 상품 목록 저장 리스트 생성
     	List<IntmBasDTO> intmBasList = new ArrayList<>();
     	
+    	// 고객 ID에 해당하는 회원 정보 가져오기
     	Optional<CustBas> member = custRepository.findByCustId(custId);
     	
+    	
+    	// 회원의 장바구니 정보
     	Cart cart = cartRepository.findByCustBasId(member.get().getId());
     	
+    	// 장바구니가 비어있는 경우 빈 리스트를 반환
     	if (Utiles.isNullOrEmpty(cart)) { 
     		return intmBasList;
     	}
     	
+    	// 장바구니에 담긴 상품
     	List<CartItem> cartItems = cartItemRepository.findCartItemsByCartId(cart.getId());
     	
     	logger.debug("장바구니 조회 cartItems ::: " + StringUtil.toString(cartItems));

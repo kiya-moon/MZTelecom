@@ -131,23 +131,29 @@ public class AdminService {
 
 	    logger.debug("상품 수정 서비스 :: ");
 	    
+	    // 상품 ID로 상품 정보 가져오기
 	    Optional<IntmBas> intmBasOptional = productRepository.findById(id);
 	    
+	    
+	    // 상품 이미지, 상세 이미지가 모두 있는 경우
 	    if (!Utiles.isNullOrEmpty(productImage) && !Utiles.isNullOrEmpty(productImageDetail)) {
-	        // 상품 이미지가 업로드되었다면
+	    	
+	    	// 상품 이미지 정보 가져오기
 	        IntmImg savedImgs = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
 
 	        logger.debug("수정 savedImgs :: " + StringUtil.toString(savedImgs));
-
+	        
+	        // 기존 이미지 파일 삭제
 	        if (!Utiles.isNullOrEmpty(savedImgs.getImgName())) {
 	        	attachmentService.deleteFile(savedImgs.getImgPath());
 	        }
 	        
+	        // 기존 상세 이미지 파일 삭제
 	        if (!Utiles.isNullOrEmpty(savedImgs.getImgDetailNm())) {
 	        	attachmentService.deleteFile(savedImgs.getImgDetailPath());
 	        }
 
-	        // 상품 이미지 업로드 및 저장
+	        // 새 상품 이미지 업로드 및 저장
 			List<IntmImgDTO> uploadedImagesAll = attachmentService.addImages(productImage, productImageDetail, productName);
 			
 			logger.debug("상품 수정 uploadedImages :: " + StringUtil.toString(uploadedImagesAll));
@@ -163,17 +169,19 @@ public class AdminService {
 		            imgRepository.save(savedImgs);
 	        }
 
-	    } else if (!Utiles.isNullOrEmpty(productImage)) {
-	        // 상품 이미지가 업로드되었다면
+	    } else if (!Utiles.isNullOrEmpty(productImage)) { // 상품 이미지만 있는 경우
+	    	
+	    	// 상품 이미지 정보 가져오기
 	        IntmImg savedImg = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
 
 	        logger.debug("수정 savedImg :: " + StringUtil.toString(savedImg));
-
+	        
+	        // 기존 이미지 파일 삭제
 	        if (!Utiles.isNullOrEmpty(savedImg.getImgName())) {
 	        	attachmentService.deleteFile(savedImg.getImgPath());
 	        }
 
-	        // 상품 이미지 업로드 및 저장
+	        // 새 상품 이미지 업로드 및 저장
 			List<IntmImgDTO> uploadedImages = attachmentService.addImages(productImage, null, productName);
 			
 			for (IntmImgDTO imgDTO : uploadedImages) {
@@ -187,17 +195,19 @@ public class AdminService {
 		    }
 			
 			
-	    } else if (!Utiles.isNullOrEmpty(productImageDetail)) {
-	        // 상품 상세 이미지가 업로드되었다면
-	        IntmImg savedImgDetail = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
+	    } else if (!Utiles.isNullOrEmpty(productImageDetail)) { // 상세 이미지만 있는 경우
+	    	
+	    	// 상품 이미지 정보 가져오기
+	    	IntmImg savedImgDetail = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
 
 	        logger.debug("수정 savedImgDetail :: " + StringUtil.toString(savedImgDetail));
-
+	        
+	    	// 기존 이미지 파일 삭제
 	        if (!Utiles.isNullOrEmpty(savedImgDetail.getImgName())) {
 	        	attachmentService.deleteFile(savedImgDetail.getImgDetailPath());
 	        }
-
-	        // 상품 상세 이미지 업로드 및 저장
+	        
+	        // 새 상세 이미지 업로드 및 저장
 	        List<IntmImgDTO> uploadedImagesDetail = attachmentService.addImages(null, productImageDetail, productName);
 			
 	        for (IntmImgDTO imgDTO : uploadedImagesDetail) {
@@ -215,6 +225,7 @@ public class AdminService {
 	    IntmBas intmBasGet = intmBasOptional.get();
 	    intmBasGet.updateProduct(id, productName, productKorName, productCapacity, productPrice, productColor);
 	    
+	    // 업데이트된 상품 정보 저장
 	    productRepository.save(intmBasGet);
 	}
 
@@ -222,20 +233,25 @@ public class AdminService {
 	// 2-3 상품 삭제
 	@Transactional
 	public void deleteProduct(List<Long> ids) {
+		// 선택된 ID 목록
 		for (Long id : ids) {
 			
+			// 해당 ID에 대한 상품 이미지 정보
 			IntmImg savedImgs = imgRepository.findByIntmBasId(id).orElseThrow(EntityNotFoundException::new);
 			
 			logger.debug("수정 savedImgs :: " + StringUtil.toString(savedImgs));
 			
+			// 상품 이미지가 있는 경우 해당 이미지 파일 삭제
 			if (!Utiles.isNullOrEmpty(savedImgs.getImgName())) {
 				attachmentService.deleteFile(savedImgs.getImgPath());
 			}
 			
+			// 상품 상세 이미지가 있는 경우 해당 이미지 파일을 삭제
 			if (!Utiles.isNullOrEmpty(savedImgs.getImgDetailNm())) {
 				attachmentService.deleteFile(savedImgs.getImgDetailPath());
 			}
 			
+			// 주어진 ID에 해당하는 상품 삭제
             productRepository.deleteById(id);
         }
 	}
