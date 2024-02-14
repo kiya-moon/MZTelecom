@@ -28,43 +28,43 @@ Spring Boot JPA를 기반으로 제작한 핸드폰 판매 사이트<br>
 
 <table>
   <tr>
-    <td align="center" width="100px">
+    <td align="center" width="180px">
       <a href="https://github.com/Si-Woo91" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/101760091?v=4" alt="김시우우 프로필" />
       </a>
     </td>
-    <td align="center" width="100px">
+    <td align="center" width="180px">
       <a href="https://github.com/Ji-Yoon98" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/97427387?v=4" alt="박지윤 프로필" />
       </a>
     </td>
-    <td align="center" width="100px">
+    <td align="center" width="180px">
       <a href="https://github.com/kiya-moon" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/101784768?v=4" alt="문기연 프로필" />
       </a>
     </td>
-    </tr>
+  </tr>
     
-    <tr>
-        <td align="center">
-            <a href="https://github.com/Si-Woo91" target="_blank">
-                김시우<br />
-                BackEnd & 리더
-            </a>
-        </td>
-        <td align="center">
-            <a href="https://github.com/Ji-Yoon98" target="_blank">
-                박지윤<br />
-                BackEnd & FrontEnd
-            </a>
-        </td>
-        <td align="center">
-            <a href="https://github.com/kiya-moon" target="_blank">
-                문기연<br />
-                BackEnd
-            </a>
-        </td>
-    </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Si-Woo91" target="_blank">
+          김시우<br />
+          BackEnd & 리더
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Ji-Yoon98" target="_blank">
+        박지윤<br />
+        BackEnd & FrontEnd
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/kiya-moon" target="_blank">
+        문기연<br />
+        BackEnd
+      </a>
+    </td>
+  </tr>
 </table>
 
 <br>
