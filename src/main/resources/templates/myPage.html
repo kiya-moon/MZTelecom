@@ -158,7 +158,9 @@
 								        <td th:text="${orders.paymentDate}"></td>
 								        <td th:text="${orders.intmKorNm}"></td>
 								        <td th:text="${orders.price}"></td>
-								        <td th:text="${orders.status}"></td>
+										<td th:if="${orders.status == T(com.team.mztelecom.domain.AllStatus).READY}">배송 전</td>
+										<td th:if="${orders.status == T(com.team.mztelecom.domain.AllStatus).IN_PROGRESS}">배송 중</td>
+										<td th:if="${orders.status == T(com.team.mztelecom.domain.AllStatus).COMPLETED}">배송 완료</td>
 									</tr>
 									<!-- 주문 내역 데이터를 동적으로 생성하여 추가할 수 있습니다. -->
 								</tbody>
