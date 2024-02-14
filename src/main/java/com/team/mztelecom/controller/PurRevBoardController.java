@@ -1,29 +1,22 @@
 package com.team.mztelecom.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.team.mztelecom.domain.PurRevAttachment;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
@@ -173,23 +166,6 @@ public class PurRevBoardController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 삭제 실패");
 	    }
 		
-	}
-	
-	/**
-	 * 이미지 불러오기 - 김시우
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 * @throws IOException
-	 */
-	@GetMapping("/files/{id}")
-	@ResponseBody
-	public Resource attachment(@PathVariable("id") Long id, Model model) throws IOException {
-		logger.debug("id :: " + id);
-		Optional<PurRevAttachment> outPurRevAttachmentDTO = attachmentService.findById(id);
-		logger.debug("outDTO :: " + outPurRevAttachmentDTO.get().getFilePath());
-		return new UrlResource("file:" + outPurRevAttachmentDTO.get().getFilePath());
 	}
 
 }

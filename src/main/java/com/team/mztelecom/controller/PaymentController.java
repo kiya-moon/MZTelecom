@@ -22,6 +22,7 @@ import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import com.team.mztelecom.dto.OrdersDTO;
 import com.team.mztelecom.service.OrderService;
+import com.team.mztelecom.service.SetIntmModelIdService;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,8 @@ public class PaymentController {
 	private IamportClient iamportClient;
 
 	private final OrderService orderService;
+	
+	private final SetIntmModelIdService setIntmModelIdService;
 	
 	// 포트원 API 키와 시크릿 키 가져오기
 	@Value("${imp.api.key}")
@@ -65,7 +68,7 @@ public class PaymentController {
     	String orderNumber = String.valueOf(ordersDTO.getOrderUid());
     	
     	// 상품 정보 설정
-    	orderService.setIntmProduct();
+    	setIntmModelIdService.setIntmProduct();
         
         try {
         	// 현재 사용자 아이디
