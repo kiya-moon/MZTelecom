@@ -86,6 +86,7 @@
 /* productDetail */
 .productDetail-container > form {
 	display: flex;
+	align-items: center;
 }
 
 .image-content {
@@ -182,6 +183,7 @@
 	border-radius: 10px; 
 	padding: 20px;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 .detail-btn .cart:hover {
@@ -201,6 +203,7 @@
 	border-radius: 10px; 
 	padding: 20px;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 .detail-btn .btnLike:hover {
@@ -226,8 +229,26 @@
 	cursor: not-allowed;
 }
 
+.info-detail {
+	margin-top: 100px;
+}
+
 .order:hover {
 	background-color: #FFA200;
+}
+
+@media (max-width: 800px) {
+	.productDetail-container > form {
+	    display: block;
+	}
+	
+	.info-content > h2 {
+		padding-top: 30px;
+	}
+	
+	.info-content > p {
+		padding-top: 20px;
+	}
 }
 
 @media (max-width: 540px) {
