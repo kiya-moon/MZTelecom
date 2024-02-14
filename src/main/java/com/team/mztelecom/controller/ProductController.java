@@ -33,7 +33,16 @@ public class ProductController {
 	
 	private final SysCdBasService sysCdBasService;
 	
-	// 상품페이지
+	/**
+	 * 모바일 기기 페이지 진입 - 박지윤
+	 * 
+	 * @param locale
+	 * @param model
+	 * @param sortBy
+	 * @param page
+	 * @param size
+	 * @return
+	 */
 	@GetMapping(value = "/product")
 	public String product(Locale locale, Model model,
 			@RequestParam(defaultValue = "createdAt") String sortBy,
@@ -61,20 +70,36 @@ public class ProductController {
 		return "content/product";
 	}
 	
-	// 상품 디테일 페이지
+	/**
+	 * 모바일 상세 페이지 진입 - 박지윤
+	 * 
+	 * @param productId
+	 * @param model
+	 * @param principal
+	 * @return
+	 */
 	@GetMapping(value = "/productDetail/{productId}")
 	public String productDetail(@PathVariable Long productId, Model model, Principal principal) {
 		
-		int wishCnt;
-		boolean isLiked = false;	
+		int wishCnt;				// 찜하기횟수
+		boolean isLiked = false;	// 찜하기 유무
 		
 		IntmBasDTO outDTO = productService.getProductById(productId);
 		
+		/*
+		 * 찜하기 기능 추가 - 김시우 
+		 * 
+		 * 로그인 되어 있을 시
+		 */
 		if(!Utiles.isNullOrEmpty(principal)) 
 		{
-			
+			// 찜하기 체크
 			wishCnt = custWishService.getWish(productId, principal.getName());
 			
+			/*
+			 * 로그인 한 고객이 해당 상품을 찜하기 했는지 
+			 * wishCnt가 존재하면서 1 일때
+			 */
 			if(!Utiles.isNullOrEmpty(wishCnt) && wishCnt == 1) {
 				
 				isLiked = true;

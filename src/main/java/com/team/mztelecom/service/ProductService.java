@@ -60,7 +60,14 @@ public class ProductService {
 		return outDTOList;
 	}
 	
-	// 페이지네이션, 상품, 상품 이미지
+	/**
+	 * 페이지네이션, 상품, 상품 이미지 - 박지윤
+	 * 
+	 * @param sortBy
+	 * @param page
+	 * @param size
+	 * @return
+	 */
 	public Page<IntmBasDTO> getAllProductsWithImages(String sortBy, int page, int size) {
 		
 		// 페이지 및 정렬 정보 생성
@@ -106,7 +113,12 @@ public class ProductService {
 	    return new PageImpl<>(intmDTOList, pageable, intmBasPage.getTotalElements());
 	}
 	
-	// 상품 이미지
+	/**
+	 * 상품 이미지 - 박지윤
+	 * 
+	 * @param intmImgList
+	 * @return
+	 */
 	public List<IntmImgDTO> IntmImgListToDTO(List<IntmImg> intmImgList) {
 		
 	    List<IntmImgDTO> intmImgDTOList = new ArrayList<>();
@@ -127,12 +139,22 @@ public class ProductService {
 	    return intmImgDTOList;
 	}
 	
-	// 상품 이미지 조회
+	/**
+	 * 상품 이미지 조회 - 박지윤
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Optional<IntmImg> findByIntmBas(Long id) {
 		return imgRepository.findByIntmBasId(id);
 	}
 
-	// 상품상세
+	/**
+	 * 상품 상세 - 박지윤
+	 * 
+	 * @param productId
+	 * @return
+	 */
 	public IntmBasDTO getProductById(Long productId) {
 		logger.debug("productId :::  " + productId);
 		
@@ -182,7 +204,12 @@ public class ProductService {
 		return outDTO;
 	}
 	
-	// 상품 정렬
+	/**
+	 * 상품 정렬 - 박지윤
+	 * 
+	 * @param sortBy
+	 * @return
+	 */
 	private Sort getSort(String sortBy) {
         switch (sortBy) {
             case "createdAt":

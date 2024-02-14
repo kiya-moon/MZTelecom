@@ -28,9 +28,9 @@ public class MypageService {
 
 	private static final Logger logger = LoggerFactory.getLogger(MypageService.class);
 	
-	private final ProductService productService;
-	
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	private final ProductService productService;
 
 	private final CustRepository custRepository;
 	
@@ -47,7 +47,8 @@ public class MypageService {
 		
 		CustBas inCustBas = inCustBasDTO.toEntity(); 
 		
-		List<CustBas> outCustList = custRepository.findByDynamicQuery(inCustBas.getCustId(), inCustBas.getCustNm(), inCustBas.getCustBirth(), inCustBas.getCustEmail());
+		List<CustBas> outCustList = custRepository.findByDynamicQuery(inCustBas.getCustId(), inCustBas.getCustNm(), 
+				inCustBas.getCustBirth(), inCustBas.getCustEmail());
 		
 		// 기존 회원 정보
 		CustBas outCustBas = outCustList.get(0);
@@ -80,7 +81,8 @@ public class MypageService {
 		
 		CustBas incustBas = inCustBasDTO.toEntity();
 		
-		List<CustBas> outCustList = custRepository.findByDynamicQuery(incustBas.getCustId(), incustBas.getCustNm(), incustBas.getCustBirth(), incustBas.getCustEmail());
+		List<CustBas> outCustList = custRepository.findByDynamicQuery(incustBas.getCustId(), incustBas.getCustNm(),
+				incustBas.getCustBirth(), incustBas.getCustEmail());
 		
 		custRepository.deleteById(outCustList.get(0).getId());
 		
@@ -110,11 +112,13 @@ public class MypageService {
 		List<IntmBas> intmList = new ArrayList<>();
 		
 		logger.debug("wishList.size() :: " + intmIdList.size());
+		
+		// 고객이 찜한 상품 존재o
 		if(!Utiles.isNullOrEmpty(intmIdList)) 
 		{
 			for(int i = 0; i < intmIdList.size(); i++) 
 			{
-				
+				// 고객의 찜한 상품 아이디로 상품 검색 후 상품 목록에 저장
 				intmList.add(productRepository.getIntmBas(intmIdList.get(i)));
 				logger.debug("intmList ::: " + intmList.get(i).getIntmKorNm());
 				
@@ -124,7 +128,8 @@ public class MypageService {
 		List<IntmBasDTO> intmDTOList = new ArrayList<>();
 		
 		// 찜한 상품 목록 DTO 변환
-		for (IntmBas intmBas : intmList) {
+		for (IntmBas intmBas : intmList) 
+		{
 			
 			// 찜한 상품 이미지
 			List<IntmImg> intmImgList = intmBas.getIntmImgs();

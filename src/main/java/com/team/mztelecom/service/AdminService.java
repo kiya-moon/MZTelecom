@@ -54,7 +54,12 @@ public class AdminService {
 	
 	private final OrderRepository orderRepository;
 
-	// 1-1. 사용자 정보 담기
+	/**
+	 * 회원 관리 탭 - 문기연
+	 * 사용자 정보 담기
+	 * 
+	 * @return
+	 */
 	public List<InquiryCustDTO> getCustInfoList() {
 		logger.debug("Admin 서비스");
 
@@ -77,7 +82,14 @@ public class AdminService {
 		return inquiryCustDTO;
 	}
 
-	// 1-2. 사용자 정보 검색 및 페이징 처리
+	/**
+	 * 회원 관리 탭 - 문기연
+	 * 사용자 정보 검색 및 페이징 처리
+	 * 
+	 * @param keyword
+	 * @param pageable
+	 * @return
+	 */
 	public Page<InquiryCustDTO> getCustInfoPage(String keyword, Pageable pageable) {
 		if (StringUtils.hasText(keyword)) {
 			return adminRepository.findByCustNmContaining(keyword, pageable).map(this::mapToDTO);
@@ -86,16 +98,29 @@ public class AdminService {
 		}
 	}
 
-	// 1-3. 사용자 정보 매핑
-	// CustBas 엔티티를 InquiryCustDTO로 매핑
-	// DTO와 엔티티 간의 분리 역할. 시스템의 유지보수성 및 확장성 향상
+	/**
+	 * 회원 관리 탭 - 문기연
+	 * 
+	 * 사용자 정보 매핑
+	 * CustBas 엔티티를 InquiryCustDTO로 매핑
+	 * DTO와 엔티티 간의 분리 역할. 시스템의 유지보수성 및 확장성 향상
+	 * 
+	 * @param custBas
+	 * @return
+	 */
 	private InquiryCustDTO mapToDTO(CustBas custBas) {
 		return InquiryCustDTO.builder().id(custBas.getId()).custId(custBas.getCustId()).custNm(custBas.getCustNm()).custBirth(custBas.getCustBirth())
 				.custNo(custBas.getCustNo()).custSex(custBas.getCustSex()).custAddress(custBas.getCustAddress())
 				.custEmail(custBas.getCustEmail()).intmPurStusYn(custBas.getIntmPurStusYn()).createDate(custBas.getCreateDate()).build();
 	}
 
-	// 2-1. 상품 정보 담기
+	/**
+	 * 상품 관리 탭 - 박지윤
+	 * 상품 정보 담기
+	 * 
+	 * @param intmBasDTO
+	 * @param inList
+	 */
 	@Transactional
 	public void addProduct(IntmBasDTO intmBasDTO, List<IntmImgDTO> inList) {
 		logger.debug("상품 담기 서비스 :: ");
@@ -127,7 +152,19 @@ public class AdminService {
 	    }
 	}
 	
-	// 2-2 상품 수정
+	/**
+	 * 상품 관리 탭 - 박지윤
+	 * 상품 수정
+	 * 
+	 * @param id
+	 * @param productName
+	 * @param productKorName
+	 * @param productCapacity
+	 * @param productPrice
+	 * @param productColor
+	 * @param productImage
+	 * @param productImageDetail
+	 */
 	@Transactional
 	public void updateIntmBasDTO(Long id, String productName, String productKorName, List<String> productCapacity,
 	        List<String> productPrice, List<String> productColor, MultipartFile productImage,
@@ -233,8 +270,12 @@ public class AdminService {
 	    productRepository.save(intmBasGet);
 	}
 
-	
-	// 2-3 상품 삭제
+	/**
+	 * 상품 관리 탭 - 박지윤
+	 * 상품 삭제
+	 * 
+	 * @param ids
+	 */
 	@Transactional
 	public void deleteProduct(List<Long> ids) {
 		// 선택된 ID 목록
@@ -260,9 +301,9 @@ public class AdminService {
         }
 	}
 	
-	// 3. 문의 정보 담기
 	/**
-	 * 관리자 페이지 문의 내역 답변 완료 - 김시우
+	 * QnA 탭 - 김시우
+	 * 관리자 페이지 문의 내역이 있을 시
 	 * 이메일로 답변 완료한 문의 내역 삭제.
 	 * 
 	 * @param inQnADTO
@@ -278,7 +319,12 @@ public class AdminService {
 		
 	}
 	
-	// 4. 판매 정보 담기
+	/**
+	 * 주문현황 탭 - 문기연
+	 * 판매 정보 담기
+	 * 
+	 * @return
+	 */
 	@Transactional
 	public List<OrdersDTO> getOrdersList() {
 		logger.debug("상품 담기 서비스 :: ");
@@ -302,7 +348,12 @@ public class AdminService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	// 5. 회원삭제
+	/**
+	 * 주문현황 탭 - 문기연
+	 * 회원삭제
+	 * 
+	 * @param custIds
+	 */
 	public void deleteCust(List<Long> custIds) {
 		logger.debug("회원삭제 서비스 도착 :: " + custIds);
 		
@@ -327,7 +378,14 @@ public class AdminService {
         }	
 	}
 	
-	// 6-1. 주문현황 업데이트
+	/**
+	 * 주문현황 탭 - 문기연
+	 * 주문현황 업데이트
+	 * 
+	 * @param id
+	 * @param status
+	 * @throws Exception
+	 */
 	@Transactional
 	public void updateOrderStatus(Long id, AllStatus status) throws Exception {
 		logger.debug("주문현황 업데이트 서비스");
@@ -347,13 +405,19 @@ public class AdminService {
         }
 	}
 
-	// 6-2. 주문현황 페이징 처리
+	/**
+	 * 주문현황 탭 - 문기연
+	 * 주문현황 페이징 처리
+	 * 
+	 * @param ordersPage
+	 * @return
+	 */
 	public Page<OrdersDTO> getOrdersPage(Pageable ordersPage) {
 		
 		return orderRepository.findAll(ordersPage).map(this::mapToDTO);
 	}
 
-	// 6-3. 주문현황 매
+	// 주문현황
 	// Orders 엔티티를 OrdersDTO로 매핑
 	// DTO와 엔티티 간의 분리 역할. 시스템의 유지보수성 및 확장성 향상
 	// DTO 형태 조절. 엔티티의 일부만을 가져오거나 가공하여 제공 가능

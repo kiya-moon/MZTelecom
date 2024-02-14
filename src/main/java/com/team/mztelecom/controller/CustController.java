@@ -30,8 +30,16 @@ public class CustController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustController.class);
 
-	/*
+	/**
 	 * 아이디 찾기 controller - 김시우
+	 * 
+	 * @param custNm
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param emailId
+	 * @param domain
+	 * @return
 	 */
 	@PostMapping(value = "/findId")
 	@ResponseBody
@@ -83,6 +91,14 @@ public class CustController {
 
 	/**
 	 * 비밀번호 찾기 controller - 김시우
+	 * 
+	 * @param custId
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @param emailId
+	 * @param domain
+	 * @return
 	 */
 	@PostMapping(value = "/findPw")
 	@ResponseBody
@@ -96,6 +112,7 @@ public class CustController {
 
 		// 생년월일 담아 줄 변수
 		String birth = "";
+		
 		// 이메일을 담아 줄 변수
 		String email = "";
 
@@ -105,7 +122,6 @@ public class CustController {
 
 		// 생년월일 합쳐주기
 		buff.append(year).append(month).append(day);
-
 		birth = buff.toString();
 
 		buff.delete(0, buff.length());
@@ -138,6 +154,17 @@ public class CustController {
 
 	/**
 	 * 회원가입 Controller - 문기연
+	 * 
+	 * @param custId
+	 * @param custNm
+	 * @param custPassword
+	 * @param custPasswordCheck
+	 * @param custIdfyNo
+	 * @param custNo
+	 * @param custEmail
+	 * @param emailDomain
+	 * @param redirectAttributes
+	 * @return
 	 */
 	@PostMapping(value = "/signup")
 	public String signup(@RequestParam("custId") String custId, @RequestParam("custNm") String custNm,
@@ -149,10 +176,11 @@ public class CustController {
 
 		logger.debug("컨트롤러 도착 확인");
 		
-		String idfyChk =custService.IdfyNoVrfct(custIdfyNo); // 입력받은 주민번호랑 기존 회원의 주민번호 비교
+		String idfyChk =custService.IdfyNoVrfct(custIdfyNo); // 입력받은 주민번호랑 기존 회원의 주민번호 비교 service - 김시우
 		
 		CustBasDTO request = new CustBasDTO();
 		
+		// 기존 회원 중에 일치하는 주민번호가 없을 시 회원가입 진행 - 김시우
 		if(idfyChk.equals("Y")) 
 		{
 			request.setCustId(custId);
@@ -166,18 +194,22 @@ public class CustController {
 			
 			custService.save(request);
 		}
+		// 기존 회원과 일치하는 주민번호를 입력 했을 시
 		else
 		{
 	        redirectAttributes.addFlashAttribute("errorMessage", "주민번호를 다시 확인해주세요."); // 리다이렉트 시 에러 메시지 전달
+	        
 	        return "redirect:/signup"; // 다시 회원가입 페이지로 리다이렉트
 		}
-
 
 		return "redirect:/login";
 	}
 	
-	/**	
+	/**
 	 * 회원가입 이메일 중복 확인 - 문기연
+	 * 
+	 * @param custEmail
+	 * @return
 	 */
 	@GetMapping(value = "/checkEmailDuplicate")
 	public ResponseEntity<String> checkEmailDuplicate(@RequestParam("custEmail") String custEmail) {
@@ -195,6 +227,9 @@ public class CustController {
 
 	/**
 	 * 회원가입 이메일 인증 - 문기연
+	 * 
+	 * @param custEmail
+	 * @return
 	 */
 	@GetMapping(value = "/sendEmailCert")
 	public ResponseEntity<String> sendEmailCert(@RequestParam("custEmail") String custEmail) {
@@ -219,8 +254,12 @@ public class CustController {
 		return null;
 	}
 	
-
-	// ID 중복확인
+	/**
+	 * ID 중복확인 - 박지윤
+	 * 
+	 * @param custId
+	 * @return
+	 */
 	@GetMapping(value = "/checkDuplicate")
 	public ResponseEntity<String> checkDuplicate(@RequestParam("custId") String custId) {
 		boolean isDuplicate = custService.isIdDuplicate(custId);

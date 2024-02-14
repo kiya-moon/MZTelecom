@@ -23,8 +23,13 @@ public class OrderController {
 	
 	private final TemporarySaveDTO temporarySaveDTO;
 	
-	
-	// 결제할 상품 정보 보여주기
+	/**
+	 * 결제 할 상품 정보 보여주기 - 박지윤
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/order")
 	public String order(Locale locale, Model model) {
 		
@@ -43,7 +48,17 @@ public class OrderController {
 		return "content/order";
 	}
 	
-	// 본인인증
+	/**
+	 * 본인인증 - 박지윤
+	 * 
+	 * @param model
+	 * @param ChName
+	 * @param AllPhone
+	 * @param ChZip
+	 * @param ChAddress1
+	 * @param ChAddress2
+	 * @return
+	 */
 	@PostMapping(value = "/postOrder")
 	public String order(Model model, 
 			@RequestParam("ChName") String ChName,

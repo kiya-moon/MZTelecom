@@ -36,7 +36,12 @@ public class CustService {
 	    return auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
 	}
 	
-	// 회원 조회
+	/**
+	 * 회원 조회를 위한 기본 세팅 - 김시우
+	 * 
+	 * @param inCustBasDTO
+	 * @return
+	 */
 	public CustBasDTO getMember(CustBasDTO inCustBasDTO) {
 		
 		CustBas MemberList = CustBas.builder()
@@ -80,6 +85,8 @@ public class CustService {
 	/**
 	 * 구매후기 작성자에 넣을 이름 - 김시우
 	 * 
+	 * @param inWriter
+	 * @return
 	 */
 	public String findName(String inWriter){
 		
@@ -97,10 +104,11 @@ public class CustService {
 		return custNm;
 	}
 	
-	
 	/**
 	 * 아이디 찾기 service - 김시우
 	 * 
+	 * @param info
+	 * @return
 	 */
 	public Map<String, String> findId(Map<String, String> info) 
 	{
@@ -158,10 +166,11 @@ public class CustService {
         return mapReq;
 	}
 	
-	
 	/**
 	 * 비밀번호 찾기 service - 김시우
 	 * 
+	 * @param info
+	 * @return
 	 */
 	public Map<String, String> findPw(Map<String, String> info) 
 	{
@@ -289,7 +298,12 @@ public class CustService {
         return custRepository.save(custBas);
 	}
 	
-	// ID 중복확인
+	/**
+	 * ID 중복확인 - 박지윤
+	 * 
+	 * @param custId
+	 * @return
+	 */
 	public boolean isIdDuplicate(String custId) {
 		// 고객 ID로 이미 존재하는 고객 정보 찾기
         Optional<CustBas> existingCustomer = custRepository.findByCustId(custId);
@@ -298,8 +312,15 @@ public class CustService {
         return existingCustomer.isPresent();
     }
 	
-	
-	/* 소셜 로그인 - 박지윤 */
+	/**
+	 * 소셜 로그인 - 박지윤
+	 * 
+	 * @param providerTypeCode
+	 * @param custId
+	 * @param custNm
+	 * @param custEmail
+	 * @return
+	 */
 	@Transactional
 	public CustBas whenSocialLogin(String providerTypeCode, String custId, String custNm, String custEmail) {
 		Optional<CustBas> opCustBas = findByCustId(custId);
@@ -322,7 +343,12 @@ public class CustService {
 	    return save(request);
 	}
 	
-	// 로그인
+	/**
+	 * 로그인 - 박지윤
+	 * 
+	 * @param custId
+	 * @return
+	 */
 	public Optional<CustBas> findByCustId(String custId) {
 		return custRepository.findByCustId(custId);
 	}
@@ -375,17 +401,19 @@ public class CustService {
 	public String IdfyNoVrfct(String inCustIdFyNo) {
 		
 		List<CustBas> outList = custRepository.findAll();
-		String idfyChk = "Y";	// 일치하는 주민번호 유무 체크 ==>  N: 일치하는 주민번호 o / Y: 일치하는 주민번호 x
+		String idfyChk = "Y";	// 기존 회원과 일치하는 주민번호가 있는지 체크 ==>  N: 일치하는 주민번호 o / Y: 일치하는 주민번호 x
 		
     	String[] custIdfyNoArr = inCustIdFyNo.split(",");
 		
-    	if (custIdfyNoArr.length >= 2) 
+    	// 입력받은 주민번호 배열의 길이가 1이상 일 때 
+    	if (custIdfyNoArr.length > 1) 
     	{
     		// 주민번호 '-' 삽입
     		String custIdFyNo = custIdfyNoArr[0] + "-" + custIdfyNoArr[1];
     		
     		for(int i = 0 ; i < outList.size(); i ++) 
     		{
+    			// 기존 고객 중에 같은 주민번호가 존재 할 때
     			if(outList.get(i).getCustIdfyNo().equals(custIdFyNo)) 
     			{
     				idfyChk = "N";

@@ -40,7 +40,10 @@ public class OrderService {
 
 	private final CustRepository custRepository;
 	
-	// 임시 저장된 주문 정보를 바탕으로 상품 모델 ID를 설정
+	/**
+	 * 임시 저장된 주문 정보를 바탕으로 상품 모델 ID를 설정 - 박지윤
+	 * 
+	 */
 	public void setIntmProduct() {
 		
 		String intmKorNm = temporarySaveDTO.getOrderTmp().get(0);
@@ -88,7 +91,12 @@ public class OrderService {
 		temporarySaveDTO.setTmpIntmModelId(intmModelId);
 	}
 	
-	// 사용자 주소 업데이트
+	/**
+	 * 사용자 주소 업데이트 - 박지윤
+	 * 
+	 * @param address
+	 * @param principal
+	 */
 	public void updateCustAddress(String address, Principal principal) {
 		
 		// 현재 사용자의 아이디
@@ -109,7 +117,12 @@ public class OrderService {
 		}
 	}
 	
-	// 주문 저장
+	/**
+	 * 주문 저장처리 - 박지윤
+	 * 
+	 * @param userId
+	 * @param ordersDTO
+	 */
 	public void ordersSave(String userId, OrdersDTO ordersDTO) {
 		
 		logger.debug("주문 save 확인 :: " + userId);

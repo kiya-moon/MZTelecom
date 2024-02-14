@@ -42,6 +42,7 @@ public class AttachmentService {
 	/**
 	 * 첨부파일 저장	- 김시우
 	 * 
+	 * 
 	 * @param purRevAttachmentDTO
 	 * @return
 	 */
@@ -70,6 +71,7 @@ public class AttachmentService {
 					
 					PurRevAttachment inPurRevAttachment = purRevAttachmentDTO.toEntity();
 					
+					// 첨부파일 저장 후 list에 담기.
 					outPurRevAttachment.add(purRevAttachmentRepository.save(inPurRevAttachment));
 					logger.debug("AttachmentId ::: " + StringUtil.toString(outPurRevAttachment.get(i)));
 					

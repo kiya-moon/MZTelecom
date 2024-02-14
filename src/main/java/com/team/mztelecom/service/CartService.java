@@ -40,7 +40,13 @@ public class CartService {
 
 	private final CartItemRepository cartItemRepository;
 	
-	// 장바구니에 상품 담기
+	/**
+	 * 장바구니에 상품 담기 - 박지윤
+	 * 
+	 * @param cartItemDTO
+	 * @param custId
+	 * @return
+	 */
 	public Long addCart(CartItemDTO cartItemDTO, String custId){
 		
 		// 장바구니에 담을 상품 조회
@@ -94,8 +100,12 @@ public class CartService {
         }
     }
 
-	
-	// 장바구니 조회
+	/**
+	 * 장바구니 조회 - 박지윤
+	 * 
+	 * @param custId
+	 * @return
+	 */
 	@Transactional
     public List<IntmBasDTO> getCart(String custId) {
     	
@@ -137,7 +147,12 @@ public class CartService {
         
     }
     
-    // 상품
+	/**
+	 * 상품 convert - 박지윤
+	 * 
+	 * @param intmBas
+	 * @return
+	 */
     private IntmBasDTO convertIntmBasDTO(IntmBas intmBas) {
     	
     	List<IntmImgDTO> intmImgDTOList = intmBas.getIntmImgs().stream()
@@ -159,7 +174,12 @@ public class CartService {
     	
     }
     
-    // 이미지
+    /**
+     * 이미지 convert - 박지윤
+     * 
+     * @param intmImg
+     * @return
+     */
     private IntmImgDTO convertIntmImgDTO(IntmImg intmImg) {
         return IntmImgDTO.builder()
                 .id(intmImg.getId())
@@ -169,8 +189,11 @@ public class CartService {
                 .build();
     }
     
-    
-    // 장바구니에 담긴 상품 삭제
+    /**
+     * 장바구니에 담긴 상품 삭제 - 박지윤
+     * 
+     * @param cartItemId
+     */
     @Transactional
     public void deleteCartItem(Long cartItemId) {
     	

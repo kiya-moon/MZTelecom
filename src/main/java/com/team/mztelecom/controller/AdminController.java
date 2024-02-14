@@ -67,8 +67,19 @@ public class AdminController {
 		return "redirect:/admin?tab=qna";
 	}
 	
-	
-	// 상품 등록
+	/**
+	 * 상품 등록 - 박지윤
+	 * 
+	 * @param addName
+	 * @param addKor
+	 * @param addCapacity
+	 * @param addPrice
+	 * @param addColor
+	 * @param addImage
+	 * @param addImageDetail
+	 * @param model
+	 * @return
+	 */
 	@PostMapping(value = "/productAdd")
 	public String productAdd(@RequestParam("add-name") String addName, @RequestParam("add-kor") String addKor,
 			@RequestParam("add-capacity") String addCapacity, @RequestParam("add-price") String addPrice,
@@ -145,7 +156,19 @@ public class AdminController {
 		return "redirect:/admin?tab=product";
 	}
 	
-	// 상품 수정
+	/**
+	 * 상품 수정 - 박지윤
+	 * 
+	 * @param productId
+	 * @param productName
+	 * @param productKorName
+	 * @param productCapacity
+	 * @param productPrice
+	 * @param productColor
+	 * @param productImage
+	 * @param productImageDetail
+	 * @return
+	 */
 	@PostMapping("/update/{id}")
     public ResponseEntity<String> productUpdate(@RequestParam("id") Long productId,
             @RequestParam("productName") String productName,
@@ -166,7 +189,12 @@ public class AdminController {
 	    }
 	}
 	
-	// 상품 다중 삭제
+	/**
+	 * 상품 다중 삭제 시 - 박지윤
+	 * 
+	 * @param requestBody
+	 * @return
+	 */
 	@DeleteMapping(value = "/delete-multiple")
 	public ResponseEntity<String> deleteMultipleProducts(@RequestBody Map<String, List<Long>> requestBody) {
 	    List<Long> ids = requestBody.get("ids");
@@ -179,7 +207,14 @@ public class AdminController {
 	    return ResponseEntity.ok("Selected products deleted successfully");
 	}
 
-	// 상품 이미지 경로
+	/**
+	 * 상품 메인 이미지 경로 - 박지윤
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 */
 	@GetMapping("/intmimg/{id}")
 	@ResponseBody
 	public Resource img(@PathVariable Long id, Model model) throws IOException {
@@ -191,7 +226,14 @@ public class AdminController {
 		return new UrlResource("file:" + intmImgs.get().getImgPath());
 	}
 	
-	// 상품 상세 이미지 경로
+	/**
+	 * 상품 상세 이미지 경로 - 박지윤
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws IOException
+	 */
 	@GetMapping("/intmDetailimg/{id}")
 	@ResponseBody
 	public Resource imgDetail(@PathVariable Long id, Model model) throws IOException {
@@ -222,7 +264,7 @@ public class AdminController {
     }
 
 	/**	
-	 * 주문현황 업데이트 - 문기
+	 * 주문현황 업데이트 - 문기연
 	 * @param id
 	 * @param status
 	 * @return

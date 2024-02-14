@@ -115,13 +115,15 @@ public class PurRevBoardService{
 		inCustBas = custService.getId(inPurRevBoardDTO.getWriter());
 		
 		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getIntmNm());
-		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getBoardTitle());
-		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getBoardDetail());
+		logger.debug("getBoardTitle ::::" + inPurRevBoardDTO.getBoardTitle());
+		logger.debug("getBoardDetail ::::" + inPurRevBoardDTO.getBoardDetail());
 		
 		// 첨부파일 저장 및 조회
 		List<PurRevAttachment> outPurRevAttachment = attachmentService.saveAttachment(inPurRevBoardDTO.getPurRevAttachmentDTO());
 		
-		if (!Utiles.isNullOrEmpty(outPurRevAttachment)) {
+		// outPurRevAttachment가 존재 하면
+		if (!Utiles.isNullOrEmpty(outPurRevAttachment)) 
+		{
 		    inpurRevBoard = PurRevBoard.builder()
 		            .intmNm(inPurRevBoardDTO.getIntmNm())
 		            .boardTitle(inPurRevBoardDTO.getBoardTitle())
@@ -131,13 +133,15 @@ public class PurRevBoardService{
 		            .custBas(inCustBas.get(0))
 		            .build();
 
-		    for (PurRevAttachment attachment : outPurRevAttachment) {
+		    for (PurRevAttachment attachment : outPurRevAttachment) 
+		    {
 		        inpurRevBoard.addPurRevAttachment(attachment);
 		    }
 
 		    logger.debug("inpurRevBoard ::::" + StringUtil.toString(inpurRevBoard));
 		    purRevBoardRepository.save(inpurRevBoard);
 		}    
+		// outPurRevAttachment가 존재 하지 않으면
 		else 
 		{
 			inpurRevBoard = PurRevBoard.builder()
@@ -170,17 +174,20 @@ public class PurRevBoardService{
 		
 		PurRevBoard inBoard = inBoardDTO.toEntity();
 		
-		Optional<PurRevBoard> outPurRevBoard = purRevBoardRepository.findById(inBoard.getId());
-		
 		PurRevAttachmentDTO purRevAttachmentDTO = new PurRevAttachmentDTO();
-		List<PurRevAttachmentDTO> inPurRevAttachmentDTO = new ArrayList<PurRevAttachmentDTO>();
+		List<PurRevAttachmentDTO> inPurRevAttachmentDTO = new ArrayList<>();
+		List<CustBasDTO> inCustBasDTOList = new ArrayList<>();
+		
+		// 게시물 id값으로 조회
+		Optional<PurRevBoard> outPurRevBoard = purRevBoardRepository.findById(inBoard.getId());
 		
 		CustBasDTO inCustDTO = CustBasDTO.builder()
 				.custId(outPurRevBoard.get().getCustBas().getCustId())
 				.build();
-		List<CustBasDTO> inCustBasDTOList = new ArrayList<>();
+		
 		inCustBasDTOList.add(inCustDTO);
 		
+		// 첨부파일이 존재 할 경우
 		if(!Utiles.isNullOrEmpty(outPurRevBoard.get().getPurRevAttachments())) 
 		{
 			for(int i = 0; i < outPurRevBoard.get().getPurRevAttachments().size(); i++) 
@@ -253,9 +260,10 @@ public class PurRevBoardService{
         // DB에 저장되어있는 파일 불러오기 
         List<PurRevAttachmentDTO> dbAttachmentList = attachmentService.getAttachment(id);
         
-        for(int i = 0; i < dbAttachmentList.size(); i++) {
+        // 첨부파일 확인용 logger
+        for(int i = 0; i < dbAttachmentList.size(); i++) 
+        {
         	logger.debug("dbAttachmentList :: " + StringUtil.toString(dbAttachmentList.get(i)));
-        	
         }
         
 		// 파일 저장 형식으로 변환
@@ -327,14 +335,13 @@ public class PurRevBoardService{
 				.build();
 		
 		PurRevBoard inPurRevBoard = outPurRevBoardDTO.toEntity();
+		
 		for (PurRevAttachment inAttachment : addAtcmList) 
 		{
 			inPurRevBoard.addPurRevAttachment(inAttachment);
 		}
 		
 		logger.debug("inPurRevBoard ::: " + StringUtil.toString(inPurRevBoard));
-		
-		
 		
 		PurRevBoard outPurRevBoard = purRevBoardRepository.findById(inPurRevBoard.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
 		logger.debug("inPurRevBoard::  " + StringUtil.toString(inPurRevBoard));

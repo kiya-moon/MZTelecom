@@ -32,10 +32,9 @@ public class PaymentController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 
-	private final OrderService orderService;
-	
 	private IamportClient iamportClient;
-	
+
+	private final OrderService orderService;
 	
 	// 포트원 API 키와 시크릿 키 가져오기
 	@Value("${imp.api.key}")
@@ -50,7 +49,14 @@ public class PaymentController {
         this.iamportClient = new IamportClient(apiKey, secretKey);
     }
     
-    // 결제하기
+    /**
+     * 결제하기 - 박지윤
+     * 
+     * @param ordersDTO
+     * @param principal
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/order/payment")
     public ResponseEntity<String> paymentComplete(@RequestBody OrdersDTO ordersDTO, Principal principal) throws IOException {
     	
@@ -79,7 +85,16 @@ public class PaymentController {
         }
     }
     
-    // 포트원 결제 정보 검증
+    /**
+     * 포트원 결제 정보 검증 - 박지윤
+     * 
+     * @param imp_uid
+     * @param requestBody
+     * @param principal
+     * @return
+     * @throws IamportResponseException
+     * @throws IOException
+     */
     @ResponseBody
     @PostMapping("/validation/{imp_uid}")
     public IamportResponse<Payment> validateIamport(@PathVariable String imp_uid, @RequestBody Map<String, Object> requestBody, Principal principal) throws IamportResponseException, IOException {

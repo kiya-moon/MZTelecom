@@ -66,6 +66,13 @@ public class HomeController {
 	
 	private final SysCdBasService sysCdBasService;
 	
+	/**
+	 * 메인 페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/")
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -74,28 +81,62 @@ public class HomeController {
 		return "content/home";
 	}
 
+	/**
+	 * 로그인 페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/login")
 	public String login(Locale locale, Model model) {
 		return "content/login";
 	}
 
+	/**
+	 * 회원가입 페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/signup")
 	public String signup(Locale locale, Model model) {
 		return "content/signup";
 	}
 
+	/**
+	 * 아이디 비밀번호 찾기 페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/find")
 	public String find(Locale locale, Model model) {
-
 		logger.debug("아이디 비밀번호 찾기 진입");
 		return "content/findIdOrPw";
 	}
 
+	/**
+	 * 모바일 요금제 페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/phoneplan")
 	public String phoneplan(Locale locale, Model model) {
 		return "content/phoneplan";
 	}
 	
+	/**
+	 * 고객지원 페이지
+	 * 
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/support")
 	public String support(Locale locale, Model model) {
 
@@ -108,9 +149,6 @@ public class HomeController {
 
 	/**
 	 * 마이페이지 - 김시우, 박지윤
-	 * 2024.01.26 : 찜한 상품 완(김시우)
-	 * 2024.01.28 : 회원 정보 완(김시우)
-	 * 2024.01.31 : 주문 내역 완(김시우)
 	 * 
 	 * @param locale
 	 * @param model
@@ -124,9 +162,10 @@ public class HomeController {
 		
 		String custId;
 		
+		// 로그인을 했을 시
 		if(!Utiles.isNullOrEmpty(principal))
 		{
-			custId = principal.getName();
+			custId = principal.getName();	// 현재 로그인 한 고객 아이디
 			CustBasDTO inCustBasDTO = CustBasDTO.builder()
 										.custId(custId)
 										.build();
@@ -136,7 +175,7 @@ public class HomeController {
 			
 			List<OrdersDTO> outOrdersDTO = orderService.getOrdersByCustBas(inCustBasDTO);
 			
-			// 요금 오픈 여부
+			// 요금제 오픈 여부
 			SysCdDTO sysCdDTO = SysCdDTO.builder()
 					.sys_cd_group_id("rate_plan_group")
 					.sys_cd_id("rate_plan_details_yn")
@@ -171,15 +210,24 @@ public class HomeController {
 			@PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam(name = "keyWord", required = false) String keyWord,
 			@RequestParam(name = "catgo", required = false) String catgo) {
+		
 		logger.debug("구매후기게시판 진입");
 
 		Page<PurRevBoardDTO> purRevBoardList;
-		if (Utiles.isNullOrEmpty(keyWord)) {
+		
+		// 검색 키워드가 없을 때
+		if (Utiles.isNullOrEmpty(keyWord)) 
+		{
 			logger.debug("기본 조회");
 			purRevBoardList = purRevBoardService.PurRevBoardList(pageable);
-		} else {
+			
+		} 
+		// 검색 키워드가 있을 때
+		else
+		{
 			logger.debug("검색 조회");
 			purRevBoardList = purRevBoardService.searchingPurRevBoard(keyWord, pageable, catgo);
+			
 			// 검색 조건도 뷰로 전달
 			model.addAttribute("keyWord", keyWord);
 			model.addAttribute("catgo", catgo);
@@ -205,7 +253,7 @@ public class HomeController {
 	}
 
 	/**
-	 * 구매후기 작성페이지
+	 * 구매후기 작성페이지 - 김시우
 	 * 
 	 * @param locale
 	 * @param model
@@ -216,12 +264,12 @@ public class HomeController {
 	public String purRevWrite(Locale locale, Model model, Principal principal) {
 
 		logger.debug("구매후기 글쓰기 진입");
-		logger.debug(principal.getName());
 
 		// 현재 로그인한 사용자의 이름
 		String custNm = custService.findName(principal.getName());
 		
-		List<IntmBasDTO> outIntmDTO= productService.getAllIntmList();
+		// 구매후기 작성시 카테고리 선택을 위한 상품 조회
+		List<IntmBasDTO> outIntmDTO = productService.getAllIntmList();
 
 		model.addAttribute("custNm", custNm);
 		model.addAttribute("intm", outIntmDTO);
@@ -251,11 +299,8 @@ public class HomeController {
 		// 작성된 게시물에 있는 첨부파일 조회
 		outPurRevAttachmentDTO = attachmentService.getAttachment(id);
 
-		for (int i = 0; i < outPurRevAttachmentDTO.size(); i++) {
-			logger.debug("outPurRevAttachmentDTO :: " + outPurRevAttachmentDTO.get(i).getFilePath());
-		}
-
 		String custId = purRevBoardDTO.getCustBasDTO().get(0).getCustId();
+		
 		/*
 		 * 현재 로그인한 사용자가 있을 경우 로그인 사용자를 넘겨주고 그렇지 않은 경우. 즉, null인 경우는 null로 할당
 		 */
@@ -270,6 +315,17 @@ public class HomeController {
 		return "content/purRevView";
 	}
 
+	
+	/**
+	 * 관리자 페이지
+	 * 
+	 * @param keyword
+	 * @param sortBy
+	 * @param page
+	 * @param size
+	 * @param model
+	 * @return
+	 */
 	@GetMapping(value = "/admin")
 	public String admin(@RequestParam(name = "keyword", required = false) String keyword,
 			@RequestParam(defaultValue = "createdAt") String sortBy,
@@ -281,6 +337,7 @@ public class HomeController {
 		// 회원 관리 - 문기연
 		Pageable pageable = PageRequest.of(page, size, Sort.by("custId"));
 		logger.debug("keyword :: " + keyword);
+		
 		Page<InquiryCustDTO> custInfoPage = adminService.getCustInfoPage(keyword, pageable);
 		logger.debug("custInfoPage :: " + custInfoPage);
 		
@@ -290,6 +347,7 @@ public class HomeController {
 		List<OrdersDTO> ordersList = adminService.getOrdersList();
 		
 		Pageable ordersPage = PageRequest.of(page, size, Sort.by("paymentDate"));
+		
 		Page<OrdersDTO> ordersPage2 = adminService.getOrdersPage(ordersPage);
 		
 		// 문의 내역 조회 - 김시우
@@ -300,12 +358,9 @@ public class HomeController {
 		model.addAttribute("custInfoPage", custInfoPage);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("custInfoList", custInfoList);
-		
 		model.addAttribute("ordersList", ordersList);
 		model.addAttribute("ordersPage", ordersPage2);
-		
 		model.addAttribute("outQnAList", outQnAList);	// 문의 내역
-		
 		model.addAttribute("product", productPage);
         model.addAttribute("totalPages", productPage.getTotalPages());
 	    model.addAttribute("currentPage", page);
