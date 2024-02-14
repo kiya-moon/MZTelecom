@@ -181,9 +181,11 @@ public class CustController {
 	 */
 	@GetMapping(value = "/checkEmailDuplicate")
 	public ResponseEntity<String> checkEmailDuplicate(@RequestParam("custEmail") String custEmail) {
-		logger.debug("이메일 중복 확인 컨트롤러 도착 :: " + custEmail);
+		logger.debug("이메일 중복확인 도착 :: custEmail - " + custEmail);
+		
 		boolean isEmailDuplicate = custService.isEmailDuplicate(custEmail);
-		logger.debug("isEmailduplicate :: " + isEmailDuplicate);
+		
+		// 중복여부 리턴
 		if (isEmailDuplicate) {
 			return ResponseEntity.badRequest().body("사용 중인 이메일 입니다.");
 		} else {
