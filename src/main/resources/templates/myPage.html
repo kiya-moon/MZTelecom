@@ -182,7 +182,7 @@
 								<li th:each="wishList : ${wishList}" class="product-item">
 									<a th:href="@{'/productDetail/' + ${wishList.id}}">
 										<div class="thumb">
-											<img th:src="@{'/' + ${wishList.intmImgs[0].ImgPath}}" th:alt="${wishList.IntmKorNm}">
+											<img th:src="|/intmimg/${wishList.id}|" th:alt="${wishList.IntmKorNm}">
 										</div>
 										<div class="cont">
 											<div class="title">
