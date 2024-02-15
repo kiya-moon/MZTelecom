@@ -234,6 +234,14 @@ public class AttachmentService {
         return fileList;
     }
     
+    /**
+     * 상품 이미지 세팅 - 박지윤
+     * 
+     * @param imgfiles
+     * @param imgDetailfiles
+     * @param addName
+     * @return
+     */
     public List<IntmImgDTO> addImages(MultipartFile imgfiles, MultipartFile imgDetailfiles, String addName) {
     	
         List<IntmImgDTO> imgesAdd = new ArrayList<>();
@@ -354,6 +362,11 @@ public class AttachmentService {
     	return imgesAdd;
     }
 	    
+    /**
+     * 저장 폴더에서 해당 파일을 삭제 - 박지윤
+     * 
+     * @param filePath
+     */
     public void deleteFile(String filePath) {
         try {
             // 주어진 파일 경로에 있는 파일을 삭제
