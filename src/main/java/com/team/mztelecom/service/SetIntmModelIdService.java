@@ -56,14 +56,80 @@ public class SetIntmModelIdService {
 				} else {
 					intmModelId = "K703042"; 	// 검정 , 512
 				}
-			} else {	// 그린
+			} else {	// 민트
 				if(cliCpcty.equals("128GB")) {
-					intmModelId = "K703041";	// 그린, 128 
+					intmModelId = "K703043";	// 민트, 128 
 				} else {
-					intmModelId = "K703042"; 	// 그린 , 512
+					intmModelId = "K703044"; 	// 민트 , 512
 				}
 			}
 		}
+		else if(intmKorNm.equals("갤럭시Z폴드5")) 
+		{
+			if(cliColor.equals("black")) {
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K703051";	// 검정, 128 
+				} else {
+					intmModelId = "K703052"; 	// 검정 , 512
+				}
+			} else {	// 민트
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K703053";	// 민트, 128 
+				} else {
+					intmModelId = "K703054"; 	// 민트 , 512
+				}
+			}
+		}
+		else if(intmKorNm.equals("아이폰15")) 
+		{
+			if(cliColor.equals("black")) {
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K704011";	// 검정, 128 
+				} else {
+					intmModelId = "K704012"; 	// 검정 , 512
+				}
+			} else {	// 민트
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K704013";	// 민트, 128 
+				} else {
+					intmModelId = "K704014"; 	// 민트 , 512
+				}
+			}
+		}
+		else if(intmKorNm.equals("아이폰15 프로 티타늄")) 
+		{
+			if(cliColor.equals("black")) {
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K704021";	// 검정, 128 
+				} else {
+					intmModelId = "K704022"; 	// 검정 , 512
+				}
+			} else {	// 민트
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K704023";	// 민트, 128 
+				} else {
+					intmModelId = "K704024"; 	// 민트 , 512
+				}
+			}
+		}
+		else if(intmKorNm.equals("아이폰15 프로 맥스 티타늄")) 
+		{
+			if(cliColor.equals("black")) {
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K704031";	// 검정, 128 
+				} else {
+					intmModelId = "K704032"; 	// 검정 , 512
+				}
+			} else {	// 민트
+				if(cliCpcty.equals("128GB")) {
+					intmModelId = "K704033";	// 민트, 128 
+				} else {
+					intmModelId = "K704034"; 	// 민트 , 512
+				}
+			}
+		}
+		
+		
 		logger.debug("intmModelId :: " + intmModelId);
 		temporarySaveDTO.setTmpIntmModelId(intmModelId);
 	}
