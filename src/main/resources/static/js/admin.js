@@ -106,7 +106,7 @@ function updateModal() {
             const fileInput = document.getElementById(`update-${field}`);
             
             // 이미지의 alt 값을 가져오도록 수정
-            const altValue = document.getElementById(`image${field === 'image' ? '' : '-detail'}`).getAttribute("alt");
+            const altValue = selectedRow.querySelector(`#${field === 'image' ? 'image' : 'image-detail'}`).getAttribute("alt");
 
             const uploadNameClass = `upload-name${field === 'image' ? '1' : '2'}`;
             document.querySelector(`.${uploadNameClass}`).value = altValue;

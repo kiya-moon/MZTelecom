@@ -27,12 +27,11 @@ public class InquiryCustDTO {
 	String custSex;
 	String custAddress;
 	String custEmail;
-	String intmPurStusYn;
 	LocalDateTime createDate;
 	
 	@Builder
 	public InquiryCustDTO(Long id, String custId, String custNm,String custBirth, String custNo, String custSex, 
-			String custAddress, String custEmail, String intmPurStusYn, LocalDateTime createDate) {
+			String custAddress, String custEmail, LocalDateTime createDate) {
 		this.id = id;
 		this.custId = custId;
 		this.custNm = custNm;
@@ -41,12 +40,11 @@ public class InquiryCustDTO {
 		this.custSex = custSex;
 		this.custAddress = custAddress;
 		this.custEmail = custEmail;
-		this.intmPurStusYn = intmPurStusYn;
 		this.createDate = createDate;
 	}
 
 	public CustBas toEntity() {
 		return CustBas.builder().id(id).custId(custId).custNm(custNm).custBirth(custBirth).custNo(custNo).custSex(custSex)
-				.custAddress(custAddress).custEmail(custEmail).intmPurStusYn(intmPurStusYn).createDate(createDate).build();
+				.custAddress(custAddress).custEmail(custEmail).createDate(createDate).build();
 	}
 }

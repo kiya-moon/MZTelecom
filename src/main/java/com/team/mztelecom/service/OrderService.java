@@ -96,7 +96,6 @@ public class OrderService {
 		    .custSex(outCustBas.get(0).getCustSex())
 		    .custAddress(outCustBas.get(0).getCustAddress())
 		    .custEmail(outCustBas.get(0).getCustEmail())
-		    .intmPurStusYn(outCustBas.get(0).getIntmPurStusYn())
 		    .build();
 		
 		// 임시 저장된 상품 모델 ID로 상품 조회

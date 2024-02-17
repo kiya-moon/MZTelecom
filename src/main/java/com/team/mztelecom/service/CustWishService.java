@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team.mztelecom.domain.CustBas;
@@ -14,12 +13,8 @@ import com.team.mztelecom.domain.IntmBas;
 import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.repository.CustWishRepository;
-import com.team.mztelecom.repository.ImgRepository;
-import com.team.mztelecom.repository.OrderRepository;
-import com.team.mztelecom.repository.AdminRepository;
 import com.team.mztelecom.repository.CustRepository;
 import com.team.mztelecom.repository.ProductRepository;
-import com.team.mztelecom.repository.QnARepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -66,7 +61,6 @@ public class CustWishService {
 				.custSex(outCustBas.get(0).getCustSex())
 				.custAddress(outCustBas.get(0).getCustAddress())
 				.custEmail(outCustBas.get(0).getCustEmail())
-				.intmPurStusYn(outCustBas.get(0).getIntmPurStusYn())
 				.build();
 		
 		// 상품데이터 조회

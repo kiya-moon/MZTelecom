@@ -71,7 +71,7 @@ public class AdminService {
 
 			InquiryCustDTO result = new InquiryCustDTO(custBas.getId(), custBas.getCustId(), custBas.getCustNm(),
 					custBas.getCustBirth(), custBas.getCustNo(), custBas.getCustSex(),
-					custBas.getCustAddress(), custBas.getCustEmail(), custBas.getIntmPurStusYn(),
+					custBas.getCustAddress(), custBas.getCustEmail(),
 					custBas.getCreateDate());
 
 			inquiryCustDTO.add(result);
@@ -111,7 +111,7 @@ public class AdminService {
 	private InquiryCustDTO mapToDTO(CustBas custBas) {
 		return InquiryCustDTO.builder().id(custBas.getId()).custId(custBas.getCustId()).custNm(custBas.getCustNm()).custBirth(custBas.getCustBirth())
 				.custNo(custBas.getCustNo()).custSex(custBas.getCustSex()).custAddress(custBas.getCustAddress())
-				.custEmail(custBas.getCustEmail()).intmPurStusYn(custBas.getIntmPurStusYn()).createDate(custBas.getCreateDate()).build();
+				.custEmail(custBas.getCustEmail()).createDate(custBas.getCreateDate()).build();
 	}
 
 	/**

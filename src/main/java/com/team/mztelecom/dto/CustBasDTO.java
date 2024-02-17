@@ -34,13 +34,11 @@ public class CustBasDTO {
 	String custAddress;				// 고객주소 : 회원가입 시에는 들어오지 않음
 	String custEmail;				// 고객이메일
 	String emailDomain;				// 이메일도메인
-	String intmPurStusYn;			// 기기구매여부
 	LocalDateTime createDate;	// 가입
 
 	@Builder
 	public CustBasDTO(Long id, String custId, String custNm, String custPassword, String custPasswordCheck, String custIdfyNo, 
-			String custBirth, String custNo, String custSex, String custAddress, String custEmail, String emailDomain, 
-			String intmPurStusYn, LocalDateTime createDate ) {
+			String custBirth, String custNo, String custSex, String custAddress, String custEmail, String emailDomain, LocalDateTime createDate ) {
 
 		this.id = id;
 		this.custId = custId;
@@ -54,7 +52,6 @@ public class CustBasDTO {
 		this.custAddress = custAddress;
 		this.custEmail = custEmail;
 		this.emailDomain = emailDomain;
-		this.intmPurStusYn = intmPurStusYn;
 		this.createDate = createDate;
 	}
 	
@@ -71,7 +68,6 @@ public class CustBasDTO {
 				.custSex(custSex)
 				.custAddress(custAddress)
 				.custEmail(custEmail)
-				.intmPurStusYn(intmPurStusYn)
 				.createDate(createDate)
 				.build();
 	}

@@ -251,36 +251,39 @@ public class CustService {
 		// 회원가입 페이지에서 custIdfyNo가 '123456, 1234567' 형태로 들어오므로 split 처리하여 배열 처리 
     	String[] custIdfyNoArr = request.getCustIdfyNo().split(",");
     	
-		// 주민번호 '-' 삽입
-	    request.setCustIdfyNo(custIdfyNoArr[0] + "-" + custIdfyNoArr[1]);
-	    
-	    // 성별 추출
-	    String sex = request.getCustIdfyNo().substring(7, 8);
-	    if (sex.equals("1") || sex.equals("3")) {
-	    	request.setCustSex("남성");
-	    } else if (sex.equals("2") || sex.equals("4")) {
-	    	request.setCustSex("여성");
-	    }
-
-	    // 생년월일 추출
-	    String birthDay = request.getCustIdfyNo().substring(0,6);
-	    if (sex.equals("1") || sex.equals("2")) {
-	    	birthDay = "19" + birthDay;
-	    	logger.debug("19xx : " + birthDay);
-	    } else if (sex.equals("3") || sex.equals("4")) {
-	    	birthDay = "20" + birthDay;
-	    	logger.debug("20xx : " + birthDay);
-	    }
-	    request.setCustBirth(birthDay);
-    	    
-    	
-	    // 핸드폰번호 '-' 삽입
-	    String[] custNoArr = request.getCustNo().split(",");
-	    request.setCustNo(custNoArr[0] + "-" + custNoArr[1] + "-" + custNoArr[2]);
-	    
-	    // 이메일 '@' 삽입
-	    String email = request.getCustEmail() + '@'+ request.getEmailDomain();
-	    request.setCustEmail(email);
+    	// 소셜 가입을 위한 조건문
+    	if (custIdfyNoArr.length == 2) {
+			// 주민번호 '-' 삽입
+		    request.setCustIdfyNo(custIdfyNoArr[0] + "-" + custIdfyNoArr[1]);
+		    
+		    // 성별 추출
+		    String sex = request.getCustIdfyNo().substring(7, 8);
+		    if (sex.equals("1") || sex.equals("3")) {
+		    	request.setCustSex("남성");
+		    } else if (sex.equals("2") || sex.equals("4")) {
+		    	request.setCustSex("여성");
+		    }
+	
+		    // 생년월일 추출
+		    String birthDay = request.getCustIdfyNo().substring(0,6);
+		    if (sex.equals("1") || sex.equals("2")) {
+		    	birthDay = "19" + birthDay;
+		    	logger.debug("19xx : " + birthDay);
+		    } else if (sex.equals("3") || sex.equals("4")) {
+		    	birthDay = "20" + birthDay;
+		    	logger.debug("20xx : " + birthDay);
+		    }
+		    request.setCustBirth(birthDay);
+	    	    
+	    	
+		    // 핸드폰번호 '-' 삽입
+		    String[] custNoArr = request.getCustNo().split(",");
+		    request.setCustNo(custNoArr[0] + "-" + custNoArr[1] + "-" + custNoArr[2]);
+		    
+		    // 이메일 '@' 삽입
+		    String email = request.getCustEmail() + '@'+ request.getEmailDomain();
+		    request.setCustEmail(email);
+    	}
     	
 		CustBasDTO custBasDTO = CustBasDTO.builder()
                 .custId(request.getCustId())

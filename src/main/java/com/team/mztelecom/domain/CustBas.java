@@ -63,8 +63,6 @@ public class CustBas implements UserDetails {
 	@Column(unique = true)
 	private String custEmail;				// 고객이메일
 	
-	private String intmPurStusYn;			// 기기구매여부
-	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "custBas")
 	private List<CustWish> CustWish;
 	
@@ -80,7 +78,7 @@ public class CustBas implements UserDetails {
 	// DTO <-> Entity
 	@Builder
 	public CustBas(Long id, String custId, String custNm, String custPassword, String custIdfyNo, String custNo, String custEmail, 
-			String custBirth, String custAddress, String custSex, String intmPurStusYn, LocalDateTime createDate) {
+			String custBirth, String custAddress, String custSex, LocalDateTime createDate) {
 		this.id = id;
 		this.custId = custId;
 		this.custNm = custNm;
@@ -91,7 +89,6 @@ public class CustBas implements UserDetails {
 		this.custBirth = custBirth;
 		this.custAddress = custAddress;
 		this.custSex = custSex;
-		this.intmPurStusYn = intmPurStusYn;
 		this.createDate = createDate;
 	}
 	
