@@ -32,7 +32,7 @@ public class MypageController {
 		
 		mypageService.updateCustInfo(inCustBasDTO);
 		
-		return "/myPage?tab=editMemberInformation";
+		return "redirect:/myPage?tab=editMemberInformation";
 		
 	}
 	

@@ -25,7 +25,7 @@ public class PurRevBoard {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@NotNull
 	private String intmNm;				// 상품명
@@ -50,7 +50,7 @@ public class PurRevBoard {
 	private CustBas custBas;			// 작성자
 
 	@Builder
-	public PurRevBoard(long id, String intmNm, String boardTitle, String boardDate,
+	public PurRevBoard(Long id, String intmNm, String boardTitle, String boardDate,
 		 String boardDetail, String writer, PurRevAttachment purRevAttachment, CustBas custBas) {
 		
 		this.id = id;

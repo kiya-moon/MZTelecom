@@ -5,8 +5,10 @@ import com.team.mztelecom.domain.Cart;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class CartDTO {
 	Long 	id;

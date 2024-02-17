@@ -80,10 +80,11 @@ public class CartService {
         CartItem savedCartItem = cartItemRepository.findByCartIdAndIntmBasId(cart.getId(), item.getId());
         
         if(!Utiles.isNullOrEmpty(savedCartItem)){
-        	// 기존 수량에 현재 수량 더하기
-            savedCartItem.addCount(cartItemDTO.getCount());
+        	logger.debug("savedCartItem if 확인");
+            Long errorCode = 100L;
             
-            throw new IllegalArgumentException("이미 있는 상품입니다");
+            return errorCode;
+            
         } else {
         	
         	logger.debug("확인");

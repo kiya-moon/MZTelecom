@@ -7,6 +7,8 @@
 	<section class="common">
 		<article>
 			<div class="cart-container">
+				<input type="hidden" id="err-msg" th:value="${errorMessage}">
+				
 				<h1>장바구니</h1>
 				
 				<div th:if="${not #lists.isEmpty(cartItems)}" class="product-item-list">
@@ -17,7 +19,7 @@
 								</div>
 							<a th:href="@{'/productDetail/' + ${item.id}}">
 								<div class="thumb">
-									<img th:src="@{'/' + ${item.intmImgs[0].ImgPath}}" th:alt="${item.IntmKorNm}">
+									<img th:src="|/intmimg/${item.id}|" th:alt="${item.IntmKorNm}">
 								</div>
 								<div class="cont">
 									<div class="title">

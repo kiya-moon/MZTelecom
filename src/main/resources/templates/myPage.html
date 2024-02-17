@@ -16,8 +16,6 @@
 					<a th:href="@{/myPage?tab=orderDetail}" id="menu3"
 						th:class="${#strings.equals(param.tab, 'orderDetail') ? 'activeTab' : ''}">주문내역</a>
 					<!-- 주문내역 > 배송조회 -->
-					<a th:href="@{/myPage?tab=cart}" id="menu4"
-						th:class="${#strings.equals(param.tab, 'cart') ? 'activeTab' : ''}">장바구니</a>
 					<a th:href="@{/myPage?tab=wishlist}" id="menu5"
 						th:class="${#strings.equals(param.tab, 'wishlist') ? 'activeTab' : ''}">찜한상품</a>
 					<hr>
@@ -166,11 +164,6 @@
 								</tbody>
 							</table>
 						</div>
-					</div>
-					
-					<!-- 장바구니 탭 -->
-					<div class="content_4" id="content_4" th:if="${#strings.equals(param.tab, 'cart')}">
-						<h1>장바구니</h1>
 					</div>
 					
 					<!-- 찜한 상품 탭 -->

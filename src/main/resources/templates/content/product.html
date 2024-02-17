@@ -11,8 +11,8 @@
 					<div>
 						<ul class="category-list">
 							<li><a th:href="@{/product?sortBy=createdAt}" th:class="${sortBy == 'createdAt' ? 'active' : ''}">최신순</a></li>
-        					<li><a th:href="@{/product?sortBy=intmPriceDesc}" th:class="${sortBy == 'intmPriceDesc' ? 'active' : ''}">낮은가격순</a></li>
-        					<li><a th:href="@{/product?sortBy=intmPrice}" th:class="${sortBy == 'intmPrice' ? 'active' : ''}">높은가격순</a></li>
+        					<li><a th:href="@{/product?sortBy=intmPrice}" th:class="${sortBy == 'intmPrice' ? 'active' : ''}">낮은가격순</a></li>
+        					<li><a th:href="@{/product?sortBy=intmPriceDesc}" th:class="${sortBy == 'intmPriceDesc' ? 'active' : ''}">높은가격순</a></li>
 						</ul>
 					</div>
 				</div>

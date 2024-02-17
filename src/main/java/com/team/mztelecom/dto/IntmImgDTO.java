@@ -5,8 +5,10 @@ import com.team.mztelecom.domain.IntmImg;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class IntmImgDTO {
 	Long	id;

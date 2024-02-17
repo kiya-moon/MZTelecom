@@ -71,14 +71,18 @@ radios.forEach(function(radio, index) {
 	});
 });
 
+var errMsg = document.getElementById('err-msg').value;
 
 /* 장바구니 */
 function addCart(id) {
 	const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
 	const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-
+	
+	
 	const formData = new FormData();
 	formData.append('id', id);
+	
+	console.log(id);
 
 	fetch("/cart/add", {
 		method: "POST",
@@ -88,22 +92,24 @@ function addCart(id) {
 		body: formData
 	})
 		.then(response => {
-			if (!response.ok) {
-				throw new Error(response.status); // HTTP 상태 코드를 에러로 사용
-			}
-			return response.json();
-		})
-		.then(result => {
-			alert("상품을 장바구니에 담았습니다.");
+		    if (!response.ok) {
+		        if (response.status === 401) { // Unauthorized 응답일 때
+		            alert("로그인 후 이용해주세요");
+		            location.href = '/login';
+		        } else if (response.status === 400) { // Bad Request 응답일 때
+		            response.text().then(errorMessage => {
+		                alert(errorMessage); // 서버에서 반환된 오류 메시지 표시
+		            });
+		        } else {
+		            console.error("서버 오류 상세 정보:", response.status);
+		            alert("오류가 발생했습니다: 서버에서 " + response.status + " 응답이 왔습니다.");
+		        }
+		        throw new Error(response.status); // 에러 throw
+		    }
+		    return response.json(); // 정상 응답의 경우 JSON 데이터를 읽어옴
 		})
 		.catch(error => {
-			if (error.message === "401") { // HTTP 상태 코드 확인
-				alert("로그인 후 이용해주세요");
-				location.href = '/login';
-			} else {
-				console.error("서버 오류 상세 정보:", error);
-				alert("오류가 발생했습니다: 서버에서 Unauthorized 응답이 왔습니다.");
-			}
+		    console.error("클라이언트 오류 상세 정보:", error);
 		});
 }
 

@@ -7,8 +7,10 @@ import com.team.mztelecom.domain.PurRevBoard;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class PurRevBoardDTO {
 	
@@ -27,7 +29,7 @@ public class PurRevBoardDTO {
 	List<CustBasDTO> custBasDTO;
 	
 	public PurRevBoard toEntity() {
-		PurRevBoard build = PurRevBoard.builder()
+		return PurRevBoard.builder()
 				.id(id)
 				.intmNm(intmNm)
 				.boardTitle(boardTitle)
@@ -35,7 +37,6 @@ public class PurRevBoardDTO {
 				.boardDetail(boardDetail)
 				.writer(writer)
 				.build();
-				return build;
 	}
 	
 	@Builder

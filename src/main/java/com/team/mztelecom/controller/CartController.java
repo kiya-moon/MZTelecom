@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 
 import com.team.mztelecom.dto.CartItemDTO;
@@ -40,7 +41,7 @@ public class CartController {
 	 * @return
 	 */
 	@PostMapping(value = "/cart/add")
-    public @ResponseBody ResponseEntity cart(@ModelAttribute CartItemDTO cartItemDTO, Principal principal){
+    public @ResponseBody ResponseEntity cart(@ModelAttribute CartItemDTO cartItemDTO, Principal principal, RedirectAttributes redirectAttributes){
 		
 		logger.debug("장바구니 시작");
 		
@@ -58,6 +59,15 @@ public class CartController {
         
         try {
         	cartItemId = cartService.addCart(cartItemDTO, custId);
+        	
+        	logger.debug("cartItemId 확인 ::: " + cartItemId);
+        	
+        	if(cartItemId.equals(100L)) {
+        		logger.debug("cartItemId equals 확인 ::: ");
+        		redirectAttributes.addFlashAttribute("errorMessage", "이미 담겨진 상품입니다.");
+        		
+        		return new ResponseEntity<>("이미 담겨진 상품입니다.", HttpStatus.BAD_REQUEST);
+        	}
         	logger.debug("장바구니 담기 성공");
             
         } catch(Exception e){

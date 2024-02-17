@@ -1,12 +1,12 @@
 package com.team.mztelecom.dto;
 
 import java.time.LocalDateTime;
-
 import com.team.mztelecom.domain.CustBas;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 
@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
  */
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class InquiryCustDTO {
 	Long id;
