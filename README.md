@@ -1,9 +1,6 @@
 # 📱휴대폰 판매 사이트 "MZT"
 
-![리드미 메인 이미지](/imges/readme_main.jpg)
-
-<img src="/imges/readme_main.jpg"  width="700">
-
+<img src="/imges/readme_main.jpg" width="700"/>
 
 > 배포 URL : http://13.209.19.247:8081/ <br>
 > admin ID : admin <br>
@@ -53,7 +50,7 @@
   <tr>
     <td align="center" width="180px">
       <a href="https://github.com/Si-Woo91" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/101760091?v=4" alt="김시우우 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/101760091?v=4" alt="김시우 프로필" />
       </a>
     </td>
     <td align="center" width="180px">
