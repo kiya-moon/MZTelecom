@@ -1,6 +1,6 @@
 # 📱휴대폰 판매 사이트 "MZT"
 
-![Alt text](file:///C:/Users/82104/MZTelecom/readme_main.jpg)
+![리드미 메인 이미지](/imges/readme_main.jpg)
 
 > 배포 URL : http://13.209.19.247:8081/ <br>
 > admin ID : admin <br>
