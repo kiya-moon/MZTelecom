@@ -1,16 +1,29 @@
+# 📱휴대폰 판매 사이트 "MZT"
+
+![Alt text](file:///C:/Users/82104/MZTelecom/readme_main.jpg)
+
+> 배포 URL : http://13.209.19.247:8081/ <br>
+> admin ID : admin <br>
+> admin PW : !admin12
+
+- header에 있는 사람 아이콘 클릭! <br>
+→ user : 마이페이지 <br>
+→ admin : 관리자 페이지
+
+<br>
+
 # 📚 목차
 
 1. [프로젝트 소개](#프로젝트-소개)
 2. [제작기간 및 참여인원](#제작기간-및-참여인원)
+3. [ERD](#erd)
+4. [화면 구성 & 기능](#화면-구성-&-기능)
+5. [트러블 슈팅](#트러블-슈팅)
+6. [프로젝트 후기](#프로젝트-후기)
 
+<br>
 
-# 📱핸드폰 판매 사이트 "MZT"
-
-- 배포 URL : http://13.209.19.247:8081/ 
-- admin ID : admin
-- admin PW : !admin12
-
-# 📖프로젝트 소개
+# 📖 프로젝트 소개
 
 "MZT"는 "MZ"와 "Telecom"의 조합으로, 
 "MZ"는 현재 세대를 상징하며, "Telecom"은 통신 기술 용어입니다. 이 두 용어가 결합된 "MZT"는 현대적인 통신 기술과 세대를 반영하며, 이를 기반으로 혁신적인 서비스를 제공한다는 의미를 담고 있습니다.
@@ -79,7 +92,7 @@
 [목차🔺](#목차)
 <br><br>
 
-# 🪛기술스택
+# 🪛 기술스택
 
 ### Environment
 <img src="https://img.shields.io/badge/STS-6DB33F?style=for-the-badge&logo=STS&logoColor=white">&nbsp;
@@ -111,3 +124,33 @@
 [목차🔺](#목차)
 
 
+# ⚙️ ERD
+
+
+<br>
+
+[목차🔺](#목차)
+<br><br>
+
+# 🖥️ 화면 구성 & 기능
+
+<br>
+
+[목차🔺](#목차)
+<br><br>
+
+
+# ✅ 트러블 슈팅
+
+<br>
+
+[목차🔺](#목차)
+<br><br>
+
+
+# 🏷️ 프로젝트 후기
+
+<br>
+
+[목차🔺](#목차)
+<br><br>
