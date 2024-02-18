@@ -28,15 +28,12 @@ public class CartItem {
     @JoinColumn(name="intmBas_id")
     private IntmBas intmBas;
 	
-	private int count;
-    
     @Builder
-	public CartItem(Long id, Cart cart, IntmBas intmBas, int count) {
+	public CartItem(Long id, Cart cart, IntmBas intmBas) {
 
 		this.id = id;
 		this.cart = cart;
 		this.intmBas = intmBas;
-		this.count = count;
 	}
     
 }

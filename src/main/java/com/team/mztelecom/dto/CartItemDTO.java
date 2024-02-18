@@ -13,18 +13,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CartItemDTO {
 	Long	id;
-	int 	count;
 	
     @Builder
-	public CartItemDTO(Long id, int count) {
+	public CartItemDTO(Long id) {
 		this.id = id;
-		this.count = count;
 	}
 	
 	public CartItem toEntity() {
 		return CartItem.builder()
 				.id(id)
-				.count(count)
 				.build();
 				
 	}

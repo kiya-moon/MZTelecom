@@ -92,7 +92,6 @@ public class CartService {
         	CartItem cartItem = CartItem.builder()
         		    .cart(cart)
         		    .intmBas(item)
-        		    .count(cartItemDTO.getCount())
         		    .build();
         	
             cartItemRepository.save(cartItem);
