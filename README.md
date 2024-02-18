@@ -1,6 +1,6 @@
 # 📱휴대폰 판매 사이트 "MZT"
 
-<img src="/imges/readme_main.jpg" width="1000"/>
+<img src="/imges/readme_main.jpg" width="1000" height="800"/>
 
 > 배포 URL : http://13.209.19.247:8081/ <br>
 > admin ID : admin <br>
