@@ -8,17 +8,17 @@
 			<div class="myPage-container">
 				<div class="sidebar">
 					<h2>마이페이지</h2>
-					
-					<a th:href="@{/myPage?tab=editMemberInformation}" id="menu1"
-						th:class="${#strings.equals(param.tab, 'editMemberInformation') ? 'activeTab' : ''}">회원정보수정</a>
-					<a th:href="@{/myPage?tab=feeCheck}" id="menu2"
-						th:class="${#strings.equals(param.tab, 'feeCheck') ? 'activeTab' : ''}">요금조회</a>
-					<a th:href="@{/myPage?tab=orderDetail}" id="menu3"
-						th:class="${#strings.equals(param.tab, 'orderDetail') ? 'activeTab' : ''}">주문내역</a>
-					<!-- 주문내역 > 배송조회 -->
-					<a th:href="@{/myPage?tab=wishlist}" id="menu5"
-						th:class="${#strings.equals(param.tab, 'wishlist') ? 'activeTab' : ''}">찜한상품</a>
-					<hr>
+					<div>
+						<a th:href="@{/myPage?tab=editMemberInformation}" id="menu1"
+							th:class="${#strings.equals(param.tab, 'editMemberInformation') ? 'activeTab' : ''}">회원정보수정</a>
+						<a th:href="@{/myPage?tab=feeCheck}" id="menu2"
+							th:class="${#strings.equals(param.tab, 'feeCheck') ? 'activeTab' : ''}">요금조회</a>
+						<a th:href="@{/myPage?tab=orderDetail}" id="menu3"
+							th:class="${#strings.equals(param.tab, 'orderDetail') ? 'activeTab' : ''}">주문내역</a>
+						<!-- 주문내역 > 배송조회 -->
+						<a th:href="@{/myPage?tab=wishlist}" id="menu5"
+							th:class="${#strings.equals(param.tab, 'wishlist') ? 'activeTab' : ''}">찜한상품</a>
+					</div>
 				</div>
 	
 				<div class="content" id="content">

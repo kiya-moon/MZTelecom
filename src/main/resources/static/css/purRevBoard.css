@@ -186,6 +186,7 @@
 /* 구매후기 작성 및 보기 Start */
 .rev-wirte-container>h1 {
 	text-align: center;
+	padding-bottom: 20px;
 }
 
 .rev-wirte-container .tab-content {
@@ -396,12 +397,27 @@
 
 .saved-img-list {
 	display: flex;
+	flex: 2;
+	justify-content: end;
+}
+
+.file-img-group {
+	display: flex;
+	justify-content: end;
 }
 
 .saved-img-list .saved-img {
 	display: flex;
-	align-items: flex-start;
-	padding-right: 15px;
+	margin-left: 15px;
+}
+
+.saved-img-list .saved-img img {
+	width: 150px;
+	height: 150px;
+}
+
+.saved-img-list .saved-img:first-child {
+	margin-left: 0;
 }
 
 .saved-img-list .saved-img img {
@@ -452,10 +468,6 @@
 	width: 400px;
 }
 
-.file_list, .saved-img-list{
-	flex: 2;
-}
-
 .file_list > div > button,
 	.saved-img-list > div > button{
 	border:1px solid #ccc;
@@ -500,6 +512,7 @@
 .file-group {
 	width: 150px; 
 	height: 150px;
+	margin-left:15px;
 	
 }
 
@@ -537,10 +550,48 @@
 	 }
 }
 
-.image-preview-container {
+.file-image-list {
 	display :flex;
 	justify-content: center;
 	gap : 10px;
 }
 
 /* 구매후기 작성 및 보기 */
+
+@media (max-width: 800px) {
+	.saved-img-list {
+		flex-direction: column-reverse;
+    	flex-wrap: wrap-reverse;
+	}
+	
+	.file-group {
+		margin: 0 24px 20px 0;
+	}
+	
+}
+
+@media (max-width: 620px) {
+	.rev-wirte-container .pur-Rev-btn {
+		padding: 10px 30px;
+		font-size: 16px;
+	}
+}
+
+@media (max-width: 570px) {
+	.file-group, .saved-img-list .saved-img img {
+		width: 120px;
+		height: 120px;
+	}
+}
+
+@media (max-width: 490px) {
+	.file-img-group {
+		flex-wrap: wrap;
+	}
+	.saved-img {
+		margin-bottom: 15px;
+	}
+	.rev-wirte-container .pur-Rev-btn {
+		padding: 10px 20px;
+	}
+}

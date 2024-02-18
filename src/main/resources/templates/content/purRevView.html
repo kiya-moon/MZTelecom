@@ -41,10 +41,12 @@
 									<span class="dot"></span>첨부파일
 								</label>
 								<div class="saved-img-list">
-								    <div class="saved-img" th:each="files : ${purRevAttachment}">
-								        <img th:src="|/files/${files.id}|" th:if="${files} != null" alt="이미지" class="img-item" name="imgItem" th:attr=data-id=${files.id} style="width: 150px; height: 150px;">
-								        <i data-feather="x" class="img-del-btn" name="imgItem" style="display:none" th:attr=data-btn=${files.id} th:onclick="|deleteImage(${files.id})|"></i>
-								    </div>
+									<div class="file-img-group">
+									    <div class="saved-img" th:each="files : ${purRevAttachment}">
+									        <img th:src="|/files/${files.id}|" th:if="${files} != null" alt="이미지" class="img-item" name="imgItem" th:attr=data-id=${files.id}>
+									        <i data-feather="x" class="img-del-btn" name="imgItem" style="display:none" th:attr=data-btn=${files.id} th:onclick="|deleteImage(${files.id})|"></i>
+									    </div>
+									</div>
 								    <span class="image-preview-container"id="image-preview-container"></span>
 								    <div class="file-group" id="file-group" style="display:none">
 								    	<label><i data-feather="file-plus" ></i>

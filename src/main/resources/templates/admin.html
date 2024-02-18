@@ -9,6 +9,7 @@
 			<div class="myPage-container">
 				<div class="sidebar">
 					<h2>관리자페이지</h2>
+					<div>
 					<a th:href="@{/admin?tab=member}"
 						th:class="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member') ? 'activeTab' : ''}">회원관리</a>
 					<a th:href="@{/admin?tab=product}"
@@ -17,13 +18,12 @@
 						th:class="${#strings.equals(param.tab, 'qna') ? 'activeTab' : ''}">QnA</a>
 					<a th:href="@{/admin?tab=order}"
 						th:class="${#strings.equals(param.tab, 'order') ? 'activeTab' : ''}">주문현황</a>
-					<hr>
+					</div>
 				</div>
 				<div class="content" id="content">
 					<div class="admin-container member-list"
 						th:if="${#strings.isEmpty(param.tab) or #strings.equals(param.tab, 'member')}">
 						<div id="board-search" style="padding-bottom: 20px;">
-							<div>
 								<div class="rev-search">
 									<form method="get">
 										<div class="search-wrap">
@@ -34,7 +34,6 @@
 										</div>
 									</form>
 								</div>
-							</div>
 						</div>
 						<table>
 							<thead>
