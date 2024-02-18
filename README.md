@@ -1,11 +1,16 @@
 # 📚 목차
 
-1. [소개](#MZT-project)
+1. [프로젝트 소개](#프로젝트-소개)
 2. [제작기간 및 참여인원](#제작기간-및-참여인원)
 
 
-# 📱MZT Project
-### 'MZT' Spring Boot JPA를 기반으로 제작한 핸드폰 판매 사이트
+# 📱핸드폰 판매 사이트 "MZT"
+
+- 배포 URL : http://13.209.19.247:8081/ 
+- admin ID : admin
+- admin PW : !admin12
+
+# 📖프로젝트 소개
 
 "MZT"는 "MZ"와 "Telecom"의 조합으로, 
 "MZ"는 현재 세대를 상징하며, "Telecom"은 통신 기술 용어입니다. 이 두 용어가 결합된 "MZT"는 현대적인 통신 기술과 세대를 반영하며, 이를 기반으로 혁신적인 서비스를 제공한다는 의미를 담고 있습니다.
@@ -75,6 +80,14 @@
 <br><br>
 
 # 🪛기술스택
+
+### Environment
+<img src="https://img.shields.io/badge/STS-6DB33F?style=for-the-badge&logo=STS&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+
+<br>
+
 ### FrontEnd
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS#&logoColor=white">&nbsp;
