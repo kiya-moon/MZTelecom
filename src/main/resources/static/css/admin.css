@@ -90,7 +90,7 @@
 }
 
 .admin-container .admin-answer .answer-title .answer-text {
-	margin-top: 28px;
+	margin: 28px 0;
 	padding: 20px;
 	border: 1px solid #888;
 }
