@@ -1,4 +1,6 @@
-# 📱휴대폰 판매 사이트 "MZT"
+# 📱휴대폰 판매 사이트 "MZT"  
+
+[프로젝트 정리 상세보기 Notion](https://mzt2023.notion.site/5231e891d67544bc94e6d5d0bd8ec067?v=dc8249b9d75d47768b8b886eb88c5073&pvs=4)
 
 <img src="imges/readme_main.jpg" width="1000" height="600"/>
 
