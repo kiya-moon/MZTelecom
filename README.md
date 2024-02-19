@@ -148,7 +148,7 @@
   <tbody>
     <tr>
       <td align="center">
-        <a target="_blank">
+        <a href="imges/signup.png" target="_blank">
           <img width="329" src="imges/signup.png" style="max-width: 100%;">
         </a>
       </td>
