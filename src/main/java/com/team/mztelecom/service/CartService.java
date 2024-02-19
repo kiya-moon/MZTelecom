@@ -80,14 +80,12 @@ public class CartService {
         CartItem savedCartItem = cartItemRepository.findByCartIdAndIntmBasId(cart.getId(), item.getId());
         
         if(!Utiles.isNullOrEmpty(savedCartItem)){
-        	logger.debug("savedCartItem if 확인");
             Long errorCode = 100L;
             
             return errorCode;
             
         } else {
         	
-        	logger.debug("확인");
         	// 장바구니 상품 엔티티 생성
         	CartItem cartItem = CartItem.builder()
         		    .cart(cart)

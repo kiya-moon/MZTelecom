@@ -1,8 +1,10 @@
 package com.team.mztelecom.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.team.mztelecom.dto.CustBasDTO;
 import com.team.mztelecom.dto.PurRevAttachmentDTO;
 import com.team.mztelecom.dto.PurRevBoardDTO;
 import com.team.mztelecom.dto.TemporarySaveDTO;
@@ -56,9 +59,20 @@ public class PurRevBoardController {
 						,@RequestParam("title")String title
 						,@RequestParam("contents")String contents
 						,@RequestParam("files") List<MultipartFile> files
-						,Model model) {
+						,Model model
+						,Principal principal) {
 		
 		List<PurRevAttachmentDTO> inAttachmentDTO = new ArrayList<>();
+		List<CustBasDTO> inCustList = new ArrayList<>(); 
+		
+		String custId = Optional.ofNullable(principal).map(Principal::getName).orElse(null);
+		
+		CustBasDTO inDTO = CustBasDTO.builder()
+							.custId(custId)
+							.custNm(writer)
+							.build();
+		
+		inCustList.add(inDTO);
 		
 		// 첨부파일 세팅
 		if(Utiles.isNullOrEmpty(files)) {
@@ -71,6 +85,8 @@ public class PurRevBoardController {
 		
 		logger.debug("첨부파일까지 세팅 확인");
 		
+		
+		
 		// 구매후기 저장 처리
 		PurRevBoardDTO purRevBoardDTO = PurRevBoardDTO.builder()
 										.intmNm(selectedCategory)
@@ -78,6 +94,7 @@ public class PurRevBoardController {
 										.boardDetail(contents)
 										.purRevAttachmentDTO(inAttachmentDTO)
 										.writer(writer)
+										.custBasDTO(inCustList)
 										.build();
 		
 		// 글작성 페이지 저장 서비스

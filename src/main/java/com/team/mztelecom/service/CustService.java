@@ -88,13 +88,11 @@ public class CustService {
 	 * @param inWriter
 	 * @return
 	 */
-	public String findName(String inWriter){
+	public String findName(CustBasDTO inDTO){
 		
-		CustBasDTO inCustDTO = CustBasDTO.builder()
-				.custId(inWriter)
-				.build();
+		CustBas inCustBas = inDTO.toEntity();
 		
-		CustBas inCustBas = inCustDTO.toEntity();
+		logger.debug("inCustBas :: " + StringUtil.toString(inCustBas));
 		
 		List<CustBas> outList = new ArrayList<CustBas>();
 		outList = custRepository.findByDynamicQuery(inCustBas.getCustId(), inCustBas.getCustNm(), inCustBas.getCustBirth(), inCustBas.getCustEmail());
@@ -363,14 +361,15 @@ public class CustService {
 	 * @param inCustNm
 	 * @return
 	 */
-	public List<CustBas> getId(String inCustNm) {
+	public List<CustBas> getId(List<CustBasDTO> inCustList) {
 		
 		// repository에 반환 값 받을 list
 		List<CustBas> outCustList = new ArrayList<CustBas>();
 
 		// info의 값들을 사용하여 CustBasSaveDTO의 새로운 인스턴스 생성
 		CustBasDTO custBasDTO = CustBasDTO.builder()
-		        .custNm(inCustNm)
+				.custId(inCustList.get(0).getCustId())
+		        .custNm(inCustList.get(0).getCustNm())
 		        .build();
 
 		// DTO -> entity

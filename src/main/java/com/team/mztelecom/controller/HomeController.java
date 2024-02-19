@@ -264,9 +264,14 @@ public class HomeController {
 	public String purRevWrite(Locale locale, Model model, Principal principal) {
 
 		logger.debug("구매후기 글쓰기 진입");
-
+		String custId = Optional.ofNullable(principal).map(Principal::getName).orElse(null);
+		
+		CustBasDTO inDTO = CustBasDTO.builder()
+							.custId(custId)
+							.build();
+		
+		String custNm = custService.findName(inDTO);
 		// 현재 로그인한 사용자의 이름
-		String custNm = custService.findName(principal.getName());
 		
 		// 구매후기 작성시 카테고리 선택을 위한 상품 조회
 		List<IntmBasDTO> outIntmDTO = productService.getAllIntmList();
@@ -293,6 +298,7 @@ public class HomeController {
 		PurRevBoardDTO purRevBoardDTO = new PurRevBoardDTO();
 		List<PurRevAttachmentDTO> outPurRevAttachmentDTO = new ArrayList<>();
 
+		logger.debug("id :: " + id);
 		// 게시물 조회
 		purRevBoardDTO = purRevBoardService.purRevView(id);
 
@@ -305,6 +311,8 @@ public class HomeController {
 		 * 현재 로그인한 사용자가 있을 경우 로그인 사용자를 넘겨주고 그렇지 않은 경우. 즉, null인 경우는 null로 할당
 		 */
 		String sessionId = Optional.ofNullable(principal).map(Principal::getName).orElse(null);
+		logger.debug("sessionId :: " + sessionId);
+		logger.debug("custId :"+ custId);
 
 		model.addAttribute("sessionId", sessionId);
 		model.addAttribute("custId", custId);

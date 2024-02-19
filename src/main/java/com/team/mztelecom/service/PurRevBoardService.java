@@ -112,7 +112,7 @@ public class PurRevBoardService{
 		
 		// 작성자 정보 가지고 오기
 		List<CustBas> inCustBas = new ArrayList<>();
-		inCustBas = custService.getId(inPurRevBoardDTO.getWriter());
+		inCustBas = custService.getId(inPurRevBoardDTO.getCustBasDTO());
 		
 		logger.debug("getIntmNm ::::" + inPurRevBoardDTO.getIntmNm());
 		logger.debug("getBoardTitle ::::" + inPurRevBoardDTO.getBoardTitle());
