@@ -126,6 +126,7 @@
 
 # ⚙️ ERD
 
+<img src="/imges/erd.png" width="1000"/>
 
 <br>
 
