@@ -153,12 +153,14 @@
         </a>
       </td>
       <td align="center">
-        <a target="_blank">
+        <a href="imges/signupSave.png" target="_blank">
           <img width="329" src="imges/signupSave.png" style="max-width: 100%;">
           </a>
       </td>
       <td align="center">
-        <a target="_blank"><img width="329" src="imges/email.png" style="max-width: 100%;"></a>
+        <a href="imges/email.png" target="_blank">
+        <img width="329" src="imges/email.png" 
+        style="max-width: 100%;"></a>
       </td>
     </tr>
   </tbody>
@@ -168,6 +170,7 @@
   - **사용자 정보 수집 및 유효성 검사**: 사용자로부터 필요한 정보를 입력받고, 이메일 형식, 비밀번호 강도 등을 확인하여 유효한 데이터인지 검증.
   - **중복 확인**: 이미 등록된 사용자인지 확인하기 위해 이메일 주소 등의 고유한 정보를 기준으로 중복 여부를 확인
   - **비밀번호 암호화 및 안전한 저장**: Spring Security의 암호화 기능을 이용하여 사용자의 비밀번호를 안전하게 해시화하고, 안전한 방식으로 데이터베이스에 저장.
+
 
 </br></br>
 
@@ -182,19 +185,19 @@
   <tbody>
     <tr>
       <td align="center">
-        <a target="_blank">
+        <a href="imges/login.png" target="_blank">
           <img width="329" src="imges/login.png" 
           style="max-width: 100%;">
         </a>
       </td>
       <td align="center">
-        <a target="_blank">
+        <a href="imges/id.gif" target="_blank">
           <img width="329" src="imges/id.gif" 
           style="max-width: 100%;">
         </a>
       </td>
       <td align="center">
-        <a target="_blank">
+        <a href="imges/pw.gif" target="_blank">
           <img width="329" src="imges/pw.gif" 
           style="max-width: 100%;">
           </a>
