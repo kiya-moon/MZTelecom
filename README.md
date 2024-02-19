@@ -281,7 +281,7 @@
   - **장바구니 조회**: 사용자가 자신의 장바구니에 담긴 상품 목록을 조회 하는 기능을 구현. 어떤 상품이 장바구니에 담겨 있는지 확인 가능.
   - **장바구니에 담긴 상품 삭제**: 사용자가 장바구니에 담긴 특정 상품을 삭제할 수 있는 기능 추가. 장바구니 페이지에서 각 상품 오른쪽에 있는 “X" 버튼을 클릭하면 해당 상품이 장바구니에서 삭제됨.
 
-</br>
+  </br>
 
 ### ** Order, Payment **
 
@@ -640,26 +640,24 @@ function findPwModalOpn(){
 - js에서 formData로 data를 전송할 시 @ModelAttribute DTD에 바인딩이 되지 않아 DTO에 값이 null 로 출력.
 
 ```java
-@Transactional
-public CustBas whenSocialLogin(String providerTypeCode, String custId, String custNm, String custEmail) {
-	Optional<CustBas> opCustBas = findByCustId(custId);
+@PostMapping(value="/purRevView/{id}")
+public String updatePurRev(Model model, @PathVariable Long id
+							, @ModelAttribute PurRevBoardDTO inPurRevBoardDTO 
+							, @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 		
-	// 존재하는 고객인 경우, 해당 고객 정보 반환
-	if (opCustBas.isPresent()) { return opCustBas.get(); }
+	logger.debug("purRevBoardDTO :: " + StringUtil.toString(inPurRevBoardDTO));
 		
-	// 새로운 고객 등록을 위해 고객 정보 설정
-	CustBasDTO request = new CustBasDTO();
-	request.setCustId(custId);
-	// 소셜 로그인를 통한 가입시 비번 X
-	  request.setCustPassword("");
-	  request.setCustNm(custNm);
-	  request.setCustEmail(custEmail);
-	  request.setCustNo("Unknown");
-	  
-	  String uniqueIdfyNo = UUID.randomUUID().toString();
-	  request.setCustIdfyNo(uniqueIdfyNo);
-	       
-	  return save(request);
+	if(Utiles.isNullOrEmpty(files)) {
+		files = Collections.emptyList();
+	}
+		
+	// 게시글 업데이트
+	purRevBoardService.purRevUpdate(id, inPurRevBoardDTO, files);
+		
+	// 임시저장 초기화
+	temporarySaveDTO.clear();
+		
+	return "redirect:/purRevBoard";
 }
 ```
 
@@ -668,7 +666,7 @@ public CustBas whenSocialLogin(String providerTypeCode, String custId, String cu
 
 </br>
 
-> 💡 @ModelAttribute는 생성자가 1개면 그 생성자를 통해 객체를 생성하고, </br>
+> @ModelAttribute는 생성자가 1개면 그 생성자를 통해 객체를 생성하고, </br>
 > 생성자가 2개 > 이상이면 매개변수 없는 생성자를 통해 객체를 생성하고 Setter로 값을 세팅하여야 한다.</br>
 > AllArgsConstructor : 모든 필드 값을 파라미터로 받는 생성자를 만듦 </br>
 > NoArgsConstructor  : 파라미터가 없는 기본 생성자를 생성
