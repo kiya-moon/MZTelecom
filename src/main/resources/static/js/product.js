@@ -71,7 +71,6 @@ radios.forEach(function(radio, index) {
 	});
 });
 
-var errMsg = document.getElementById('err-msg').value;
 
 /* 장바구니 */
 function addCart(id) {

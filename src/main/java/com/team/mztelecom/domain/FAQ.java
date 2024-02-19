@@ -21,7 +21,6 @@ public class FAQ {
 	
 	private String titleFAQ;
 	
-//	@Column(columnDefinition = "TEXT")
 	@Lob
 	private String detailFAQ;
 

@@ -7,8 +7,6 @@
 	<section class="common">
 		<article>
 			<div class="cart-container">
-				<input type="hidden" id="err-msg" th:value="${errorMessage}">
-				
 				<h1>장바구니</h1>
 				
 				<div th:if="${not #lists.isEmpty(cartItems)}" class="product-item-list">
