@@ -108,6 +108,9 @@ function addCart(id) {
 		    }
 		    return response.json(); // 정상 응답의 경우 JSON 데이터를 읽어옴
 		})
+		.then(result => {
+			alert("상품을 장바구니에 담았습니다.");
+		})
 		.catch(error => {
 		    console.error("클라이언트 오류 상세 정보:", error);
 		});
