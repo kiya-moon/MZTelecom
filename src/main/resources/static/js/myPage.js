@@ -1,6 +1,3 @@
-const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
-const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-
 // 회원정보수정
 
 	// 비밀번호 확인 이벤트 발생
@@ -66,14 +63,6 @@ function updateCustInfo(){
 	if(!isNull(updatePw) && !isNull(chkPw))
 	{
 		
-//		console.log(existiPw);
-		
-//		if(existiPw === updatePw)
-//		{
-//			alert('기존 비밀번호랑 다르게 입력해주세요.');
-//			return;
-//		}
-		
 	    // 패턴 체크
 	    var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
 	    
@@ -126,6 +115,9 @@ function updateCustInfo(){
 	if(updateChk)
 	{
 		
+		const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+		const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+		
 		formData.append('custId', custId);
 		
 		fetch('/update/custInfo', {
@@ -153,6 +145,9 @@ function updateCustInfo(){
 function withdrawal(){
 	
 	var custId = document.getElementById('custId').value;
+	
+	const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+	const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
 	
 	const formData = new FormData();
 	formData.append('custId', custId);
