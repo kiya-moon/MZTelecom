@@ -678,7 +678,7 @@ public String updatePurRev(Model model, @PathVariable Long id
 
 <br>
 
-[목차🔺](#목차)
+[목차🔺](#📚-목차)
 
 
 
