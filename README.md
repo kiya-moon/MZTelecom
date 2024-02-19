@@ -1,6 +1,6 @@
 # 📱휴대폰 판매 사이트 "MZT"
 
-<img src="/imges/readme_main.jpg" width="1000" height="600"/>
+<img src="imges/readme_main.jpg" width="1000" height="600"/>
 
 > 배포 URL : http://13.209.19.247:8081/ <br>
 > admin ID : admin <br>
@@ -126,7 +126,7 @@
 
 # ⚙️ ERD
 
-<img src="/imges/erd.png" width="1000"/>
+<img src="imges/erd.png" width="500"/>
 
 <br>
 
@@ -135,6 +135,29 @@
 
 # 🖥️ 화면 구성 & 기능
 
+<table>
+  <thead>
+    <tr>
+      <th align="center">회원가입</th>
+      <th align="center">회원 항목 입력</th>
+      <th align="center">로그인</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a target="_blank"><img width="329" src="imges/회원가입 기본.PNG" style="max-width: 100%;"></a>
+      </td>
+      <td align="center">
+        <a target="_blank"><img width="329" src="imges/회원가입 항목 입력.PNG" style="max-width: 100%;"></a>
+      </td>
+      <td align="center">
+        <a target="_blank"><img width="329" src="imges/로그인.PNG" style="max-width: 100%;"></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <br>
 
 [목차🔺](#목차)
@@ -142,6 +165,45 @@
 
 
 # ✅ 트러블 슈팅
+
+<details>
+
+<summary>Security 소셜 로그인</summary>
+<br>
+
+Security 소셜 로그인을 통한 회원가입 시에는 기본 회원가입 필드에 대한 제약 조건 (NotNull, unique)과 충돌 발생
+
+```java
+@Transactional
+public CustBas whenSocialLogin(String providerTypeCode, String custId, String custNm, String custEmail) {
+	Optional<CustBas> opCustBas = findByCustId(custId);
+		
+	// 존재하는 고객인 경우, 해당 고객 정보 반환
+	if (opCustBas.isPresent()) { return opCustBas.get(); }
+		
+	// 새로운 고객 등록을 위해 고객 정보 설정
+	CustBasDTO request = new CustBasDTO();
+	request.setCustId(custId);
+	// 소셜 로그인를 통한 가입시 비번 X
+	  request.setCustPassword("");
+	  request.setCustNm(custNm);
+	  request.setCustEmail(custEmail);
+	  request.setCustNo("Unknown");
+	  
+	  String uniqueIdfyNo = UUID.randomUUID().toString();
+	  request.setCustIdfyNo(uniqueIdfyNo);
+	       
+	  return save(request);
+}
+```
+
+- 소셜 로그인을 통한 가입시 비밀번호를 빈 문자열로 설정하여 NotNull 제약 조건 충족
+- 고객 번호 설정 ("Unknown"으로 임시 설정)
+- 고유 식별 번호(UUID)를 생성하여 이를 고객의 ID로 설정함으로써 유니크 제약 조건 충돌을 해결
+
+</br></br>  
+
+</details>
 
 <br>
 
