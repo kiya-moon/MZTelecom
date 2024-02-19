@@ -175,7 +175,7 @@
 
   </br></br>
 
-<table style="margin-top: 20px">
+<table style="margin-top: 20px;">
   <thead>
     <tr>
       <th style="text-align: center;">로그인</th>
