@@ -146,13 +146,17 @@
   <tbody>
     <tr>
       <td align="center">
-        <a target="_blank"><img width="329" src="imges/회원가입 기본.PNG" style="max-width: 100%;"></a>
+        <a target="_blank">
+          <img width="329" src="imges/signup.png" style="max-width: 100%;">
+        </a>
       </td>
       <td align="center">
-        <a target="_blank"><img width="329" src="imges/회원가입 항목 입력.PNG" style="max-width: 100%;"></a>
+        <a target="_blank">
+          <img width="329" src="imges/signupSave.png" style="max-width: 100%;">
+          </a>
       </td>
       <td align="center">
-        <a target="_blank"><img width="329" src="imges/로그인.PNG" style="max-width: 100%;"></a>
+        <a target="_blank"><img width="329" src="imges/login.png" style="max-width: 100%;"></a>
       </td>
     </tr>
   </tbody>
