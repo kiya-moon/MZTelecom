@@ -705,8 +705,10 @@ public String updatePurRev(Model model, @PathVariable Long id
 	}
 ```
 
-- JPA Cascade 중 CascadeType.REMOVE를 사용하여 삭제하는 것을 고려하였으나,</br>
-  추후 기능 확장 시 Orders 테이블에 연관 테이블이 추가로 매핑될 경우 참조 무결성 제약조건 위반 가능성이 있을 것을 우려하여</br>
+- JPA Cascade 중 CascadeType.REMOVE를 사용하여 삭제하는 것을 고려하였으나,</br>  
+
+  추후 기능 확장 시 Orders 테이블에 연관 테이블이 추가로 매핑될 경우 참조 무결성 제약조건 위반 가능성이 있을 것을 우려하여</br>  
+  
   Orders 테이블에서 먼저 해당 회원과 관련된 데이터를 삭제 후 회원 테이블에서 해당 회원을 삭제하도록 코딩</br>
 
 </br></br>
