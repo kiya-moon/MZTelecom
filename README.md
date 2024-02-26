@@ -679,6 +679,40 @@ public String updatePurRev(Model model, @PathVariable Long id
 
 </details>
 
+<details>
+
+<summary>Foreign key 제약조건 이슈</summary>
+<br>
+
+관리자 페이지의 회원관리에서 회원삭제 시, 구매 이력이 있는 회원의 경우 외래키 제약조건 오류로 삭제 되지 않는 오류 발생.
+- Cannot delete or update a parent row: a foreign key constraint fails (`mzt`.`orders`, CONSTRAINT `FKhha00abakf1ylafopwl6xx9sp` FOREIGN KEY (`cust_bas_id`) REFERENCES `cust_bas` (`id`))
+
+```java
+	public void deleteCust(List<Long> custIds) {
+		logger.debug("회원삭제 서비스 도착 :: " + custIds);
+			
+		for (Long id : custIds) {
+			CustBas custBas = new CustBas(id);
+	        try {
+	            orderRepository.deleteByCustBas(custBas);
+	        } catch (Exception e) {
+	            logger.error("orders 삭제 실패", e);
+	        }
+			logger.debug("orders 삭제 완료");
+            adminRepository.deleteById(id);
+            logger.debug("custBas 삭제 완료");
+        }	
+	}
+```
+
+- JPA Cascade 중 CascadeType.REMOVE를 사용하여 삭제하는 것을 고려하였으나,
+  추후 기능 확장 시 Orders 테이블에 연관 테이블이 추가로 매핑될 경우 참조 무결성 제약조건 위반 가능성이 있을 것을 우려하여
+  Orders 테이블에서 먼저 해당 회원과 관련된 데이터를 삭제 후 회원 테이블에서 해당 회원을 삭제하도록 코딩
+
+</br>
+
+</details>
+
 <br>
 
 [목차🔺](#-목차)
