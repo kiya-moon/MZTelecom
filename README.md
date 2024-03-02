@@ -300,28 +300,28 @@
   <tbody>
     <tr>
       <td align="center">
-        <a href="imges/popup.png" target="_blank">
-          <img width="329" src="imges/popup.png" 
-          style="max-width: 100%;">
-        </a>
-      </td>
-      <td align="center">
-        <a href="imges/payment.png" target="_blank">
-          <img width="329" src="imges/payment.png" 
-          style="max-width: 100%;">
-        </a>
-      </td>
-      <td align="center">
         <a href="imges/authentication.png" target="_blank">
           <img width="329" src="imges/authentication.png" 
           style="max-width: 100%;">
           </a>
       </td>
       <td align="center">
+        <a href="imges/popup.png" target="_blank">
+          <img width="329" src="imges/popup.png" 
+          style="max-width: 100%;">
+        </a>
+      </td>
+      <td align="center">
         <a href="imges/order.png" target="_blank">
           <img width="329" src="imges/order.png" 
           style="max-width: 100%;">
           </a>
+      </td>
+      <td align="center">
+        <a href="imges/payment.png" target="_blank">
+          <img width="329" src="imges/payment.png" 
+          style="max-width: 100%;">
+        </a>
       </td>
     </tr>
   </tbody>
