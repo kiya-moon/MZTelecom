@@ -272,9 +272,6 @@ public class AttachmentService {
                     File imgfile;
                     File imgdetailfile;
                     
-                    /*
-                     * 들어온 값에 따라 IntmImgDTO 세팅 - 김시우 
-                     */
                     if(!Utiles.isNullOrEmpty(imgfiles) && !Utiles.isNullOrEmpty(imgDetailfiles))
                     {
                         new_imgfiles_name = uuid + "_" + imgfiles.getOriginalFilename();
