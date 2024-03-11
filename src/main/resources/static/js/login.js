@@ -26,3 +26,8 @@ if(localStorage.getItem('savedUsername')){
 	document.getElementById('username').value = localStorage.getItem('savedUsername');
 	document.getElementById('remember').checked = true;
 }
+
+var error = document.getElementById('error').innerText;
+if (error) {
+	alert(error);
+}
