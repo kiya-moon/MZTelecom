@@ -6,12 +6,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity // 시큐리티 관리 설정
 public class SecurityConfig {
+	
+	private final AuthenticationFailureHandler customFailureHandler;
 	
 	@Bean // 빈으로 등록해주면 자동으로 필터에 시큐리티 설정을 커스텀으로 진행 할 수 있음
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,6 +45,7 @@ public class SecurityConfig {
 			// login 페이지가 없으면 시큐리티 자체 로그인 페이지로 넘어감
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login") 
+					.failureHandler(customFailureHandler)
 			)
 			.logout((logout) -> logout
 					.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
