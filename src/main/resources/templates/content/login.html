@@ -5,6 +5,7 @@
 <th:block layout:fragment="content">
 	<section class="common">
 		<article>
+			<span id="error" th:if="${error}" th:text="${exception}" style="display: none;"></span>
 			<div class="login-container">
 				<h2>로그인</h2>
 		        <form th:action="@{/login}" method="post" >
