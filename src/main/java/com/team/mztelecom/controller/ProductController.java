@@ -111,6 +111,12 @@ public class ProductController {
 		
 		model.addAttribute("product", outDTO);
 
+		boolean isLoggedIn = custService.isLoggedIn();
+		
+		if (!isLoggedIn) {
+	        model.addAttribute("loginRequired", true);
+	    }
+
 	    return "content/productDetail";
 	}
 	
