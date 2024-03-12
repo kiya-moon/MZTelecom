@@ -115,3 +115,11 @@ function addCart(id) {
 		});
 }
 
+document.getElementById("orderBtn").onclick = function(e) {
+	// 서버에서 전달된 데이터를 가져와서 alert 창 띄우기
+	var loginRequiredElement = document.getElementById("loginRequired");
+	var loginRequired = loginRequiredElement.textContent.trim();
+	if (loginRequired === "true") {
+		alert("로그인이 필요합니다.");
+	}
+};
