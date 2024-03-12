@@ -84,14 +84,18 @@ public class HomeController {
 	/**
 	 * 로그인 페이지
 	 * 
-	 * @param locale
 	 * @param model
 	 * @return
 	 */
-	@GetMapping(value = "/login")
-	public String login(Locale locale, Model model) {
-		return "content/login";
-	}
+	@GetMapping("/login")
+	 public String login(Model model, @RequestParam(value="error", required = false) String error,
+	        @RequestParam(value = "exception", required = false) String exception){
+	    
+		 model.addAttribute("error", error);
+		 model.addAttribute("exception", exception);
+	 
+		 return "content/login";
+	 }
 
 	/**
 	 * 회원가입 페이지
@@ -361,6 +365,7 @@ public class HomeController {
 		// 문의 내역 조회 - 김시우
 		List<QnADTO> outQnAList =  supportService.getQnA();
 		
+		// 상품 관리 - 박지윤
 		Page<IntmBasDTO> productPage = productService.getAllProductsWithImages(sortBy, page, size);
 		
 		model.addAttribute("custInfoPage", custInfoPage);
