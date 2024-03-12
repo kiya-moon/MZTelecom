@@ -45,7 +45,8 @@
 											<i class="heart" data-feather="heart"></i>
 							</button>
 						</div>
-						<button class="order">온라인 주문</button>
+						<div id="loginRequired" th:text="${loginRequired}" style="display: none;"></div>
+						<button class="order" id="orderBtn">온라인 주문</button>
 					</div>
 				</form>
 				<div class="info-detail">
