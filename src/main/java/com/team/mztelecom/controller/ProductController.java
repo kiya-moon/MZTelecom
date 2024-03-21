@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.team.mztelecom.dto.IntmBasDTO;
 import com.team.mztelecom.dto.SysCdDTO;
+import com.team.mztelecom.service.CustService;
 import com.team.mztelecom.service.CustWishService;
 import com.team.mztelecom.service.ProductService;
 import com.team.mztelecom.service.SysCdBasService;
@@ -32,6 +33,8 @@ public class ProductController {
 	private final CustWishService custWishService;
 	
 	private final SysCdBasService sysCdBasService;
+	
+	private final CustService custService;
 	
 	/**
 	 * 모바일 기기 페이지 진입 - 박지윤
