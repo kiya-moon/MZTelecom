@@ -2,6 +2,10 @@ package com.team.util;
 
 import org.springframework.util.ObjectUtils;
 
+/**
+ * null, empty 체크 등 유틸 - 김시우
+ * 
+ */
 public class Utiles {
 	
 	// nullorempty 체크

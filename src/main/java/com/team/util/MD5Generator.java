@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * MD5 체크섬
+ * MD5 체크섬 - 김시우
  */
 public class MD5Generator {
 	

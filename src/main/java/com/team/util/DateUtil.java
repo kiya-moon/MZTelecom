@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+
+/**
+ * 날짜 포맷 - 김시우
+ * 
+ */
 public class DateUtil {
 	
 	// 일자 Formatter
