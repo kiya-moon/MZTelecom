@@ -106,8 +106,7 @@
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS#&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Fetch-black?style=for-the-badge&logo=fetch&logoColor=white">&nbsp;
-<img src="https://img.shields.io/badge/JQuery-0769AD?style=for-the-badge&logo=JQuery&logoColor=white">&nbsp;
-<img src="https://img.shields.io/badge/Ajax-black?style=for-the-badge&logo=Ajax&logoColor=white">
+<img src="https://img.shields.io/badge/JQuery-0769AD?style=for-the-badge&logo=JQuery&logoColor=white">
 
 <br>
 
