@@ -4,14 +4,6 @@
 
 <img src="imges/readme_main.jpg" width="1000" height="600"/>
 
-> 배포 URL : http://13.209.19.247:8081 <br>
-> admin ID : admin <br>
-> admin PW : !admin12
-
-- header에 있는 사람 아이콘 클릭! <br>
-→ user : 마이페이지 <br>
-→ admin : 관리자 페이지
-
 <br>
 
 # 📚 목차
